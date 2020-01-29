@@ -130,7 +130,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 28.0, 475.0, 150.0, 33.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 410.5, 107.0, 196.0, 20.0 ],
+					"presentation_rect" : [ 106.5, 350.0, 196.0, 20.0 ],
 					"text" : "Playback / Recording ON/OFF"
 				}
 
@@ -181,7 +181,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 192.5, 318.0, 24.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 410.5, 137.0, 196.0, 196.0 ]
+					"presentation_rect" : [ 106.5, 380.0, 196.0, 196.0 ]
 				}
 
 			}
@@ -272,7 +272,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 16.0, 18.0, 385.0, 42.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 45.5, 38.0, 561.0, 42.0 ],
+					"presentation_rect" : [ 45.5, 38.0, 318.0, 42.0 ],
 					"text" : "My MIDI box"
 				}
 
@@ -514,7 +514,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 410.0, 18.0, 128.0, 128.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 27.0, 20.0, 606.0, 334.0 ],
+					"presentation_rect" : [ 27.0, 20.0, 363.0, 580.0 ],
 					"proportion" : 0.5
 				}
 
