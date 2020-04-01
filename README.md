@@ -1,4 +1,4 @@
 # adaptation-v1.0
 
-### R
+### R (filtering)
 ### python (music composer)
