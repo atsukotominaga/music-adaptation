@@ -1,5 +1,5 @@
 ---
-title: 'IOIs Analysis for Non-Expressive performances'
+title: 'IOIs Analysis for Non-Expressive performances (ONSET)'
 output:
   html_notebook: default
 editor_options: 
@@ -21,7 +21,7 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-df_ioi <- fread("./filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+df_ioi <- fread("./../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
 df_ioi$SubNr <- as.factor(df_ioi$SubNr)
@@ -113,4 +113,9 @@ p_ioi_seq
 ```{r outlier, echo = FALSE}
 excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*mean(ioi$SD) & Mean > mean(ioi$Mean)-3*mean(ioi$SD)]
 print(excluded_ioi)
+```
+
+```{r export, include = FALSE}
+# export df_ioi
+write.csv(df_ioi, file = "./data_ioi_onset.csv", row.names = F)
 ```
