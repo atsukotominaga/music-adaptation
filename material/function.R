@@ -1,7 +1,6 @@
 ##### FUNCTIONS #####
 
 # install and load required packages
-if (!require("dplyr")) {install.packages("dplyr"); require("dplyr")}
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 ### define pitch remove function (pitch_remover)
