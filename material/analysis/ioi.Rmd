@@ -111,6 +111,6 @@ p_ioi_seq
 
 ## Exclude outlier participants
 ```{r outlier, echo = FALSE}
-excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*sd(ioi$SD) & Mean > mean(ioi$Mean)-3*sd(ioi$SD)]
+excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*mean(ioi$SD) & Mean > mean(ioi$Mean)-3*mean(ioi$SD)]
 print(excluded_ioi)
 ```
