@@ -1,0 +1,116 @@
+---
+title: 'IOIs Analysis for Non-Expressive performances'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a summary of all analyses for a tempo (IOIs).
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+df_ioi <- fread("./filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+
+# SubNr as a factor
+df_ioi$SubNr <- as.factor(df_ioi$SubNr)
+
+# assign RowNr
+df_ioi$RowNr <- rep(1:72, nrow(df_ioi)/72)
+```
+
+```{r normIOIs, include = FALSE}
+# calculate normIOIs
+df_ioi$IOI <- diff(c(0, df_ioi$TimeStamp))
+
+# convert bpm to ms
+df_ioi[Tempo == 120]$Tempo <- 250
+df_ioi[Tempo == 110]$Tempo <- 273
+df_ioi[Tempo == 100]$Tempo <- 300
+
+# normalise IOIs
+df_ioi$normIOI <- df_ioi$IOI/df_ioi$Tempo
+
+# remove the first note
+df_ioi <- df_ioi[RowNr != 1]
+
+# assign Interval
+df_ioi$Interval <- rep(1:71, nrow(df_ioi)/71)
+
+# remove irrelevant intervals
+ls_irrelevant <- list(c(25:28), c(32:35), c(51:52), c(56:57), c(65:71))
+df_ioi$EighthNote <- "Yes"
+
+for (phrase in 1:length(ls_irrelevant)){
+  for (note in 1:length(ls_irrelevant[[phrase]])){
+    df_ioi[Interval == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
+  }
+}
+```
+
+# IOI
+## 1. All - individual
+- Average normIOIs for each participant.
+
+```{r ioi, echo = FALSE}
+# For each individual
+ioi <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
+print(ioi)
+```
+
+### Plot
+#### Bar chart
+- Error bars show SD of the mean
+- A dashed line represents the ideal tempo
+
+```{r ioi_bar,  echo = FALSE}
+p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
+                width = .2, position = position_dodge(.9)) +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  labs(y = "Normalised IOI", subtitle = "IOI: Non-Expression")
+p_ioi
+```
+
+## 2. All - group
+- Average normIOIs for each condition.
+- Hypothesis: Participants will play slower when teaching.
+
+```{r ioi_all, echo = FALSE}
+# Group mean
+ioi_all <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI))]
+print(ioi_all)
+```
+
+## Sequence plot
+```{r seq, fig.width = 10, echo = FALSE}
+# For each individual
+ioi_seq <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), .(SubNr, Interval)]
+
+p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, colour = SubNr)) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width=.2,
+                position = position_dodge(.05)) + 
+  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,66,1))
+p_ioi_seq
+```
+
+## Exclude outlier participants
+```{r outlier, echo = FALSE}
+excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*sd(ioi$SD) & Mean > mean(ioi$Mean)-3*sd(ioi$SD)]
+print(excluded_ioi)
+```
