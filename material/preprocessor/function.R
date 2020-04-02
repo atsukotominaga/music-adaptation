@@ -11,7 +11,7 @@ pitch_remover <- function(data, ideal){
   for (subnr in unique(data$SubNr)){ #set # of participants
     print(sprintf("---SubNr %i---", subnr))
     for (trial in unique(unique(data[SubNr == subnr]$TrialNr))){
-      current <- data %>% dplyr::filter(SubNr == subnr &  TrialNr == trial)
+      current <- data[SubNr == subnr & TrialNr == trial]
       if (nrow(current) != 0){ #if current data is not empty
         if (length(ideal$Pitch) != length(current$Pitch)){ #if # of onsets/offsets is not equal to ideal performance
           ls_removed <- c(ls_removed, list(c(subnr, trial, "NoteNr error")))
