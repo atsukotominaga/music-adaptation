@@ -1,0 +1,17 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Additional analysis for transitionp points
+Description: These are some additional analyses for transition points.
+
+## Articulation
+How does it look like articulation transition points?
+Posthoc prediciton: Participants would have a larger separation betwenn the end of legato and the beginning of staccato.
+
+```{r setup, include = FALSE}
+# read csv
+df_kot <- fread("./../trimmed/data_kot.csv")
+```
+

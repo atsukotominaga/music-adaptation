@@ -1,12 +1,12 @@
 ---
-title: 'IOIs Analysis for Non-Expressive performances (OFFSET)'
+title: 'Analysis for Non-Expressive performances (OFFSET)'
 output:
   html_notebook: default
 editor_options: 
   chunk_output_type: inline
 ---
 
-Description: This is a summary of all analyses for a tempo (IOIs).
+Description: This is a rough overview of non-expressive performance from teaching-v2.0 (offsets).
 
 ```{r setup, include = FALSE}
 # packages
@@ -21,7 +21,7 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-df_ioi <- fread("./../preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+df_ioi <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
 df_ioi$SubNr <- as.factor(df_ioi$SubNr)
@@ -85,8 +85,7 @@ p_ioi
 ```
 
 ## 2. All - group
-- Average normIOIs for each condition.
-- Hypothesis: Participants will play slower when teaching.
+- Average normIOIs
 
 ```{r ioi_all, echo = FALSE}
 # Group mean

@@ -1,0 +1,137 @@
+---
+title: 'Analysis for Non-Expressive performances (DURATION)'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a rough overview of non-expressive performance from teaching-v2.0 (duration).
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+# read a filtered csv
+df_onset <- fread("./preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
+df_offset <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+
+# SubNr as a factor
+df_onset$SubNr <- as.factor(df_onset$SubNr)
+df_offset$SubNr <- as.factor(df_offset$SubNr)
+
+# assign RowNr
+df_onset$RowNr <- rep(1:72, nrow(df_onset)/72)
+df_offset$RowNr <- rep(1:72, nrow(df_offset)/72)
+```
+
+```{r normDus, include = FALSE}
+# extract trials which have both onset and offset data
+df_onset$Eval <- "NA"
+for (subnr in unique(df_offset$SubNr)){
+  for (trial in unique(df_offset[SubNr == subnr]$Trial)){
+    df_onset[SubNr == subnr & TrialNr == trial]$Eval <- "Yes"
+  }
+}
+df_ioi <- df_onset[Eval == "Yes"]
+
+# check whether each row corresponds correctly
+df_ioi$Eval2 <- "NA"
+for (i in 1:nrow(df_ioi)){
+  if (df_ioi[i]$SubNr == df_offset[i]$SubNr & df_ioi[i]$TrialNr == df_offset[i]$TrialNr & df_ioi[i]$Pitch == df_offset[i]$Pitch){
+    df_ioi[i]$Eval2 <- "SAME"
+  } else {
+    df_ioi[i]$Eval2 <- "DIFF"
+  }
+}
+print(unique(df_ioi$Eval2))
+
+# calculate duration
+df_ioi$Duration <- df_offset$TimeStamp - df_ioi$TimeStamp
+
+# convert bpm to ms
+df_ioi[Tempo == 120]$Tempo <- 250
+df_ioi[Tempo == 110]$Tempo <- 273
+df_ioi[Tempo == 100]$Tempo <- 300
+
+# normalised Duration
+df_ioi$normDu <- df_ioi$Duration/df_ioi$Tempo
+
+# remove irrelevant intervals
+ls_irrelevant <- list(c(27:28), c(33:35), 52, 57, c(66:72))
+df_ioi$EighthNote <- "Yes"
+
+for (phrase in 1:length(ls_irrelevant)){
+  for (note in 1:length(ls_irrelevant[[phrase]])){
+    df_ioi[RowNr == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
+  }
+}
+```
+
+## Sequence plot
+```{r seq, fig.width = 10, echo = FALSE}
+# For each individual
+ioi_seq <- df_ioi[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), .(SubNr, RowNr)]
+
+p_ioi_seq <- ggplot(data = ioi_seq, aes(x = RowNr, y = Mean, colour = SubNr)) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width=.2,
+                position = position_dodge(.05)) + 
+  labs(x = "RowNr", y = "Normalised Duration") + scale_x_continuous(breaks=seq(1,66,1))
+p_ioi_seq
+```
+
+# IOI
+## 1. All - individual
+- Average normDu for each participant.
+
+```{r ioi, echo = FALSE}
+# For each individual
+ioi <- df_ioi[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr)]
+print(ioi)
+```
+
+### Plot
+#### Bar chart
+- Error bars show SD of the mean
+- A dashed line represents the ideal tempo
+
+```{r ioi_bar,  echo = FALSE}
+p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
+                width = .2, position = position_dodge(.9)) +
+  labs(y = "Normalised Duration", subtitle = "Duration: Non-Expression")
+p_ioi
+```
+
+## 2. All - group
+- Average normDus for each condition.
+
+```{r ioi_all, echo = FALSE}
+# Group mean
+ioi_all <- df_ioi[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu))]
+print(ioi_all)
+```
+
+## Exclude outlier participants
+```{r outlier, echo = FALSE}
+excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*mean(ioi$SD) & Mean > mean(ioi$Mean)-3*mean(ioi$SD)]
+print(excluded_ioi)
+```
+
+```{r export, include = FALSE}
+# export df_ioi
+write.csv(df_ioi, file = "./data_duration.csv", row.names = F)
+```
