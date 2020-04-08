@@ -22,57 +22,57 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 
 ```{r extract, include = FALSE}
 # read a filtered csv
-df_onset <- fread("./preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
-df_offset <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+dt_onset <- fread("./preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
+dt_offset <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
 
 # SubNr as a factor
-df_onset$SubNr <- as.factor(df_onset$SubNr)
-df_offset$SubNr <- as.factor(df_offset$SubNr)
+dt_onset$SubNr <- as.factor(dt_onset$SubNr)
+dt_offset$SubNr <- as.factor(dt_offset$SubNr)
 
 # assign RowNr
-df_onset$RowNr <- rep(1:72, nrow(df_onset)/72)
-df_offset$RowNr <- rep(1:72, nrow(df_offset)/72)
+dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
+dt_offset$RowNr <- rep(1:72, nrow(dt_offset)/72)
 ```
 
 ```{r normDus, include = FALSE}
 # extract trials which have both onset and offset data
-df_onset$Eval <- "NA"
-for (subnr in unique(df_offset$SubNr)){
-  for (trial in unique(df_offset[SubNr == subnr]$Trial)){
-    df_onset[SubNr == subnr & TrialNr == trial]$Eval <- "Yes"
+dt_onset$Eval <- "NA"
+for (subnr in unique(dt_offset$SubNr)){
+  for (trial in unique(dt_offset[SubNr == subnr]$Trial)){
+    dt_onset[SubNr == subnr & TrialNr == trial]$Eval <- "Yes"
   }
 }
-df_duration <- df_onset[Eval == "Yes"]
+dt_duration <- dt_onset[Eval == "Yes"]
 
 # check whether each row corresponds correctly
-df_duration$Eval2 <- "NA"
-for (i in 1:nrow(df_duration)){
-  if (df_duration[i]$SubNr == df_offset[i]$SubNr & df_duration[i]$TrialNr == df_offset[i]$TrialNr & df_duration[i]$Pitch == df_offset[i]$Pitch){
-    df_duration[i]$Eval2 <- "SAME"
+dt_duration$Eval2 <- "NA"
+for (i in 1:nrow(dt_duration)){
+  if (dt_duration[i]$SubNr == dt_offset[i]$SubNr & dt_duration[i]$TrialNr == dt_offset[i]$TrialNr & dt_duration[i]$Pitch == dt_offset[i]$Pitch){
+    dt_duration[i]$Eval2 <- "SAME"
   } else {
-    df_duration[i]$Eval2 <- "DIFF"
+    dt_duration[i]$Eval2 <- "DIFF"
   }
 }
-print(unique(df_duration$Eval2))
+print(unique(dt_duration$Eval2))
 
 # calculate duration
-df_duration$Duration <- df_offset$TimeStamp - df_duration$TimeStamp
+dt_duration$Duration <- dt_offset$TimeStamp - dt_duration$TimeStamp
 
 # convert bpm to ms
-df_duration[Tempo == 120]$Tempo <- 250
-df_duration[Tempo == 110]$Tempo <- 273
-df_duration[Tempo == 100]$Tempo <- 300
+dt_duration[Tempo == 120]$Tempo <- 250
+dt_duration[Tempo == 110]$Tempo <- 273
+dt_duration[Tempo == 100]$Tempo <- 300
 
 # normalised Duration
-df_duration$normDu <- df_duration$Duration/df_duration$Tempo
+dt_duration$normDu <- dt_duration$Duration/dt_duration$Tempo
 
 # remove irrelevant intervals
 ls_irrelevant <- list(c(27:28), c(33:35), 52, 57, c(66:72))
-df_duration$EighthNote <- "Yes"
+dt_duration$EighthNote <- "Yes"
 
 for (phrase in 1:length(ls_irrelevant)){
   for (note in 1:length(ls_irrelevant[[phrase]])){
-    df_duration[RowNr == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
+    dt_duration[RowNr == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
   }
 }
 ```
@@ -83,14 +83,13 @@ for (phrase in 1:length(ls_irrelevant)){
 
 ```{r duration, echo = FALSE}
 # For each individual
-duration <- df_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr)]
+duration <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr)]
 print(duration)
 ```
 
 ### Plot
 #### Bar chart
 - Error bars show SD of the mean
-- A dashed line represents the ideal tempo
 
 ```{r duration_bar,  echo = FALSE}
 p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
@@ -102,25 +101,35 @@ p_duration
 ```
 
 ## Sequence plot
-```{r seq, fig.width = 10, echo = FALSE}
-# For each individual
-duration_seq <- df_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), .(SubNr, RowNr)]
+```{r duration_seq, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
+duration_seq <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
 
-p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, colour = SubNr)) +
+p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr)) +
   geom_line() +
   geom_point() +
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width=.2,
-                position = position_dodge(.05)) + 
-  labs(x = "RowNr", y = "Normalised Duration") + scale_x_continuous(breaks=seq(1,66,1))
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Normalised Duration", subtitle = "Duration: Non-Expression") +
+  scale_x_continuous(breaks=seq(1,66,1))
 p_duration_seq
+```
+
+## Distribution plot
+```{r duration_dis, fig.width = 12, echo = FALSE}
+p_duration_dis <- ggplot(dt_duration[EighthNote == "Yes"], aes(x = normDu)) +
+  geom_histogram(binwidth=.1, alpha=.5, position="identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Normalised Duration", y = "Count", subtitle = "Duration: Non-Expression")
+p_duration_dis
 ```
 
 ## 2. All - group
 - Average normDus for each condition.
 
 ```{r duration_all, echo = FALSE}
-# Group mean
-duration_all <- df_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu))]
+# group mean
+duration_all <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu))]
 print(duration_all)
 ```
 
@@ -131,6 +140,22 @@ print(excluded_duration)
 ```
 
 ```{r export, include = FALSE}
-# export df_duration
-write.csv(df_duration, file = "./data_duration.csv", row.names = F)
+# export dt_duration
+write.csv(dt_duration, file = "./data_duration.csv", row.names = F)
 ```
+
+# Duration Variability
+```{r cv, echo = FALSE}
+# for each participant
+cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
+cv
+```
+
+```{r cv_box, echo = FALSE}
+p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
+p_cv_box
+```
+
+
