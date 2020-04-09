@@ -122,14 +122,13 @@ ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-## Exclude outlier participants
+### Exclude outlier participants
 ```{r outlier, echo = FALSE}
 excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
 
 # IOI Variability
-## Individual
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
@@ -143,9 +142,11 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
-## Exclude outlier participants
+### Exclude outlier participants
 ```{r cv_outlier, echo = FALSE}
+# for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
+print(cv_all)
 
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
