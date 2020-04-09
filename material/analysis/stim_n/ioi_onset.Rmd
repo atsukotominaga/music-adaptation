@@ -84,8 +84,9 @@ p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
 p_ioi
 ```
 
-## Sequence plot
-Right wrap: Subject Number
+#### Sequence plot
+- Right wrap: Subject Number
+- A dashed line represents the ideal tempo
 
 ```{r ioi_seq, fig.width = 14, fig.height = 12, echo = FALSE}
 # For each individual
@@ -100,9 +101,9 @@ p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, group = TrialNr)
 p_ioi_seq
 ```
 
-## Distribution plot
-Right wrap: Trial Number
-Upper wrap: Subject Number
+#### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
 
 ```{r ioi_dis, fig.width = 14, fig.height = 8, echo = FALSE}
 p_ioi_dis <- ggplot(dt_ioi[EighthNote == "Yes"], aes(x = normIOI)) +
@@ -117,20 +118,21 @@ p_ioi_dis
 
 ```{r ioi_all, echo = FALSE}
 # Group mean
-ioi_all <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI))]
+ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
 ## Exclude outlier participants
 ```{r outlier, echo = FALSE}
-excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*mean(ioi$SD) & Mean > mean(ioi$Mean)-3*mean(ioi$SD)]
+excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
 
 # IOI Variability
+## Individual
 ```{r cv, echo = FALSE}
 # for each participant
-cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI), CV = sd(normIOI)/mean(normIOI)), by = .(SubNr, TrialNr)]
+cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
 cv
 ```
 
@@ -141,9 +143,10 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
+## Exclude outlier participants
+```{r cv_outlier, echo = FALSE}
+cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 
-
-```{r export, include = FALSE}
-# export dt_ioi
-write.csv(dt_ioi, file = "./data_ioi_onset.csv", row.names = F)
+excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+print(excluded_cv)
 ```
