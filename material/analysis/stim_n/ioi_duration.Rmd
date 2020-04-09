@@ -34,7 +34,7 @@ dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
 dt_offset$RowNr <- rep(1:72, nrow(dt_offset)/72)
 ```
 
-```{r normDus, include = FALSE}
+```{r normDu, include = FALSE}
 # extract trials which have both onset and offset data
 dt_onset$Eval <- "NA"
 for (subnr in unique(dt_offset$SubNr)){
@@ -82,7 +82,7 @@ for (phrase in 1:length(ls_irrelevant)){
 - Average normDu for each participant.
 
 ```{r duration, echo = FALSE}
-# For each individual
+# for each individual
 duration <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr)]
 print(duration)
 ```
@@ -100,7 +100,7 @@ p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
 p_duration
 ```
 
-## Sequence plot
+#### Sequence plot
 ```{r duration_seq, fig.width = 14, fig.height = 12, echo = FALSE}
 # for each individual
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
@@ -115,7 +115,7 @@ p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = T
 p_duration_seq
 ```
 
-## Distribution plot
+#### Distribution plot
 ```{r duration_dis, fig.width = 12, echo = FALSE}
 p_duration_dis <- ggplot(dt_duration[EighthNote == "Yes"], aes(x = normDu)) +
   geom_histogram(binwidth=.1, alpha=.5, position="identity") +
@@ -125,30 +125,24 @@ p_duration_dis
 ```
 
 ## 2. All - group
-- Average normDus for each condition.
 
 ```{r duration_all, echo = FALSE}
 # group mean
-duration_all <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu))]
+duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(duration_all)
 ```
 
-## Exclude outlier participants
+### Exclude outlier participants
 ```{r outlier, echo = FALSE}
-excluded_duration <- duration[Mean < mean(duration$Mean)+3*mean(duration$SD) & Mean > mean(duration$Mean)-3*mean(duration$SD)]
+excluded_duration <- duration[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
 print(excluded_duration)
-```
-
-```{r export, include = FALSE}
-# export dt_duration
-write.csv(dt_duration, file = "./data_duration.csv", row.names = F)
 ```
 
 # Duration Variability
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
-cv
+print(cv)
 ```
 
 ```{r cv_box, echo = FALSE}
@@ -158,4 +152,13 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
+### Exclude outlier participants
+```{r cv_outlier, echo = FALSE}
+# for all
+cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
+print(cv_all)
+
+excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+print(excluded_cv)
+```
 
