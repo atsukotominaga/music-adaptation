@@ -152,7 +152,7 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
-### Exclude outlier participants
+### Exclude outlier performacnes
 ```{r cv_outlier, echo = FALSE}
 # for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
