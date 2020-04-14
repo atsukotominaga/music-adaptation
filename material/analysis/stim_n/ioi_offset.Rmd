@@ -21,40 +21,40 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-df_ioi <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_ioi <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
-df_ioi$SubNr <- as.factor(df_ioi$SubNr)
+dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
 
 # assign RowNr
-df_ioi$RowNr <- rep(1:72, nrow(df_ioi)/72)
+dt_ioi$RowNr <- rep(1:72, nrow(dt_ioi)/72)
 ```
 
 ```{r normIOIs, include = FALSE}
 # calculate normIOIs
-df_ioi$IOI <- diff(c(0, df_ioi$TimeStamp))
+dt_ioi$IOI <- diff(c(0, dt_ioi$TimeStamp))
 
 # convert bpm to ms
-df_ioi[Tempo == 120]$Tempo <- 250
-df_ioi[Tempo == 110]$Tempo <- 273
-df_ioi[Tempo == 100]$Tempo <- 300
+dt_ioi[Tempo == 120]$Tempo <- 250
+dt_ioi[Tempo == 110]$Tempo <- 273
+dt_ioi[Tempo == 100]$Tempo <- 300
 
 # normalise IOIs
-df_ioi$normIOI <- df_ioi$IOI/df_ioi$Tempo
+dt_ioi$normIOI <- dt_ioi$IOI/dt_ioi$Tempo
 
 # remove the first note
-df_ioi <- df_ioi[RowNr != 1]
+dt_ioi <- dt_ioi[RowNr != 1]
 
 # assign Interval
-df_ioi$Interval <- rep(1:71, nrow(df_ioi)/71)
+dt_ioi$Interval <- rep(1:71, nrow(dt_ioi)/71)
 
 # remove irrelevant intervals
 ls_irrelevant <- list(c(25:28), c(32:35), c(51:52), c(56:57), c(65:71))
-df_ioi$EighthNote <- "Yes"
+dt_ioi$EighthNote <- "Yes"
 
 for (phrase in 1:length(ls_irrelevant)){
   for (note in 1:length(ls_irrelevant[[phrase]])){
-    df_ioi[Interval == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
+    dt_ioi[Interval == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
   }
 }
 ```
@@ -65,7 +65,7 @@ for (phrase in 1:length(ls_irrelevant)){
 
 ```{r ioi, echo = FALSE}
 # For each individual
-ioi <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
+ioi <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
 print(ioi)
 ```
 
@@ -84,37 +84,70 @@ p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
 p_ioi
 ```
 
+#### Sequence plot
+- Right wrap: Subject Number
+- A dashed line represents the ideal tempo
+
+```{r ioi_seq, fig.width = 14, fig.height = 12, echo = FALSE}
+# For each individual
+ioi_seq <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI)), by = .(SubNr, TrialNr, Interval)]
+
+p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, group = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  facet_grid(SubNr ~ .) +
+  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,66,1))
+p_ioi_seq
+```
+
+#### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
+
+```{r ioi_dis, fig.width = 14, fig.height = 8, echo = FALSE}
+p_ioi_dis <- ggplot(dt_ioi[EighthNote == "Yes"], aes(x = normIOI)) +
+  geom_histogram(binwidth = .02, alpha = .5, position = "identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Normalised IOI", y = "Count", subtitle = "IOI: Non-Expression")
+p_ioi_dis
+```
+
 ## 2. All - group
 - Average normIOIs
 
 ```{r ioi_all, echo = FALSE}
 # Group mean
-ioi_all <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI))]
+ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-## Sequence plot
-```{r seq, fig.width = 10, echo = FALSE}
-# For each individual
-ioi_seq <- df_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), .(SubNr, Interval)]
-
-p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, colour = SubNr)) +
-  geom_line() +
-  geom_point() +
-  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width=.2,
-                position = position_dodge(.05)) + 
-  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,66,1))
-p_ioi_seq
-```
-
-## Exclude outlier participants
+### Exclude outlier participants
 ```{r outlier, echo = FALSE}
-excluded_ioi <- ioi[Mean < mean(ioi$Mean)+3*mean(ioi$SD) & Mean > mean(ioi$Mean)-3*mean(ioi$SD)]
+excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
 
-```{r export, include = FALSE}
-# export df_ioi
-write.csv(df_ioi, file = "./data_ioi_offset.csv", row.names = F)
+# IOI Variability
+```{r cv, echo = FALSE}
+# for each participant
+cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
+cv
+```
+
+```{r cv_box, echo = FALSE}
+p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
+p_cv_box
+```
+
+### Exclude outlier performances
+```{r cv_outlier, echo = FALSE}
+# for all
+cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
+print(cv_all)
+
+excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+print(excluded_cv)
 ```
