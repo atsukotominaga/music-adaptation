@@ -1,0 +1,124 @@
+---
+title: 'Analysis for Non-Expressive performances (ONSET)'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a rough overview of non-expressive performance from teaching-v2.0 (onsets).
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+dt_ioi_original <- fread("../trimmed/data_ioi_1.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+# Include only articulation
+dt_ioi <- dt_ioi_original[Condition == "performing" & Skill == "articulation"]
+
+# SubNr as a factor
+dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
+dt_ioi$TrialNr <- as.factor(dt_ioi$TrialNr)
+```
+
+# IOI
+## 1. All - individual
+- Average normIOIs for each participant.
+
+```{r ioi, echo = FALSE}
+# For each individual
+ioi <- dt_ioi[, .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
+print(ioi)
+```
+
+### Plot
+#### Bar chart
+- Error bars show SD of the mean
+- A dashed line represents the ideal tempo
+
+```{r ioi_bar,  echo = FALSE}
+p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
+                width = .2, position = position_dodge(.9)) +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  labs(y = "Normalised IOI", subtitle = "IOI: Performing-Articulation")
+p_ioi
+```
+
+#### Sequence plot
+- Right wrap: Subject Number
+- A dashed line represents the ideal tempo
+
+```{r ioi_seq, fig.width = 14, fig.height = 20, echo = FALSE}
+# For each individual
+ioi_seq <- dt_ioi[, .(N = length(normIOI), Mean = mean(normIOI)), by = .(SubNr, TrialNr, Interval)]
+
+p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
+  facet_grid(SubNr ~ .) +
+  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,66,1))
+p_ioi_seq
+```
+
+#### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
+
+```{r ioi_dis, fig.width = 14, fig.height = 8, echo = FALSE}
+p_ioi_dis <- ggplot(dt_ioi, aes(x = normIOI)) +
+  geom_histogram(binwidth = .02, alpha = .5, position = "identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Normalised IOI", y = "Count", subtitle = "IOI: Performing-Articulation")
+p_ioi_dis
+```
+
+## 2. All - group
+- Average normIOIs
+
+```{r ioi_all, echo = FALSE}
+# Group mean
+ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
+print(ioi_all)
+```
+
+### Exclude outlier participants
+```{r outlier, echo = FALSE}
+excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
+print(excluded_ioi)
+```
+
+# IOI Variability
+```{r cv, echo = FALSE}
+# for each participant
+cv <- dt_ioi[, .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
+cv
+```
+
+```{r cv_box, echo = FALSE}
+p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.3)
+p_cv_box
+```
+
+### Exclude outlier performances
+```{r cv_outlier, echo = FALSE}
+# for all
+cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
+print(cv_all)
+
+excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+print(excluded_cv)
+```
