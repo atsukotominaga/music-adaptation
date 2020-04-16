@@ -21,13 +21,55 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-dt_ioi_original <- fread("../trimmed/data_ioi_1.csv", header = T, sep = ",", dec = ".") # read a filtered csv
-# Include only articulation
-dt_ioi <- dt_ioi_original[Condition == "performing" & Skill == "articulation"]
+dt_onset <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_error <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+# assign RowNr
+dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
+# sort by SubNr, BlockNr, TrialNr and NoteNr
+dt_onset <- dt_onset[order(SubNr, BlockNr, TrialNr, RowNr),]
+# include only articulation
+dt_ioi <- dt_onset[Condition == "performing" & Skill == "articulation"]
 
 # SubNr as a factor
 dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
 dt_ioi$TrialNr <- as.factor(dt_ioi$TrialNr)
+
+# remove performances which contain NA
+dt_ioi$Error <- 0
+for (error in 1:nrow(dt_error)){
+  dt_ioi[SubNr == dt_error[error]$SubNr & BlockNr == dt_error[error]$BlockNr & TrialNr == dt_error[error]$TrialNr]$Error <- 1
+}
+dt_ioi_ori <- dt_ioi # save original data
+dt_ioi <- dt_ioi_ori[Error == 0]
+```
+
+```{r normIOIs, include = FALSE}
+# calculate normIOIs
+dt_ioi$IOI <- diff(c(0, dt_ioi$TimeStamp))
+
+# convert bpm to ms
+dt_ioi[Tempo == 120]$Tempo <- 250
+dt_ioi[Tempo == 110]$Tempo <- 273
+dt_ioi[Tempo == 100]$Tempo <- 300
+
+# normalise IOIs
+dt_ioi$normIOI <- dt_ioi$IOI/dt_ioi$Tempo
+
+# remove the first note
+dt_ioi <- dt_ioi[RowNr != 1]
+
+# assign Interval
+dt_ioi$Interval <- rep(1:71, nrow(dt_ioi)/71)
+
+# remove irrelevant intervals
+ls_irrelevant <- list(c(25:28), c(32:35), c(51:52), c(56:57), c(65:71))
+dt_ioi$EighthNote <- "Yes"
+
+for (phrase in 1:length(ls_irrelevant)){
+  for (note in 1:length(ls_irrelevant[[phrase]])){
+    dt_ioi[Interval == ls_irrelevant[[phrase]][note]]$EighthNote <- "No"
+  }
+}
 ```
 
 # IOI
@@ -36,7 +78,7 @@ dt_ioi$TrialNr <- as.factor(dt_ioi$TrialNr)
 
 ```{r ioi, echo = FALSE}
 # For each individual
-ioi <- dt_ioi[, .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
+ioi <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr)]
 print(ioi)
 ```
 
@@ -61,7 +103,7 @@ p_ioi
 
 ```{r ioi_seq, fig.width = 14, fig.height = 20, echo = FALSE}
 # For each individual
-ioi_seq <- dt_ioi[, .(N = length(normIOI), Mean = mean(normIOI)), by = .(SubNr, TrialNr, Interval)]
+ioi_seq <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI)), by = .(SubNr, TrialNr, Interval)]
 
 p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, group = TrialNr, colour = TrialNr)) +
   geom_line() +
@@ -77,8 +119,8 @@ p_ioi_seq
 - Upper wrap: Subject Number
 
 ```{r ioi_dis, fig.width = 14, fig.height = 8, echo = FALSE}
-p_ioi_dis <- ggplot(dt_ioi, aes(x = normIOI)) +
-  geom_histogram(binwidth = .02, alpha = .5, position = "identity") +
+p_ioi_dis <- ggplot(dt_ioi[EighthNote == "Yes"], aes(x = normIOI)) +
+  geom_histogram(binwidth = .05, alpha = .5, position = "identity") +
   facet_grid(TrialNr ~ SubNr) +
   labs(x = "Normalised IOI", y = "Count", subtitle = "IOI: Performing-Articulation")
 p_ioi_dis
@@ -109,7 +151,7 @@ cv
 ```{r cv_box, echo = FALSE}
 p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
   geom_boxplot() +
-  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.3)
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
 p_cv_box
 ```
 
