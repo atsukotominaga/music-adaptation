@@ -1,0 +1,257 @@
+---
+title: 'Analysis for Performing-Articulation performances (DURATION)'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a rough overview of performing performance from teaching-v2.0 (duration).
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+# onset
+dt_onset <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_error_on <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+# assign RowNr
+dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
+# sort by SubNr, BlockNr, TrialNr and NoteNr
+dt_onset <- dt_onset[order(SubNr, BlockNr, TrialNr, RowNr),]
+# include only articulation
+dt_onset <- dt_onset[Condition == "performing" & Skill == "articulation"]
+
+# SubNr as a factor
+dt_onset$SubNr <- as.factor(dt_onset$SubNr)
+dt_onset$TrialNr <- as.factor(dt_onset$TrialNr)
+
+# remove performances which contain NA
+dt_onset$Error <- 0
+for (error in 1:nrow(dt_error_on)){
+  dt_onset[SubNr == dt_error_on[error]$SubNr & BlockNr == dt_error_on[error]$BlockNr & TrialNr == dt_error_on[error]$TrialNr]$Error <- 1
+}
+dt_onset_ori <- dt_onset # save original data
+dt_onset <- dt_onset_ori[Error == 0]
+
+# offset
+dt_offset <- fread("../filtered/data_correct_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_error_off <- fread("../filtered/data_error_correction_offset.csv", header = T, sep = ",", dec = ".") # read an error csv
+# assign RowNr
+dt_offset$RowNr <- rep(1:72, nrow(dt_offset)/72)
+# sort by SubNr, BlockNr, TrialNr and NoteNr
+dt_offset <- dt_offset[order(SubNr, BlockNr, TrialNr, RowNr),]
+# include only articulation
+dt_offset <- dt_offset[Condition == "performing" & Skill == "articulation"]
+
+# SubNr as a factor
+dt_offset$SubNr <- as.factor(dt_offset$SubNr)
+dt_offset$TrialNr <- as.factor(dt_offset$TrialNr)
+
+# remove performances which contain NA
+dt_offset$Error <- 0
+for (error in 1:nrow(dt_error_off)){
+  dt_offset[SubNr == dt_error_off[error]$SubNr & BlockNr == dt_error_off[error]$BlockNr & TrialNr == dt_error_off[error]$TrialNr]$Error <- 1
+}
+dt_offset_ori <- dt_offset # save original data
+dt_offset <- dt_offset_ori[Error == 0]
+```
+
+```{r normDu, include = FALSE}
+# extract trials which have both onset and offset data
+dt_onset$Eval <- "NA"
+for (subnr in unique(dt_offset$SubNr)){
+  for (trial in unique(dt_offset[SubNr == subnr]$Trial)){
+    dt_onset[SubNr == subnr & TrialNr == trial]$Eval <- "Yes"
+  }
+}
+dt_duration <- dt_onset[Eval == "Yes"]
+
+# check whether each row corresponds correctly
+dt_duration$Eval2 <- "NA"
+for (i in 1:nrow(dt_duration)){
+  if (dt_duration[i]$SubNr == dt_offset[i]$SubNr & dt_duration[i]$TrialNr == dt_offset[i]$TrialNr & dt_duration[i]$Pitch == dt_offset[i]$Pitch){
+    dt_duration[i]$Eval2 <- "SAME"
+  } else {
+    dt_duration[i]$Eval2 <- "DIFF"
+  }
+}
+print(unique(dt_duration$Eval2))
+
+# TimeStamp as an integer (only offsets - I don't know why 16.04.20)
+dt_offset$TimeStamp <- as.integer(dt_offset$TimeStamp)
+
+# calculate duration
+dt_duration$Duration <- dt_offset$TimeStamp - dt_duration$TimeStamp
+
+# convert bpm to ms
+dt_duration[Tempo == 120]$Tempo <- 250
+dt_duration[Tempo == 110]$Tempo <- 273
+dt_duration[Tempo == 100]$Tempo <- 300
+
+# normalised Duration
+dt_duration$normDu <- dt_duration$Duration/dt_duration$Tempo
+
+# define subcomponents
+# for intervals
+ls_legato <- list(c(1:4), c(9:16), c(21:24), c(40:46))
+ls_staccato <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
+ls_forte <- list(c(1:4), c(9:16), c(21:24), c(40:46))
+ls_piano <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
+
+# for each note (duration/velocity)
+ls_legato2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
+ls_staccato2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
+ls_forte2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
+ls_piano2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
+
+# define Component Change (LtoS, FtoP)
+change_1 <- c(5, 17, 47)
+# define Component Change (StoL, PtoF)
+change_2 <- c(8, 20, 39)
+
+# assign subcomponents
+dt_duration$Subcomponent <- "NA"
+# Legato
+for (phrase in 1:length(ls_legato2)){
+  for (note in 1:length(ls_legato2[[phrase]])){
+    dt_duration[RowNr == ls_legato2[[phrase]][note]]$Subcomponent <- "Legato"
+  }
+}
+# Staccato
+for (phrase in 1:length(ls_staccato2)){
+  for (note in 1:length(ls_staccato2[[phrase]])){
+    dt_duration[RowNr == ls_staccato2[[phrase]][note]]$Subcomponent <- "Staccato"
+  }
+}
+```
+
+# Duration
+## 1. All - individual
+- Average normDu for each participant.
+
+```{r duration, echo = FALSE}
+# for each individual
+duration <- dt_duration[Subcomponent == "Legato" | Subcomponent == "Staccato", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, Subcomponent)]
+print(duration)
+```
+
+### Plot
+#### Bar chart
+- Error bars show SD of the mean
+
+```{r duration_bar,  echo = FALSE}
+p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
+                width = .2, position = position_dodge(.9)) +
+  facet_grid(Subcomponent ~ .) +
+  labs(y = "Normalised Duration", subtitle = "Duration: Performing-Articulation")
+p_duration
+```
+
+#### Sequence plot
+#### Legato
+```{r duration_seq_leg, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
+duration_seq <- dt_duration[Subcomponent == "Legato", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
+
+p_duration_seq_leg <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Normalised Duration", subtitle = "Duration: Performing-Articulation(Legato)") +
+  scale_x_continuous(breaks=seq(1,66,1))
+p_duration_seq_leg
+```
+
+#### Staccato
+```{r duration_seq_sta, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
+duration_seq <- dt_duration[Subcomponent == "Staccato", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
+
+p_duration_seq_sta <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Normalised Duration", subtitle = "Duration: Performing-Articulation(Staccato)") +
+  scale_x_continuous(breaks=seq(1,66,1))
+p_duration_seq_sta
+```
+
+#### Distribution plot
+#### Legato
+```{r duration_dis_leg, fig.width = 12, echo = FALSE}
+p_duration_dis_leg <- ggplot(dt_duration[Subcomponent == "Legato"], aes(x = normDu)) +
+  geom_histogram(binwidth = .1, alpha=.5, position="identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Normalised Duration", y = "Count", subtitle = "Duration: Performing-Articulation(Legato)")
+p_duration_dis_leg
+```
+
+#### Staccato
+```{r duration_dis_sta, fig.width = 12, echo = FALSE}
+p_duration_dis_sta <- ggplot(dt_duration[Subcomponent == "Staccato"], aes(x = normDu)) +
+  geom_histogram(binwidt = .1, alpha = .5, position="identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Normalised Duration", y = "Count", subtitle = "Duration: Performing-Articulation(Staccato)")
+p_duration_dis_sta
+```
+
+## 2. All - group
+
+```{r duration_all, echo = FALSE}
+# group mean
+duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean)), by = .(Subcomponent)]
+print(duration_all)
+```
+
+### Exclude outlier participants
+#### Legato
+```{r outlier_leg, echo = FALSE}
+# for legato
+excluded_duration_leg <- duration[Subcomponent == "Legato" & Mean < duration_all[Subcomponent == "Legato"]$Mean+3*duration_all[Subcomponent == "Legato"]$SD & Mean > duration_all[Subcomponent == "Legato"]$Mean-3*duration_all$SD]
+print(excluded_duration_leg)
+```
+
+#### Staccato
+```{r outlier_sta, echo = FALSE}
+# for staccato
+excluded_duration_sta <- duration[Subcomponent == "Staccato" & Mean < duration_all[Subcomponent == "Staccato"]$Mean+3*duration_all[Subcomponent == "Staccato"]$SD & Mean > duration_all$Mean-3*duration_all[Subcomponent == "Staccato"]$SD]
+print(excluded_duration_sta)
+```
+
+<!-- # Duration Variability -->
+<!-- ```{r cv, echo = FALSE} -->
+<!-- # for each participant -->
+<!-- cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)] -->
+<!-- print(cv) -->
+<!-- ``` -->
+
+<!-- ```{r cv_box, echo = FALSE} -->
+<!-- p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) + -->
+<!--   geom_boxplot() + -->
+<!--   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) -->
+<!-- p_cv_box -->
+<!-- ``` -->
+
+<!-- ### Exclude outlier performacnes -->
+<!-- ```{r cv_outlier, echo = FALSE} -->
+<!-- # for all -->
+<!-- cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))] -->
+<!-- print(cv_all) -->
+
+<!-- excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD] -->
+<!-- print(excluded_cv) -->
+<!-- ``` -->
