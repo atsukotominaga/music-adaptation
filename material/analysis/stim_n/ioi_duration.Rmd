@@ -105,13 +105,15 @@ p_duration
 # for each individual
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
 duration_seq <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
+# save data.table for comparison with stim_a
+fwrite(duration_seq, file = "./seq.csv")
 
 p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr)) +
   geom_line() +
   geom_point() +
   facet_grid(SubNr ~ .) +
   labs(x = "RowNr", y = "Normalised Duration", subtitle = "Duration: Non-Expression") +
-  scale_x_continuous(breaks=seq(1,66,1))
+  scale_x_continuous(breaks=seq(1,66,1)) + scale_y_continuous(breaks=seq(0,2,0.5), limits = c(0, 2))
 p_duration_seq
 ```
 
