@@ -159,14 +159,36 @@ p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
 p_duration
 ```
 
-#### Sequence plot
+### Sequence plot
+#### All
+```{r duration_seq, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
+duration_seq <- dt_duration[Subcomponent != "NA", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
+
+duration_seq_stim_n <- fread("../../stim_n/seq.csv", header = T, sep = ",", dec = ".")
+duration_seq_stim_n$SubNr <- factor(duration_seq_stim_n$SubNr)
+duration_seq_stim_n$TrialNr <- factor(duration_seq_stim_n$TrialNr)
+duration_seq_stim_n$TrialNr <- "Practice"
+
+duration_seq <- rbind(duration_seq, duration_seq_stim_n)
+
+p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Normalised Duration", subtitle = "Duration: Performing-Articulation(All)") +
+  scale_x_continuous(breaks=seq(1,66,1)) + scale_y_continuous(breaks=seq(0,2,0.5), limits = c(0, 2))
+p_duration_seq
+```
+
 #### Legato
 ```{r duration_seq_leg, fig.width = 14, fig.height = 12, echo = FALSE}
 # for each individual
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
-duration_seq <- dt_duration[Subcomponent == "Legato", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
+duration_seq_leg <- dt_duration[Subcomponent == "Legato", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
 
-p_duration_seq_leg <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+p_duration_seq_leg <- ggplot(data = duration_seq_leg, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
   geom_line() +
   geom_point() +
   facet_grid(SubNr ~ .) +
@@ -203,7 +225,7 @@ p_duration_dis_leg
 #### Staccato
 ```{r duration_dis_sta, fig.width = 12, echo = FALSE}
 p_duration_dis_sta <- ggplot(dt_duration[Subcomponent == "Staccato"], aes(x = normDu)) +
-  geom_histogram(binwidt = .1, alpha = .5, position="identity") +
+  geom_histogram(binwidth = .1, alpha = .5, position="identity") +
   facet_grid(TrialNr ~ SubNr) +
   labs(x = "Normalised Duration", y = "Count", subtitle = "Duration: Performing-Articulation(Staccato)")
 p_duration_dis_sta
