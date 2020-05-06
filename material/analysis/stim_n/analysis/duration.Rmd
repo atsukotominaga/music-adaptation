@@ -141,7 +141,7 @@ print(excluded_duration)
 # Duration Variability
 ```{r cv, echo = FALSE}
 # for each participant
-cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
+cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
 print(cv)
 ```
 

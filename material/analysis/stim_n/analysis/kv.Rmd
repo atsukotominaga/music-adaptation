@@ -21,7 +21,7 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-dt_kv <- fread("./preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_kv <- fread("../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
 dt_kv$SubNr <- as.factor(dt_kv$SubNr)
