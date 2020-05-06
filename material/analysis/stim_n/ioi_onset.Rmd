@@ -1,12 +1,12 @@
 ---
-title: 'Analysis for Non-Expressive performances (ONSET)'
+title: 'IOI-Onset Analysis for Non-Expressive performances'
 output:
   html_notebook: default
 editor_options: 
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance from teaching-v2.0 (onsets).
+Description: This is a rough overview of non-expressive performance (IOI-Onset) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -150,4 +150,8 @@ print(cv_all)
 
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
+```
+
+```{r export, include = FALSE}
+fwrite(excluded_cv, "./onset_valid.csv")
 ```

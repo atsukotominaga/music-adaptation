@@ -1,12 +1,12 @@
 ---
-title: 'Analysis for Non-Expressive performances (DURATION)'
+title: 'Duration - Analysis for Non-Expressive performances'
 output:
   html_notebook: default
 editor_options: 
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance from teaching-v2.0 (duration).
+Description: This is a rough overview of non-expressive performance (duration) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -105,8 +105,6 @@ p_duration
 # for each individual
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
 duration_seq <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
-# save data.table for comparison with stim_a
-fwrite(duration_seq, file = "./seq.csv")
 
 p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr)) +
   geom_line() +
@@ -164,3 +162,6 @@ excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
 
+```{r export, include = FALSE}
+fwrite(excluded_cv, "./duration_valid.csv")
+```
