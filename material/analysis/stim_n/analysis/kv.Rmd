@@ -5,7 +5,7 @@ output:
 editor_options: 
   chunk_output_type: inline
 ---
-_
+
 Description: This is a rough overview of non-expressive performance (KV) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
@@ -106,13 +106,17 @@ kv_all <- kv[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(kv_all)
 ```
 
-### Exclude outlier participants
+### Valid performances (exclude outliers)
 ```{r outlier, echo = FALSE}
 excluded_kv <- kv[Mean < kv_all$Mean+3*kv_all$SD & Mean > kv_all$Mean-3*kv_all$SD]
 print(excluded_kv)
 ```
+- The number of excluded performance: `r kv_all$N-nrow(excluded_kv)`
 
 # KV Variability
+## 1. All - individual
+- Average CV for each participant
+
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_kv[EighthNote == "Yes", .(N = length(Velocity), CV = sd(Velocity)/mean(Velocity)) , by = .(SubNr, TrialNr)]
@@ -126,15 +130,21 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
-### Exclude outlier performances
-```{r cv_outlier, echo = FALSE}
+## 2. All - group
+- Average CV
+
+```{r cv_all, echo = FALSE}
 # for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
+```
 
+### Valid performances (exclude outliers)
+```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
+- The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
 
 ```{r export, include = FALSE}
 fwrite(excluded_cv, "./kv_valid.csv")

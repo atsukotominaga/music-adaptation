@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance (duration) from teaching-v2.0.
+Description: This is a rough overview of non-expressive performance (Duration) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -79,7 +79,7 @@ for (phrase in 1:length(ls_irrelevant)){
 
 # Duration
 ## 1. All - individual
-- Average normDu for each participant.
+- Average normDu for each participant
 
 ```{r duration, echo = FALSE}
 # for each individual
@@ -125,6 +125,7 @@ p_duration_dis
 ```
 
 ## 2. All - group
+- Average normDu
 
 ```{r duration_all, echo = FALSE}
 # group mean
@@ -132,13 +133,17 @@ duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))
 print(duration_all)
 ```
 
-### Exclude outlier participants
+### Valid performances (exclude outliers)
 ```{r outlier, echo = FALSE}
 excluded_duration <- duration[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
 print(excluded_duration)
 ```
+- The number of excluded performance: `r duration_all$N-nrow(excluded_duration)`
 
 # Duration Variability
+## 1. All - individual
+- Average CV for each participant
+
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
@@ -152,15 +157,21 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
-### Exclude outlier performacnes
-```{r cv_outlier, echo = FALSE}
+## 2. All - group
+- Average CV
+
+```{r cv_all, echo = FALSE}
 # for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
+```
 
+### Valid performances (exclude outliers)
+```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
+- The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
 
 ```{r export, include = FALSE}
 fwrite(excluded_cv, "./duration_valid.csv")

@@ -61,7 +61,7 @@ for (phrase in 1:length(ls_irrelevant)){
 
 # IOI
 ## 1. All - individual
-- Average normIOIs for each participant.
+- Average normIOIs for each participant
 
 ```{r ioi, echo = FALSE}
 # For each individual
@@ -122,13 +122,17 @@ ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-### Exclude outlier participants
+### Valid performances (exclude outliers)
 ```{r outlier, echo = FALSE}
 excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
+- The number of excluded performance: `r ioi_all$N-nrow(excluded_ioi)`
 
 # IOI Variability
+## 1. All - individual
+- Average CV for each participant
+
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
@@ -141,16 +145,21 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
 p_cv_box
 ```
+## 2. All - group
+- Average CV
 
-### Exclude outlier performances
-```{r cv_outlier, echo = FALSE}
+```{r cv_all, echo = FALSE}
 # for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
+```
 
+### Valid performances (exclude outliers)
+```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
+- The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
 
 ```{r export, include = FALSE}
 fwrite(excluded_cv, "./onset_valid.csv")
