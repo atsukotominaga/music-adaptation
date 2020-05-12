@@ -1,12 +1,12 @@
 ---
-title: 'IOI-Onset Analysis for Non-Expressive performances'
+title: 'IOI-Offset Analysis for Non-Expressive performances'
 output:
   html_notebook: default
 editor_options: 
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance (IOI-Onset) from teaching-v2.0.
+Description: This is a rough overview of non-expressive performance (IOI-offset) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -21,7 +21,7 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-dt_ioi <- fread("../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_ioi <- fread("./preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
 dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
@@ -145,6 +145,7 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
 p_cv_box
 ```
+
 ## 2. All - group
 - Average CV
 
@@ -162,5 +163,5 @@ print(excluded_cv)
 - The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
 
 ```{r export, include = FALSE}
-fwrite(excluded_cv, "./onset_valid.csv")
+fwrite(excluded_cv, "./offset_valid.csv")
 ```
