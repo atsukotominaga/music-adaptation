@@ -14,27 +14,35 @@ theme_set(theme_classic())
 theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
 ## function
 source("./function.R")
+# set seed
+set.seed(124)
+
+# # read csv/txt
+# dt_onset <- fread("../analysis/stim_n/preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
+# dt_offset <- fread("../analysis/stim_n/preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+# #onset_valid <- fread("../analysis/stim_n/onset_valid.csv", header = T, sep = ",", dec = ".")
+# #offset_valid <- fread("../analysis/stim_n/offset_valid.csv", header = T, sep = ",", dec = ".")
+# duration_valid <- fread("../analysis/stim_n/duration_valid.csv", header = T, sep = ",", dec = ".")
+# kv_valid <- fread("../analysis/stim_n/kv_valid.csv", header = T, sep = ",", dec = ".")
+# dt_ideal <- fread("./ideal.txt", header = F)
+# 
+# # duration and kv
+# valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubNr", "TrialNr")])
+# valid_du_kv$Duplicated <- duplicated(valid_du_kv)
+# 
+# # valid performances
+# valid <- valid_du_kv[Duplicated == TRUE]
+# 
+# ### create 6 instances! ###
+# valid$Sample <- sample(c(1:31), replace = FALSE)
+# print(valid)
+# fwrite(valid, "./valid.txt")
 
 # read csv/txt
 dt_onset <- fread("../analysis/stim_n/preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
 dt_offset <- fread("../analysis/stim_n/preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
-#onset_valid <- fread("../analysis/stim_n/onset_valid.csv", header = T, sep = ",", dec = ".")
-#offset_valid <- fread("../analysis/stim_n/offset_valid.csv", header = T, sep = ",", dec = ".")
-duration_valid <- fread("../analysis/stim_n/duration_valid.csv", header = T, sep = ",", dec = ".")
-kv_valid <- fread("../analysis/stim_n/kv_valid.csv", header = T, sep = ",", dec = ".")
 dt_ideal <- fread("./ideal.txt", header = F)
-
-# duration and kv
-valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubNr", "TrialNr")])
-valid_du_kv$Duplicated <- duplicated(valid_du_kv)
-
-# valid performances
-valid <- valid_du_kv[Duplicated == TRUE]
-
-### create 6 instances! ###
-valid$Sample <- sample(c(1:31), replace = FALSE)
-print(valid)
-fwrite(valid, "./valid.txt")
+valid <- fread("./valid.txt", header = T)
 
 # 1. average IOIs
 dt_ioi_instance  <- data.table()
@@ -117,8 +125,35 @@ dt_playback_onset$TimeStamp <- round(dt_playback_onset$TimeStamp*300)
 # offsets
 dt_playback_offset <- dt_ioi_instance[, c("Instance", "RowNr")]
 dt_playback_offset$Key_OnOff <- 0
+
+# replace each normDu with a random value from norm(mean(normDu), sd(normDu))
+# 8th or quater notes
+quater <- list(c(27:28), c(33:35), 52, 57, c(66:72))
+dt_du_instance$EighthNote <- "Yes"
+for (phrase in 1:length(quater)){
+  for (note in 1:length(quater[[phrase]])){
+    dt_du_instance[RowNr == quater[[phrase]][note]]$EighthNote <- "No"
+  }
+}
+
+dt_du_instance$NewDu <- 0
+for (i in 1:6){
+  Mean_4 <- dt_du_instance[Instance == i & EighthNote == "No", mean(Mean)]
+  Mean_8 <- dt_du_instance[Instance == i & EighthNote == "Yes", mean(Mean)]
+  SD_4 <- dt_du_instance[Instance == i & EighthNote == "No", sd(Mean)]
+  SD_8 <- dt_du_instance[Instance == i & EighthNote == "Yes", sd(Mean)]
+  
+  for (m in 1:nrow(dt_du_instance[Instance == i])){
+    if (dt_du_instance[Instance == i]$EighthNote[m] == "No"){
+      dt_du_instance[Instance == i]$NewDu[m] <- abs(rnorm(1, mean = Mean_4, sd = SD_4))
+    } else if (dt_du_instance[Instance == i]$EighthNote[m] == "Yes"){
+      dt_du_instance[Instance == i]$NewDu[m] <- abs(rnorm(1, mean = Mean_8, sd = SD_8))
+    }
+  }
+}
+
 # Tempo 100 bpm (IOI - 300ms (8th notes))
-dt_playback_offset$TimeStamp <- round(dt_playback_onset$TimeStamp+dt_du_instance$Mean*300)
+dt_playback_offset$TimeStamp <- round(dt_playback_onset$TimeStamp+dt_du_instance$NewDu*300)
 
 # kv
 dt_playback_onset$Velocity <- round(dt_kv_instance$Mean)
