@@ -109,8 +109,23 @@ p_kv <- ggplot(data = kv, aes(x = SubNr, y = Mean)) +
 p_kv
 ```
 
-#### Sequence plot
+### Sequence plot
 - Right wrap: Subject Number
+
+#### All
+```{r kv_seq, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_kv$TrialNr <- as.factor(dt_kv$TrialNr)
+kv_seq <- dt_kv[Subcomponent != "NA", .(N = length(Velocity), Mean = mean(Velocity)), by = .(SubNr, TrialNr, RowNr)]
+
+p_kv_seq <- ggplot(data = kv_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Velocity", subtitle = "KV: Performing-Dynamics(All)") +
+  scale_x_continuous(breaks=seq(1,66,1)) + scale_y_continuous(breaks=seq(0,2,0.5), limits = c(0, 2))
+p_kv_seq
+```
 
 #### Forte
 ```{r kv_seq_for, fig.width = 14, fig.height = 12, echo = FALSE}
