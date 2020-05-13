@@ -40,4 +40,3 @@ with open("./stim_n/6_instance.txt") as csvfile:
             time.sleep(currentTime-previousTime)
             print(msg.time)
             port.send(msg)
-\
