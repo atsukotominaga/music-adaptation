@@ -160,6 +160,8 @@ p_duration
 ```
 
 ### Sequence plot
+- Right wrap: Subject Number
+
 #### All
 ```{r duration_seq, fig.width = 14, fig.height = 12, echo = FALSE}
 # for each individual
