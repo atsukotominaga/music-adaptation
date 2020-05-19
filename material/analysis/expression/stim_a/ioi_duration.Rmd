@@ -1,5 +1,5 @@
 ---
-title: 'Analysis for Performing-Articulation performances (DURATION)'
+title: 'Duration Analysis for Performing-Articulation performances'
 output:
   html_notebook: default
 editor_options: 
@@ -168,13 +168,6 @@ p_duration
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
 duration_seq <- dt_duration[Subcomponent != "NA", .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr, RowNr)]
 
-duration_seq_stim_n <- fread("../../stim_n/seq.csv", header = T, sep = ",", dec = ".")
-duration_seq_stim_n$SubNr <- factor(duration_seq_stim_n$SubNr)
-duration_seq_stim_n$TrialNr <- factor(duration_seq_stim_n$TrialNr)
-duration_seq_stim_n$TrialNr <- "Practice"
-
-duration_seq <- rbind(duration_seq, duration_seq_stim_n)
-
 p_duration_seq <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
   geom_line() +
   geom_point() +
@@ -214,7 +207,7 @@ p_duration_seq_sta <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group
 p_duration_seq_sta
 ```
 
-#### Distribution plot
+### Distribution plot
 #### Legato
 ```{r duration_dis_leg, fig.width = 12, echo = FALSE}
 p_duration_dis_leg <- ggplot(dt_duration[Subcomponent == "Legato"], aes(x = normDu)) +
@@ -241,19 +234,26 @@ duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))
 print(duration_all)
 ```
 
-### Exclude outlier participants
+### Valid performances (exclude outliers)
 #### Legato
 ```{r outlier_leg, echo = FALSE}
 # for legato
 excluded_duration_leg <- duration[Subcomponent == "Legato" & Mean < duration_all[Subcomponent == "Legato"]$Mean+3*duration_all[Subcomponent == "Legato"]$SD & Mean > duration_all[Subcomponent == "Legato"]$Mean-3*duration_all$SD]
 print(excluded_duration_leg)
 ```
+- The number of excluded performance: `r duration_all[Subcomponent == "Legato"]$N-nrow(excluded_duration_leg)`
 
 #### Staccato
 ```{r outlier_sta, echo = FALSE}
 # for staccato
 excluded_duration_sta <- duration[Subcomponent == "Staccato" & Mean < duration_all[Subcomponent == "Staccato"]$Mean+3*duration_all[Subcomponent == "Staccato"]$SD & Mean > duration_all$Mean-3*duration_all[Subcomponent == "Staccato"]$SD]
 print(excluded_duration_sta)
+```
+- The number of excluded performance: `r duration_all[Subcomponent == "Staccato"]$N-nrow(excluded_duration_sta)`
+
+```{r export, include = FALSE}
+duration_valid <- dt_duration[, .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr)]
+fwrite(duration_valid, "./duration_valid.csv")
 ```
 
 <!-- # Duration Variability -->
