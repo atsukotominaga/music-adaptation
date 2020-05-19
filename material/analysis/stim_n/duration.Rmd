@@ -1,5 +1,5 @@
 ---
-title: 'Duration - Analysis for Non-Expressive performances'
+title: 'Duration Analysis for Non-Expressive performances'
 output:
   html_notebook: default
 editor_options: 
@@ -101,6 +101,8 @@ p_duration
 ```
 
 #### Sequence plot
+- Right wrap: Subject Number
+
 ```{r duration_seq, fig.width = 14, fig.height = 12, echo = FALSE}
 # for each individual
 dt_duration$TrialNr <- as.factor(dt_duration$TrialNr)
@@ -116,6 +118,9 @@ p_duration_seq
 ```
 
 #### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
+
 ```{r duration_dis, fig.width = 12, echo = FALSE}
 p_duration_dis <- ggplot(dt_duration[EighthNote == "Yes"], aes(x = normDu)) +
   geom_histogram(binwidth=.1, alpha=.5, position="identity") +
