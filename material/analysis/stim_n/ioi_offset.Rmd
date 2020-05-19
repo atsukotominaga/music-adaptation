@@ -97,7 +97,7 @@ p_ioi_seq <- ggplot(data = ioi_seq, aes(x = Interval, y = Mean, group = TrialNr)
   geom_point() +
   geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
   facet_grid(SubNr ~ .) +
-  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,66,1))
+  labs(x = "Interval", y = "Normalised IOI") + scale_x_continuous(breaks=seq(1,71,1))
 p_ioi_seq
 ```
 

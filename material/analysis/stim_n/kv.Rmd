@@ -81,7 +81,7 @@ p_kv_seq <- ggplot(data = kv_seq, aes(x = RowNr, y = Mean, group = TrialNr)) +
   geom_line() +
   geom_point() +
   facet_grid(SubNr ~ .) +
-  labs(x = "RowNr", y = "Key Velocity") + scale_x_continuous(breaks=seq(1,66,1))
+  labs(x = "RowNr", y = "Key Velocity") + scale_x_continuous(breaks=seq(1,72,1))
 p_kv_seq
 ```
 
