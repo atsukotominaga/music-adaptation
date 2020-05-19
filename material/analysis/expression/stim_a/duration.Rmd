@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of performing performance (duration) from teaching-v2.0.
+Description: This is a rough overview of performing performance (Duration) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
