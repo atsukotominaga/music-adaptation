@@ -1,5 +1,5 @@
 ---
-title: 'Analysis for Performing-Articulation performances (ONSET)'
+title: 'IOI-Onset Analysis for Performing-Articulation performances'
 output:
   html_notebook: default
 editor_options: 
