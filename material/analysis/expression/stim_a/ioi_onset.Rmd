@@ -1,12 +1,12 @@
 ---
-title: 'Analysis for Non-Expressive performances (ONSET)'
+title: 'Analysis for Performing-Articulation performances (ONSET)'
 output:
   html_notebook: default
 editor_options: 
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance from teaching-v2.0 (onsets).
+Description: This is a rough overview of performing performance (IOI-Onset) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -74,7 +74,7 @@ for (phrase in 1:length(ls_irrelevant)){
 
 # IOI
 ## 1. All - individual
-- Average normIOIs for each participant.
+- Average normIOIs for each participant
 
 ```{r ioi, echo = FALSE}
 # For each individual
@@ -135,13 +135,17 @@ ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-### Exclude outlier participants
+### Valid performances (exclude outliers)
 ```{r outlier, echo = FALSE}
 excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
+- The number of excluded performance: `r ioi_all$N-nrow(excluded_ioi)`
 
 # IOI Variability
+## 1. All - individual
+- Average CV for each participant
+
 ```{r cv, echo = FALSE}
 # for each participant
 cv <- dt_ioi[, .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
@@ -155,12 +159,18 @@ p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
 p_cv_box
 ```
 
-### Exclude outlier performances
-```{r cv_outlier, echo = FALSE}
+## 2. All - group
+- Average CV
+
+```{r cv_all, echo = FALSE}
 # for all
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
+```
 
+### Valid performances (exclude outliers)
+```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
+- The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
