@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of performing performance from teaching-v2.0 (duration).
+Description: This is a rough overview of performing performance (duration) from teaching-v2.0.
 
 ```{r setup, include = FALSE}
 # packages
@@ -159,7 +159,7 @@ p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
 p_duration
 ```
 
-### Sequence plot
+#### Sequence plot
 - Right wrap: Subject Number
 
 #### All
@@ -207,7 +207,10 @@ p_duration_seq_sta <- ggplot(data = duration_seq, aes(x = RowNr, y = Mean, group
 p_duration_seq_sta
 ```
 
-### Distribution plot
+#### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
+
 #### Legato
 ```{r duration_dis_leg, fig.width = 12, echo = FALSE}
 p_duration_dis_leg <- ggplot(dt_duration[Subcomponent == "Legato"], aes(x = normDu)) +
