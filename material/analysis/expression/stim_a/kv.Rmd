@@ -1,0 +1,233 @@
+---
+title: 'KV Analysis for Performing-Articulation performances'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a rough overview of performing performance (KV) from teaching-v2.0.
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+# onset
+dt_kv <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+dt_error_on <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+
+# SubNr as a factor
+dt_kv$SubNr <- as.factor(dt_kv$SubNr)
+
+# assign RowNr
+dt_kv$RowNr <- rep(1:72, nrow(dt_kv)/72)
+
+# include only articulation
+dt_kv <- dt_kv[Condition == "performing" & Skill == "articulation"]
+
+# remove performances which contain NA
+dt_kv$Error <- 0
+for (error in 1:nrow(dt_error_on)){
+  dt_kv[SubNr == dt_error_on[error]$SubNr & BlockNr == dt_error_on[error]$BlockNr & TrialNr == dt_error_on[error]$TrialNr]$Error <- 1
+}
+dt_kv_ori <- dt_kv # save original data
+dt_kv <- dt_kv_ori[Error == 0]
+```
+
+```{r Velocitys, include = FALSE}
+# # convert bpm to ms
+# dt_kv[Tempo == 120]$Tempo <- 250
+# dt_kv[Tempo == 110]$Tempo <- 273
+# dt_kv[Tempo == 100]$Tempo <- 300
+
+# define subcomponents
+# for intervals
+ls_legato <- list(c(1:4), c(9:16), c(21:24), c(40:46))
+ls_staccato <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
+ls_forte <- list(c(1:4), c(9:16), c(21:24), c(40:46))
+ls_piano <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
+
+# for each note (duration/velocity)
+ls_legato2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
+ls_staccato2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
+ls_forte2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
+ls_piano2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
+
+# define Component Change (LtoS, FtoP)
+change_1 <- c(5, 17, 47)
+# define Component Change (StoL, PtoF)
+change_2 <- c(8, 20, 39)
+
+# assign subcomponents
+dt_kv$Subcomponent <- "NA"
+
+# for legato
+for (phrase in 1:length(ls_legato2)){
+  for (note in 1:length(ls_legato2[[phrase]])){
+    dt_kv[RowNr == ls_legato2[[phrase]][note]]$Subcomponent <- "Legato"
+  }
+}
+
+# for staccato
+for (phrase in 1:length(ls_staccato2)){
+  for (note in 1:length(ls_staccato2[[phrase]])){
+    dt_kv[RowNr == ls_staccato2[[phrase]][note]]$Subcomponent <- "Staccato"
+  }
+}
+```
+
+# KV
+## 1. All - individual
+- Average KV for each participant.
+
+```{r kv, echo = FALSE}
+# For each individual
+kv <- dt_kv[Subcomponent == "Legato" | Subcomponent == "Staccato", .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Subcomponent)]
+print(kv)
+```
+
+### Plot
+#### Bar chart
+- Error bars show SD of the mean
+
+```{r kv_bar,  echo = FALSE}
+p_kv <- ggplot(data = kv, aes(x = SubNr, y = Mean)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
+                width = .2, position = position_dodge(.9)) +
+  facet_grid(Subcomponent ~ .) +
+  labs(y = "Key Velocity", subtitle = "KV: Performing-Articulation")
+p_kv
+```
+
+#### Sequence plot
+- Right wrap: Subject Number
+
+#### All
+```{r kv_seq, fig.width = 14, fig.height = 12, echo = FALSE}
+# for each individual
+dt_kv$TrialNr <- as.factor(dt_kv$TrialNr)
+kv_seq <- dt_kv[Subcomponent != "NA", .(N = length(Velocity), Mean = mean(Velocity)), .(SubNr, TrialNr, RowNr)]
+
+p_kv_seq <- ggplot(data = kv_seq, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Velocity", subtitle = "KV: Performing-Articulation(All)") +
+  scale_x_continuous(breaks=seq(1,72,1))
+p_kv_seq
+```
+
+#### Legato
+```{r kv_seq_for, fig.width = 14, fig.height = 12, echo = FALSE}
+# For each individual
+dt_kv$TrialNr <- as.factor(dt_kv$TrialNr)
+kv_seq_for <- dt_kv[Subcomponent == "Legato", .(N = length(Velocity), Mean = mean(Velocity)), by = .(SubNr, TrialNr, RowNr)]
+
+p_kv_seq_for <- ggplot(data = kv_seq_for, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Key Velocity") + scale_x_continuous(breaks=seq(1,72,1))
+p_kv_seq_for
+```
+
+#### Staccato
+```{r kv_seq_pia, fig.width = 14, fig.height = 12, echo = FALSE}
+# For each individual
+dt_kv$TrialNr <- as.factor(dt_kv$TrialNr)
+kv_seq_pia <- dt_kv[Subcomponent == "Staccato", .(N = length(Velocity), Mean = mean(Velocity)), by = .(SubNr, TrialNr, RowNr)]
+
+p_kv_seq_pia <- ggplot(data = kv_seq_pia, aes(x = RowNr, y = Mean, group = TrialNr, colour = TrialNr)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(SubNr ~ .) +
+  labs(x = "RowNr", y = "Key Velocity") + scale_x_continuous(breaks=seq(1,72,1))
+p_kv_seq_pia
+```
+
+#### Distribution plot
+- Right wrap: Trial Number
+- Upper wrap: Subject Number
+
+#### Legato
+```{r kv_dis_for, fig.width = 14, fig.height = 8, echo = FALSE}
+p_kv_dis_for <- ggplot(dt_kv[Subcomponent == "Legato"], aes(x = Velocity)) +
+  geom_histogram(binwidth = 2, alpha = .5, position = "identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Key Velocity", y = "Count", subtitle = "KV: Performing-Articulation(Legato)")
+p_kv_dis_for
+```
+
+#### Staccato
+```{r kv_dis_pia, fig.width = 14, fig.height = 8, echo = FALSE}
+p_kv_dis_pia <- ggplot(dt_kv[Subcomponent == "Staccato"], aes(x = Velocity)) +
+  geom_histogram(binwidth = 2, alpha = .5, position = "identity") +
+  facet_grid(TrialNr ~ SubNr) +
+  labs(x = "Key Velocity", y = "Count", subtitle = "KV: Performing-Articulation(Staccato)")
+p_kv_dis_pia
+```
+
+## 2. All - group
+- Average Velocity
+
+```{r kv_all, echo = FALSE}
+# Group mean
+kv_all <- kv[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean)), by = .(Subcomponent)]
+print(kv_all)
+```
+
+### Valid performances (exclude outliers)
+#### Legato
+```{r outlier_leg, echo = FALSE}
+# for legato
+excluded_kv_leg <- kv[Subcomponent == "Legato" & Mean < kv_all[Subcomponent == "Legato"]$Mean+3*kv_all[Subcomponent == "Legato"]$SD & Mean > kv_all[Subcomponent == "Legato"]$Mean-3*kv_all$SD]
+print(excluded_kv_leg)
+```
+- The number of excluded performance: `r kv_all[Subcomponent == "Legato"]$N-nrow(excluded_kv_leg)`
+
+#### Staccato
+```{r outlier_sta, echo = FALSE}
+# for staccato
+excluded_kv_sta <- kv[Subcomponent == "Staccato" & Mean < kv_all[Subcomponent == "Staccato"]$Mean+3*kv_all[Subcomponent == "Staccato"]$SD & Mean > kv_all[Subcomponent == "Staccato"]$Mean-3*kv_all$SD]
+print(excluded_kv_sta)
+```
+- The number of excluded performance: `r kv_all[Subcomponent == "Staccato"]$N-nrow(excluded_kv_sta)`
+
+<!-- ```{r export, include = FALSE} -->
+<!-- kv_valid <- dt_kv[, .(N = length(Velocity), Mean = mean(Velocity)), .(SubNr, TrialNr)] -->
+<!-- fwrite(kv_valid, "./kv_valid.csv") -->
+<!-- ``` -->
+
+<!-- # KV Variability -->
+<!-- ```{r cv, echo = FALSE} -->
+<!-- # for each participant -->
+<!-- cv <- dt_kv[EighthNote == "Yes", .(N = length(Velocity), CV = sd(Velocity)/mean(Velocity)) , by = .(SubNr, TrialNr)] -->
+<!-- cv -->
+<!-- ``` -->
+
+<!-- ```{r cv_box, echo = FALSE} -->
+<!-- p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) + -->
+<!--   geom_boxplot() + -->
+<!--   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) -->
+<!-- p_cv_box -->
+<!-- ``` -->
+
+<!-- ### Exclude outlier performances -->
+<!-- ```{r cv_outlier, echo = FALSE} -->
+<!-- # for all -->
+<!-- cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))] -->
+<!-- print(cv_all) -->
+
+<!-- excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD] -->
+<!-- print(excluded_cv) -->
+<!-- ``` -->
