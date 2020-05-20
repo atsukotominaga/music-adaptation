@@ -5,15 +5,13 @@
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
-# plot
-if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
-# setup
-## ggplots
-theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
-## function
+# function
 source("./function.R")
+
+# create a folder to store stimuli
+foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
+dir.create(foldername)
 
 # read csv/txt
 dt_onset <- fread("../analysis/stim_n/preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
@@ -31,15 +29,15 @@ valid_du_kv$Duplicated <- duplicated(valid_du_kv)
 # valid performances
 valid <- valid_du_kv[Duplicated == TRUE]
 
-### create 6 instances! ###
+### create 8 instances! ###
 valid$Sample <- sample(c(1:31), replace = FALSE)
 print(valid)
-fwrite(valid, "./valid.txt")
+fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 
 # 1. average IOIs
 dt_ioi_instance  <- data.table()
 counter = 0
-for (i in 1:6){
+for (i in 1:8){
   stim <- combining_onset(valid, i)
   
   # calculate normIOI
@@ -56,13 +54,16 @@ for (i in 1:6){
   dt_ioi_instance <- rbind(dt_ioi_instance, stim_average)
   
   # next instance
-  counter = counter+4
+  counter = counter+2
   }
+
+# export dt_ioi_instance
+fwrite(dt_ioi_instance, paste(foldername, "dt_ioi_instance.txt", sep = ""))
 
 # 2. average duration
 dt_du_instance <- data.table()
 counter = 0
-for (i in c(1:6)){
+for (i in c(1:8)){
   stim <- combining_onset(valid, i) #onset
   stim_offset <- combining_offset(valid, i)
   
@@ -78,13 +79,16 @@ for (i in c(1:6)){
   dt_du_instance <- rbind(dt_du_instance, stim_average)
   
   # next instance
-  counter = counter+4
+  counter = counter+2
 }
+
+# export dt_du_instance
+fwrite(dt_du_instance, paste(foldername, "dt_du_instance.txt", sep = ""))
 
 # 3. average kv
 dt_kv_instance <- data.table()
 counter = 0
-for (i in c(1:6)){
+for (i in c(1:8)){
   stim <- combining_onset(valid, i)
   
   # average KV
@@ -95,8 +99,11 @@ for (i in c(1:6)){
   dt_kv_instance <- rbind(dt_kv_instance, stim_average)
   
   # next instance
-  counter = counter+4
+  counter = counter+2
 }
+
+# export dt_kv_instance
+fwrite(dt_kv_instance, paste(foldername, "dt_kv_instance.txt", sep = ""))
 
 ### create playback data! ###
 # 1. determine onsets/offsets
@@ -125,7 +132,7 @@ dt_playback_onset$Velocity <- round(dt_kv_instance$Mean)
 dt_playback_offset$Velocity <- round(dt_kv_instance$Mean)
 
 # create txt for each instance
-for (i in 1:6){
+for (i in 1:8){
   onset <- dt_playback_onset[Instance == i]
   offset <- dt_playback_offset[Instance == i]
   onset$Pitch <- dt_ideal$V1
@@ -135,6 +142,6 @@ for (i in 1:6){
   instance <- instance[order(TimeStamp)]
   
   # export txt
-  filename = paste("./", i, "_instance.txt", sep = "")
+  filename = paste(foldername, i, "_instance.txt", sep = "")
   fwrite(instance, filename)
 }
