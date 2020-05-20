@@ -31,7 +31,7 @@ dt_kv$SubNr <- as.factor(dt_kv$SubNr)
 # assign RowNr
 dt_kv$RowNr <- rep(1:72, nrow(dt_kv)/72)
 
-# include only articulation
+# include only dynamics
 dt_kv <- dt_kv[Condition == "performing" & Skill == "dynamics"]
 
 # remove performances which contain NA
