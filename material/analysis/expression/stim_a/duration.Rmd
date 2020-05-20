@@ -137,7 +137,7 @@ for (phrase in 1:length(ls_staccato2)){
 
 # Duration
 ## 1. All - individual
-- Average normDu for each participant.
+- Average normDu for each participant
 
 ```{r duration, echo = FALSE}
 # for each individual
@@ -230,6 +230,7 @@ p_duration_dis_sta
 ```
 
 ## 2. All - group
+- Average normDu
 
 ```{r duration_all, echo = FALSE}
 # group mean
