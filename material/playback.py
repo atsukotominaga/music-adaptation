@@ -12,7 +12,7 @@ import numpy as np
 port = mido.open_output('to Max 1')
 
 #　%% playback
-with open("./stim_n/6_instance.txt") as csvfile:
+with open("./stim_d/1589959883-200520/3_instance.txt") as csvfile:
     current = csv.reader(csvfile, delimiter = ",")
     next(current) # skip first row
     counter = 0
@@ -40,3 +40,6 @@ with open("./stim_n/6_instance.txt") as csvfile:
             time.sleep(currentTime-previousTime)
             print(msg.time)
             port.send(msg)
+
+
+# %%
