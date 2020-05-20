@@ -30,6 +30,7 @@ valid_du_kv$Duplicated <- duplicated(valid_du_kv)
 valid <- valid_du_kv[Duplicated == TRUE]
 
 ### create 8 instances! ###
+# random sampling
 valid$Sample <- sample(c(1:31), replace = FALSE)
 print(valid)
 fwrite(valid, paste(foldername, "valid.txt", sep = ""))

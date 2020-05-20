@@ -5,49 +5,40 @@
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
-# plot
-if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
-# setup
-## ggplots
-theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
-## function
+# function
 source("./function.R")
-# set seed
-set.seed(124)
 
-# # read csv/txt
-# dt_onset <- fread("../analysis/stim_n/preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
-# dt_offset <- fread("../analysis/stim_n/preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
-# #onset_valid <- fread("../analysis/stim_n/onset_valid.csv", header = T, sep = ",", dec = ".")
-# #offset_valid <- fread("../analysis/stim_n/offset_valid.csv", header = T, sep = ",", dec = ".")
-# duration_valid <- fread("../analysis/stim_n/duration_valid.csv", header = T, sep = ",", dec = ".")
-# kv_valid <- fread("../analysis/stim_n/kv_valid.csv", header = T, sep = ",", dec = ".")
-# dt_ideal <- fread("./ideal.txt", header = F)
-# 
-# # duration and kv
-# valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubNr", "TrialNr")])
-# valid_du_kv$Duplicated <- duplicated(valid_du_kv)
-# 
-# # valid performances
-# valid <- valid_du_kv[Duplicated == TRUE]
-# 
-# ### create 6 instances! ###
-# valid$Sample <- sample(c(1:31), replace = FALSE)
-# print(valid)
-# fwrite(valid, "./valid.txt")
+# create a folder to store stimuli
+foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
+dir.create(foldername)
 
 # read csv/txt
 dt_onset <- fread("../analysis/stim_n/preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
 dt_offset <- fread("../analysis/stim_n/preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+#onset_valid <- fread("../analysis/stim_n/onset_valid.csv", header = T, sep = ",", dec = ".")
+#offset_valid <- fread("../analysis/stim_n/offset_valid.csv", header = T, sep = ",", dec = ".")
+duration_valid <- fread("../analysis/stim_n/duration_valid.csv", header = T, sep = ",", dec = ".")
+kv_valid <- fread("../analysis/stim_n/kv_valid.csv", header = T, sep = ",", dec = ".")
 dt_ideal <- fread("./ideal.txt", header = F)
-valid <- fread("./valid.txt", header = T)
+
+# duration and kv
+valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubNr", "TrialNr")])
+valid_du_kv$Duplicated <- duplicated(valid_du_kv)
+
+# valid performances
+valid <- valid_du_kv[Duplicated == TRUE]
+
+### create 8 instances! ###
+# random sampling
+valid$Sample <- sample(c(1:31), replace = FALSE)
+print(valid)
+fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 
 # 1. average IOIs
 dt_ioi_instance  <- data.table()
 counter = 0
-for (i in 1:6){
+for (i in 1:8){
   stim <- combining_onset(valid, i)
   
   # calculate normIOI
@@ -64,35 +55,56 @@ for (i in 1:6){
   dt_ioi_instance <- rbind(dt_ioi_instance, stim_average)
   
   # next instance
-  counter = counter+4
+  counter = counter+2
   }
 
-# 2. average duration
+# export dt_ioi_instance
+fwrite(dt_ioi_instance, paste(foldername, "dt_ioi_instance.txt", sep = ""))
+
+# 2. duration (no avaraging)
+# only use SubNr 20 and 21
+valid_duration <- rbind(valid[SubNr == 20 | SubNr == 21], valid[SubNr == 20 | SubNr == 21]) # 8 instances (2 repetitions)
+
+# random sampling for valid_duration
+valid_duration$SampleDuration <- sample(c(1:8), replace = FALSE)
 dt_du_instance <- data.table()
-counter = 0
-for (i in c(1:6)){
-  stim <- combining_onset(valid, i) #onset
-  stim_offset <- combining_offset(valid, i)
+
+#counter = 0
+for (i in c(1:8)){
+  subnr <- valid_duration[SampleDuration == i]$SubNr
+  trialnr <- valid_duration[SampleDuration == i]$TrialNr
+  stim <- dt_onset[SubNr == subnr & TrialNr == trialnr]
+  stim_offset <- dt_offset[SubNr == subnr & TrialNr == trialnr]
+  stim$RowNr <- rep(c(1:72))
+  stim_offset$RowNr <- rep(c(1:72))
+  
+  # tempo labels
+  stim[Tempo == 120]$Tempo <- 250
+  stim[Tempo == 110]$Tempo <- 273
+  stim[Tempo == 100]$Tempo <- 300
   
   # calculate Duration
   stim$Duration <- stim_offset$TimeStamp - stim$TimeStamp
   stim$normDu <- stim$Duration/stim$Tempo
   
-  # average normDu
+  # average normDu (just use the same format for dt_ioi_instance, dt_kv_instance, no averaging)
   stim_average <- stim[, .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(RowNr)]
   # label instance no
   stim_average$Instance <- as.character(i)
   # add to dt_du_instance
   dt_du_instance <- rbind(dt_du_instance, stim_average)
   
-  # next instance
-  counter = counter+4
+  # # next instance
+  # counter = counter+2
 }
+
+# export dt_du_instance
+fwrite(dt_du_instance, paste(foldername, "dt_du_instance.txt", sep = ""))
 
 # 3. average kv
 dt_kv_instance <- data.table()
 counter = 0
-for (i in c(1:6)){
+for (i in c(1:8)){
   stim <- combining_onset(valid, i)
   
   # average KV
@@ -103,8 +115,11 @@ for (i in c(1:6)){
   dt_kv_instance <- rbind(dt_kv_instance, stim_average)
   
   # next instance
-  counter = counter+4
+  counter = counter+2
 }
+
+# export dt_kv_instance
+fwrite(dt_kv_instance, paste(foldername, "dt_kv_instance.txt", sep = ""))
 
 ### create playback data! ###
 # 1. determine onsets/offsets
@@ -125,42 +140,15 @@ dt_playback_onset$TimeStamp <- round(dt_playback_onset$TimeStamp*300)
 # offsets
 dt_playback_offset <- dt_ioi_instance[, c("Instance", "RowNr")]
 dt_playback_offset$Key_OnOff <- 0
-
-# replace each normDu with a random value from norm(mean(normDu), sd(normDu))
-# 8th or quater notes
-quater <- list(c(27:28), c(33:35), 52, 57, c(66:72))
-dt_du_instance$EighthNote <- "Yes"
-for (phrase in 1:length(quater)){
-  for (note in 1:length(quater[[phrase]])){
-    dt_du_instance[RowNr == quater[[phrase]][note]]$EighthNote <- "No"
-  }
-}
-
-dt_du_instance$NewDu <- 0
-for (i in 1:6){
-  Mean_4 <- dt_du_instance[Instance == i & EighthNote == "No", mean(Mean)]
-  Mean_8 <- dt_du_instance[Instance == i & EighthNote == "Yes", mean(Mean)]
-  SD_4 <- dt_du_instance[Instance == i & EighthNote == "No", sd(Mean)]
-  SD_8 <- dt_du_instance[Instance == i & EighthNote == "Yes", sd(Mean)]
-  
-  for (m in 1:nrow(dt_du_instance[Instance == i])){
-    if (dt_du_instance[Instance == i]$EighthNote[m] == "No"){
-      dt_du_instance[Instance == i]$NewDu[m] <- abs(rnorm(1, mean = Mean_4, sd = SD_4))
-    } else if (dt_du_instance[Instance == i]$EighthNote[m] == "Yes"){
-      dt_du_instance[Instance == i]$NewDu[m] <- abs(rnorm(1, mean = Mean_8, sd = SD_8))
-    }
-  }
-}
-
 # Tempo 100 bpm (IOI - 300ms (8th notes))
-dt_playback_offset$TimeStamp <- round(dt_playback_onset$TimeStamp+dt_du_instance$NewDu*300)
+dt_playback_offset$TimeStamp <- round(dt_playback_onset$TimeStamp+dt_du_instance$Mean*300)
 
 # kv
 dt_playback_onset$Velocity <- round(dt_kv_instance$Mean)
 dt_playback_offset$Velocity <- round(dt_kv_instance$Mean)
 
 # create txt for each instance
-for (i in 1:6){
+for (i in 1:8){
   onset <- dt_playback_onset[Instance == i]
   offset <- dt_playback_offset[Instance == i]
   onset$Pitch <- dt_ideal$V1
@@ -170,6 +158,6 @@ for (i in 1:6){
   instance <- instance[order(TimeStamp)]
   
   # export txt
-  filename = paste("./", i, "_instance.txt", sep = "")
+  filename = paste(foldername, i, "_instance.txt", sep = "")
   fwrite(instance, filename)
 }
