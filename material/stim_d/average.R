@@ -19,10 +19,10 @@ dt_offset <- fread("../analysis/expression/filtered/data_offset.csv", header = T
 # only for performing/articulation
 dt_onset <- dt_onset[Condition == "performing" & Skill == "dynamics"]
 dt_offset <- dt_offset[Condition == "performing" & Skill == "dynamics"]
-# use normative performance for ioi, kv
+# use normative performance for ioi, duration
 dt_ioi_instance <- fread("../stim_n/20_21/1589957466-200520/dt_ioi_instance.txt", header = T, sep = ",", dec = ".")
 dt_du_instance <- fread("../stim_n/20_21/1589957466-200520/dt_du_instance.txt", header = T, sep = ",", dec = ".")
-# use performing performance for duration
+# use performing performance for kv
 kv_valid <- fread("../analysis/expression/stim_d/kv_valid.csv", header = T, sep = ",", dec = ".")
 dt_ideal <- fread("./ideal.txt", header = F)
 
