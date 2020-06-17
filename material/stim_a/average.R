@@ -17,8 +17,8 @@ dir.create(foldername)
 dt_onset <- fread("../analysis/expression/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
 dt_offset <- fread("../analysis/expression/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
 # only for performing/articulation
-dt_onset <- dt_onset[Condition == "performing" & Skill == "articulation"]
-dt_offset <- dt_offset[Condition == "performing" & Skill == "articulation"]
+dt_onset_du <- dt_onset[Condition == "performing" & Skill == "articulation"]
+dt_offset_du <- dt_offset[Condition == "performing" & Skill == "articulation"]
 # use normative performance for ioi, kv
 dt_ioi_instance <- fread("../stim_n/20_21/1589957466-200520/dt_ioi_instance.txt", header = T, sep = ",", dec = ".")
 dt_kv_instance <- fread("../stim_n/20_21/1589957466-200520/dt_kv_instance.txt", header = T, sep = ",", dec = ".")
@@ -38,8 +38,8 @@ fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 dt_du_instance <- data.table()
 counter = 0
 for (i in c(1:8)){
-  stim <- combining_onset(valid, i) #onset
-  stim_offset <- combining_offset(valid, i)
+  stim <- combining_onset(dt_onset_du, valid, i) #onset
+  stim_offset <- combining_offset(dt_offset_du, valid, i)
   
   # calculate Duration
   stim$Duration <- stim_offset$TimeStamp - stim$TimeStamp

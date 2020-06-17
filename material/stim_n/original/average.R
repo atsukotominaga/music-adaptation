@@ -39,7 +39,7 @@ fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 dt_ioi_instance  <- data.table()
 counter = 0
 for (i in 1:8){
-  stim <- combining_onset(valid, i)
+  stim <- combining_onset(dt_onset, valid, i)
   
   # calculate normIOI
   stim$IOI <- diff(c(0, stim$TimeStamp))# convert bpm to ms
@@ -65,8 +65,8 @@ fwrite(dt_ioi_instance, paste(foldername, "dt_ioi_instance.txt", sep = ""))
 dt_du_instance <- data.table()
 counter = 0
 for (i in c(1:8)){
-  stim <- combining_onset(valid, i) #onset
-  stim_offset <- combining_offset(valid, i)
+  stim <- combining_onset(dt_onset, valid, i) #onset
+  stim_offset <- combining_offset(dt_offset, valid, i)
   
   # calculate Duration
   stim$Duration <- stim_offset$TimeStamp - stim$TimeStamp
@@ -90,7 +90,7 @@ fwrite(dt_du_instance, paste(foldername, "dt_du_instance.txt", sep = ""))
 dt_kv_instance <- data.table()
 counter = 0
 for (i in c(1:8)){
-  stim <- combining_onset(valid, i)
+  stim <- combining_onset(dt_onset, valid, i)
   
   # average KV
   stim_average <- stim[, .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(RowNr)]

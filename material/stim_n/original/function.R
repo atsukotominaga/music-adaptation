@@ -5,7 +5,7 @@ if (!require("data.table")) {install.packages("data.table"); require("data.table
 # valid: information(data.table) about valid performances
 # number: loop number (if outside loop, enter 0)
 
-combining_onset <- function(valid, number){
+combining_onset <- function(dt_onset, valid, number){
   SubNr1 <- valid[Sample == number+counter]$SubNr
   SubNr2 <- valid[Sample == number+1+counter]$SubNr
   SubNr3 <- valid[Sample == number+2+counter]$SubNr
@@ -25,7 +25,7 @@ combining_onset <- function(valid, number){
   return(outcome)
 }
 
-combining_offset <- function(valid, number){
+combining_offset <- function(dt_offset, valid, number){
   SubNr1 <- valid[Sample == number+counter]$SubNr
   SubNr2 <- valid[Sample == number+1+counter]$SubNr
   SubNr3 <- valid[Sample == number+2+counter]$SubNr

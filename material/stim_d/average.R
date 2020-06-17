@@ -16,9 +16,8 @@ dir.create(foldername)
 # read csv/txt
 dt_onset <- fread("../analysis/expression/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
 dt_offset <- fread("../analysis/expression/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
-# only for performing/articulation
-dt_onset <- dt_onset[Condition == "performing" & Skill == "dynamics"]
-dt_offset <- dt_offset[Condition == "performing" & Skill == "dynamics"]
+# only for performing/dynamics
+dt_onset_kv <- dt_onset[Condition == "performing" & Skill == "dynamics"]
 # use normative performance for ioi, duration
 dt_ioi_instance <- fread("../stim_n/20_21/1589957466-200520/dt_ioi_instance.txt", header = T, sep = ",", dec = ".")
 dt_du_instance <- fread("../stim_n/20_21/1589957466-200520/dt_du_instance.txt", header = T, sep = ",", dec = ".")
@@ -38,7 +37,7 @@ fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 dt_kv_instance <- data.table()
 counter = 0
 for (i in c(1:8)){
-  stim <- combining_onset(valid, i)
+  stim <- combining_onset(dt_onset_kv, valid, i)
   
   # average KV
   stim_average <- stim[, .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(RowNr)]
