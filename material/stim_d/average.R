@@ -1,5 +1,5 @@
 # /usr/local/bin/r
-# Average onset, duration, key velocity for normative performance
+# Average key velocity for averaged expressive performance
 # Created: 06/05/2020
 
 # packages
