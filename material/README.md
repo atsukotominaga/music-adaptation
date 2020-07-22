@@ -17,6 +17,8 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ![](stim_d/stim_d.png)
 
 ## Basic idea
+We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration and tone intensity across multiple performance data.
+
 ### Pre-analysis
 We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/analysis).
 
