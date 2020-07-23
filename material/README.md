@@ -54,6 +54,8 @@ For dynamics, we used only onsets to determine velocity profiles of each note.
 ### Ideal performance
 ![](stim_h/stim_m.png)
 
+We will generate 16 instances for each type.
+
 ### stim_h (high)
 Both articulation and dynamics are implemented correctly.
 
