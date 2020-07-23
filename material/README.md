@@ -36,13 +36,13 @@ We got 137 valid performances for articulation.
 
 We got ? valide performances for dynamics.
 
-### Tempo (from IOIs)
+### 1. Tempo (from IOIs)
 First, we created baseline performances for the tempo. Based on the pre-analysis, a few performances were randomly selected from the dataset (random selection without replacement) and interonset intervals (IOIs) were averaged across the selected performances. We repeated this process ? times to generate ? instances.
 
-### Articulation (from durations)
+### 2. Articulation (from durations)
 We followed exactly the same process as the tempo for articulation values.
 
-### Dynamics (from velocity profiles)
+### 3. Dynamics (from velocity profiles)
 We followed exactly the same process as the tempo for velocity values.
 
 ## Generatin stimuli (recordings)
