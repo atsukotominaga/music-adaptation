@@ -48,6 +48,7 @@ We followed exactly the same process as the tempo for velocity values.
 ## Generatin stimuli (recordings)
 Filtered data from [teaching-v2.0](https://osf.io/uemk5/) were used to generate stimuli.
 
+For a tempo, we used only onsets to determine intervals for two adjacent notes.
 For articulation, we used both onsets and offsets of keystrokes to determine durations of each note.
 For dynamics, we used only onsets to determine velocity profiles of each note.
 
