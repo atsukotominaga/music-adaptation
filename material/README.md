@@ -67,3 +67,6 @@ Only dynamics is implemented correctly (articulation missing).
 
 ### stim_l (low)
 None of them is implemented (both articulation and dynamics missing).
+
+## Selecting stimuli
+After we generated the stimuli (in total 64 artificial novies' recordings), we selected 4 of each type.
