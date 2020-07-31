@@ -8,13 +8,13 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
 
 1. No expression (stim_n)
-![](stim_l/stim_n.png)
+![](stimuli/low/stim_n.png)
 
 2. Articulation (stim_a)
-![](stim_a/stim_a.png)
+![](stimuli/art/stim_a.png)
 
 3. Dynamics (stim_d)
-![](stim_d/stim_d.png)
+![](stimuli/dyn/stim_d.png)
 
 ## Basic idea
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances.
@@ -53,7 +53,7 @@ For articulation, we used both onsets and offsets of keystrokes to determine dur
 For dynamics, we used only onsets to determine velocity profiles of each note.
 
 ### Ideal performance
-![](stim_h/stim_m.png)
+![](stimuli/high/stim_m.png)
 
 We will generate 16 instances for each type.
 
