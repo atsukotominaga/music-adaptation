@@ -35,48 +35,44 @@ valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubN
 valid_du_kv$Duplicated <- duplicated(valid_du_kv)
 
 # valid performances
-valid <- valid_du_kv[Duplicated == TRUE]
+original <- valid_du_kv[Duplicated == TRUE]
 
 ### create 16 instances! ###
 # use valid performances twice
-original <- rbind(valid, valid)
+valid <- rbind(original, original)
 # random sampling
 boo = TRUE
 while (boo){
-  original$Sample <- sample(c(1:62), replace = FALSE)
+  valid$Sample <- sample(c(1:62), replace = FALSE)
   # check if each chunk with 3 examples does not contain the same performance
-  original <- original[order(Sample),]
-  original$Checked <- NA
+  valid <- valid[order(Sample),]
+  valid$Checked <- NA
   counter = 0
-  for (i in 1:floor(nrow(original)/3)){
-    example1 <- paste(original$SubNr[i+counter], "-", original$TrialNr[i], sep = "")
-    example2 <- paste(original$SubNr[i+counter+1], "-", original$TrialNr[i+2], sep = "")
-    example3 <- paste(original$SubNr[i+counter+2], "-", original$TrialNr[i+2], sep = "")
+  for (i in 1:floor(nrow(valid)/3)){
+    example1 <- paste(valid$SubNr[i+counter], "-", valid$TrialNr[i], sep = "")
+    example2 <- paste(valid$SubNr[i+counter+1], "-", valid$TrialNr[i+2], sep = "")
+    example3 <- paste(valid$SubNr[i+counter+2], "-", valid$TrialNr[i+2], sep = "")
     # if the same performance was used twice, break the loop and restart
     if (anyDuplicated(c(example1, example2, example3)) != 0){
       boo = TRUE
       break
     } else {
-      original$Checked[i+counter] <- "No duplicates"
-      original$Checked[i+counter+1] <- "No duplicates"
-      original$Checked[i+counter+2] <- "No duplicates"
+      valid$Checked[i+counter] <- "No duplicates"
+      valid$Checked[i+counter+1] <- "No duplicates"
+      valid$Checked[i+counter+2] <- "No duplicates"
       counter = counter+2
       boo = FALSE
     }
   }
 }
 
-
-
-# random sampling
-valid$Sample <- sample(c(1:31), replace = FALSE)
-print(valid)
+# export randomly sampled data
 fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 
 # 1. average IOIs
 dt_ioi_instance  <- data.table()
 counter = 0
-for (i in 1:8){
+for (i in 1:16){
   stim <- combining_onset(dt_onset, valid, i)
   
   # calculate normIOI
@@ -99,16 +95,18 @@ for (i in 1:8){
 # export dt_ioi_instance
 fwrite(dt_ioi_instance, paste(foldername, "dt_ioi_instance.txt", sep = ""))
 
-# 2. duration (no avaraging)
+# 2. duration (no averaging)
 # only use SubNr 20 and 21
-valid_duration <- rbind(valid[SubNr == 20 | SubNr == 21], valid[SubNr == 20 | SubNr == 21]) # 8 instances (2 repetitions)
+valid_duration <- data.table()
+for (i in 1:4){
+  valid_duration <- rbind(valid_duration, original[SubNr == 20 | SubNr == 21])
+} # 16 instances (4 repetitions)
 
 # random sampling for valid_duration
-valid_duration$SampleDuration <- sample(c(1:8), replace = FALSE)
+valid_duration$SampleDuration <- sample(c(1:16), replace = FALSE)
 dt_du_instance <- data.table()
 
-#counter = 0
-for (i in c(1:8)){
+for (i in c(1:16)){
   subnr <- valid_duration[SampleDuration == i]$SubNr
   trialnr <- valid_duration[SampleDuration == i]$TrialNr
   stim <- dt_onset[SubNr == subnr & TrialNr == trialnr]
@@ -131,9 +129,6 @@ for (i in c(1:8)){
   stim_average$Instance <- as.character(i)
   # add to dt_du_instance
   dt_du_instance <- rbind(dt_du_instance, stim_average)
-  
-  # # next instance
-  # counter = counter+2
 }
 
 # export dt_du_instance
@@ -142,7 +137,7 @@ fwrite(dt_du_instance, paste(foldername, "dt_du_instance.txt", sep = ""))
 # 3. average kv
 dt_kv_instance <- data.table()
 counter = 0
-for (i in c(1:8)){
+for (i in c(1:16)){
   stim <- combining_onset(dt_onset, valid, i)
   
   # average KV
