@@ -3,9 +3,9 @@ We aim to generate artificial novices' performances by using existing data of ou
 
 ## Previous experiment
 
-In the previous study, we created one piece based on Clementi, Sonatina in C major, op. 36 no. 3. In the experiment, participants were asked to play the piece with either articulation (i.e., stim_a) or dynamics (i.e., stim_d). In a practice session before the experiment, participants also perform the piece without expression (i.e., stim_n) in order to check whether they could perform the piece without pitch errors.
+In the previous study, we created one piece based on Clementi, Sonatina in C major, op. 36 no. 3. In the experiment, participants were asked to play the piece with either articulation (stim_a) or dynamics (stim_d). In a practice session before the experiment, participants also performed the piece without expression (stim_n) in order to check whether they could perform the piece without pitch errors.
 
-***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the performing condition. Therefore, selected performances do not have any didactic intention of experts.
+***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
 
 1. No expression (stim_n)
 ![](stim_l/stim_n.png)
@@ -17,16 +17,16 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ![](stim_d/stim_d.png)
 
 ## Basic idea
-We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performance data.
+We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances.
 
 ### Pre-analysis
 We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/analysis).
 
 1. No expression (stim_n) - baseline performance
 
-We found some common pattern in articulation (see [duration.Rmd](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/duration.Rmd) in stim_n) even when participants played the piece without articulation. Therefore, we decided to use only Subject 20 and 21 who did not show such a pattern in articulation (i.e., their performances were neutral (flat) in terms of articulation). We did not conduct any statistical analysis to justify this selection.
+We found some common patterns in articulation (see [duration.Rmd](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/duration.Rmd) in stim_n) even when participants played the piece without articulation. Therefore, we decided to use **only Subject 20 and 21** who did not show such a pattern in articulation (i.e., their performances were neutral (flat) in terms of articulation). We did not conduct any statistical analysis to justify this selection.
 
-In total, there were **31 valid performances** which had all the onsets, offsets and velocity profiles. These performance data were an original dataset of the current stimuli (see [?](?)).
+In total, there are **31 valid performances** which had all the onsets, offsets and velocity profiles.
 
 2. Articulation (stim_a)
 
