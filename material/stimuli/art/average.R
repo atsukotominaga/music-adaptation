@@ -13,23 +13,33 @@ source("./function.R")
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
 dir.create(foldername)
 
+# file location
+# 1. data from stim_n (tempo, dynamics)
+filename_ioi = "../low/1596207520-310720/dt_ioi_instance.txt"
+filename_kv = "../low/1596207520-310720/dt_kv_instance.txt"
+# 2. data from stim_a (articulation)
+filename_onset = "../../analysis/expression/filtered/data_onset.csv"
+filename_offset = "../../analysis/expression/filtered/data_offset.csv"
+filename_valid_du = "../../analysis/expression/stim_a/duration_valid.csv"
+
 # read csv/txt
-dt_onset <- fread("../analysis/expression/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
-dt_offset <- fread("../analysis/expression/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+# 1. use normative performance for ioi, kv
+dt_ioi_instance <- fread(filename_ioi, header = T, sep = ",", dec = ".")
+dt_kv_instance <- fread(filename_kv, header = T, sep = ",", dec = ".")
+# 2. use performing performance for duration
+dt_onset <- fread(filename_onset, header = T, sep = ",", dec = ".")
+dt_offset <- fread(filename_offset, header = T, sep = ",", dec = ".")
 # only for performing/articulation
 dt_onset_du <- dt_onset[Condition == "performing" & Skill == "articulation"]
 dt_offset_du <- dt_offset[Condition == "performing" & Skill == "articulation"]
-# use normative performance for ioi, kv
-dt_ioi_instance <- fread("../stim_n/20_21/1589957466-200520/dt_ioi_instance.txt", header = T, sep = ",", dec = ".")
-dt_kv_instance <- fread("../stim_n/20_21/1589957466-200520/dt_kv_instance.txt", header = T, sep = ",", dec = ".")
-# use performing performance for duration
-duration_valid <- fread("../analysis/expression/stim_a/duration_valid.csv", header = T, sep = ",", dec = ".")
+duration_valid <- fread(filename_valid_du, header = T, sep = ",", dec = ".")
+# ideal
 dt_ideal <- fread("./ideal.txt", header = F)
 
 # valid duration performances
 valid <- duration_valid[, c("SubNr", "TrialNr")]
 
-### create 8 instances! ###
+### create 16 instances! ###
 valid$Sample <- sample(c(1:nrow(valid)), replace = FALSE)
 print(valid)
 fwrite(valid, paste(foldername, "valid.txt", sep = ""))
@@ -37,7 +47,7 @@ fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 # 1. average duration
 dt_du_instance <- data.table()
 counter = 0
-for (i in c(1:8)){
+for (i in c(1:16)){
   stim <- combining_onset(dt_onset_du, valid, i) #onset
   stim_offset <- combining_offset(dt_offset_du, valid, i)
   
