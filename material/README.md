@@ -30,11 +30,11 @@ In total, there are **31 valid performances** which had all the onsets, offsets 
 
 2. Articulation (stim_a)
 
-We got 137 valid performances for articulation.
+We got **137 valid performances** for articulation.
 
 3. Dynamics (stim_d)
 
-We got ? valide performances for dynamics.
+We got **139 valid performances** for dynamics.
 
 ### 1. Tempo (from IOIs)
 First, we created baseline performances for the tempo. Based on the pre-analysis, a few performances were randomly selected from the dataset (random selection without replacement) and interonset intervals (IOIs) were averaged across the selected performances. We repeated this process ? times to generate ? instances.
@@ -57,17 +57,17 @@ For dynamics, we used only onsets to determine velocity profiles of each note.
 
 We will generate 16 instances for each type.
 
-### stim_h (high)
+### high
 Both articulation and dynamics are implemented correctly.
 
-### stim_a (intermediate-articulation)
+### art (intermediate-articulation)
 Only articulation is implemented correctly (dynamics missing).
 
-### stim_d (intermediate-dynamics)
+### dyn (intermediate-dynamics)
 Only dynamics is implemented correctly (articulation missing).
 
-### stim_l (low)
+### low
 None of them is implemented (both articulation and dynamics missing).
 
 ## Selecting stimuli
-After we generated the stimuli (in total 64 artificial novies' recordings), we selected 4 of each type.
+After we generated the stimuli (in total 64 artificial novices' recordings), we selected 4 of each type.
