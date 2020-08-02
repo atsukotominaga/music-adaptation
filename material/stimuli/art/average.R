@@ -77,7 +77,6 @@ dt_playback_onset$Key_OnOff <- 1
 for (i in 1:nrow(dt_playback_onset)){
   if (dt_playback_onset$RowNr[i] == 1){
     dt_playback_onset$TimeStamp[i] <- 0
-    print(i)
   } else {
     dt_playback_onset$TimeStamp[i] <- dt_playback_onset$TimeStamp[i-1]+dt_ioi_instance$Mean[i]
   }
@@ -96,7 +95,7 @@ dt_playback_onset$Velocity <- round(dt_kv_instance$Mean)
 dt_playback_offset$Velocity <- round(dt_kv_instance$Mean)
 
 # create txt for each instance
-for (i in 1:8){
+for (i in 1:16){
   onset <- dt_playback_onset[Instance == i]
   offset <- dt_playback_offset[Instance == i]
   onset$Pitch <- dt_ideal$V1
