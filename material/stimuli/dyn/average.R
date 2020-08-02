@@ -13,22 +13,32 @@ source("./function.R")
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
 dir.create(foldername)
 
+# file location
+# 1. data from stim_n (tempo, articulation)
+filename_ioi = "../low/1596207520-310720/dt_ioi_instance.txt"
+filename_du = "../low/1596207520-310720/dt_du_instance.txt"
+# 2. data from stim_d (dynamics)
+filename_onset = "../../analysis/expression/filtered/data_onset.csv"
+filename_offset = "../../analysis/expression/filtered/data_offset.csv"
+filename_valid_kv = "../../analysis/expression/stim_d/kv_valid.csv"
+
 # read csv/txt
-dt_onset <- fread("../analysis/expression/filtered/data_onset.csv", header = T, sep = ",", dec = ".")
-dt_offset <- fread("../analysis/expression/filtered/data_offset.csv", header = T, sep = ",", dec = ".")
+# 1. use normative performance for ioi, duration
+dt_ioi_instance <- fread(filename_ioi, header = T, sep = ",", dec = ".")
+dt_du_instance <- fread(filename_du, header = T, sep = ",", dec = ".")
+# 2. use performing performance for kv
+kv_valid <- fread(filename_valid_kv, header = T, sep = ",", dec = ".")
+dt_onset <- fread(filename_onset, header = T, sep = ",", dec = ".")
+dt_offset <- fread(filename_offset, header = T, sep = ",", dec = ".")
 # only for performing/dynamics
 dt_onset_kv <- dt_onset[Condition == "performing" & Skill == "dynamics"]
-# use normative performance for ioi, duration
-dt_ioi_instance <- fread("../stim_n/20_21/1589957466-200520/dt_ioi_instance.txt", header = T, sep = ",", dec = ".")
-dt_du_instance <- fread("../stim_n/20_21/1589957466-200520/dt_du_instance.txt", header = T, sep = ",", dec = ".")
-# use performing performance for kv
-kv_valid <- fread("../analysis/expression/stim_d/kv_valid.csv", header = T, sep = ",", dec = ".")
+# ideal
 dt_ideal <- fread("./ideal.txt", header = F)
 
 # valid kv performances
 valid <- kv_valid[, c("SubNr", "TrialNr")]
 
-### create 8 instances! ###
+### create 16 instances! ###
 valid$Sample <- sample(c(1:nrow(valid)), replace = FALSE)
 print(valid)
 fwrite(valid, paste(foldername, "valid.txt", sep = ""))
@@ -36,7 +46,7 @@ fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 # 1. average kv
 dt_kv_instance <- data.table()
 counter = 0
-for (i in c(1:8)){
+for (i in c(1:16)){
   stim <- combining_onset(dt_onset_kv, valid, i)
   
   # average KV
@@ -61,7 +71,6 @@ dt_playback_onset$Key_OnOff <- 1
 for (i in 1:nrow(dt_playback_onset)){
   if (dt_playback_onset$RowNr[i] == 1){
     dt_playback_onset$TimeStamp[i] <- 0
-    print(i)
   } else {
     dt_playback_onset$TimeStamp[i] <- dt_playback_onset$TimeStamp[i-1]+dt_ioi_instance$Mean[i]
   }
@@ -80,7 +89,7 @@ dt_playback_onset$Velocity <- round(dt_kv_instance$Mean)
 dt_playback_offset$Velocity <- round(dt_kv_instance$Mean)
 
 # create txt for each instance
-for (i in 1:8){
+for (i in 1:16){
   onset <- dt_playback_onset[Instance == i]
   offset <- dt_playback_offset[Instance == i]
   onset$Pitch <- dt_ideal$V1

@@ -1,4 +1,4 @@
-# averaging function (create 8 instances - averaging 3 performances)
+# averaging function (create 16 instances - averaging 3 performances)
 # packages
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
