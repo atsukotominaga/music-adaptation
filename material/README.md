@@ -1,7 +1,7 @@
 # Memo
 We aim to generate artificial novices' performances by using existing data of our previous study (GitHub repo: [teaching-v2.0](https://github.com/atsukotominaga/teaching-v2.0)).
 
-## Previous experiment
+# Previous experiment
 
 In the previous study, we created one piece based on Clementi, Sonatina in C major, op. 36 no. 3. In the experiment, participants were asked to play the piece with either articulation (stim_a) or dynamics (stim_d). In a practice session before the experiment, participants also performed the piece without expression (stim_n) in order to check whether they could perform the piece without pitch errors.
 
@@ -16,58 +16,82 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 3. Dynamics (stim_d)
 ![](stimuli/dyn/stim_d.png)
 
-## Basic idea
+# Basic idea
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances.
 
-### Pre-analysis
+## Pre-analysis
 We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/analysis).
 
 1. No expression (stim_n) - baseline performance
+> [Filtered data](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/preprocessor/filtered) were used to generate stimuli.
 
-We found some common patterns in articulation (see [duration.Rmd](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/duration.Rmd) in stim_n) even when participants played the piece without articulation. Therefore, we decided to use **only Subject 20 and 21** who did not show such a pattern in articulation (i.e., their performances were neutral (flat) in terms of articulation). We did not conduct any statistical analysis to justify this selection.
+We got **31 valid performances** which had all the onsets, offsets and velocity profiles.
 
-In total, there are **31 valid performances** which had all the onsets, offsets and velocity profiles.
+We found some common patterns in articulation (see [duration.Rmd](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/duration.Rmd) in stim_n) even when participants played the piece without articulation. Therefore, we decided to use **only Subject 20 and 21** who did not show such a pattern in articulation (i.e., their performances were neutral (flat) in terms of articulation) for generating articulation values. We did not conduct any statistical analysis to justify this selection.
 
-2. Articulation (stim_a)
+2. Articulation (stim_a) - articulation-implemented performance
+
+> [Filtered data](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/expression/filtered) were used to generate stimuli.
 
 We got **137 valid performances** for articulation.
 
-3. Dynamics (stim_d)
+3. Dynamics (stim_d) - dynamics-implemented performance
+
+> [Filtered data](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/expression/filtered) were used to generate stimuli.
 
 We got **139 valid performances** for dynamics.
 
-### 1. Tempo (from IOIs)
-First, we created baseline performances for the tempo. Based on the pre-analysis, a few performances were randomly selected from the dataset (random selection without replacement) and interonset intervals (IOIs) were averaged across the selected performances. We repeated this process ? times to generate ? instances.
+# Generatin stimuli (recordings)
 
-### 2. Articulation (from durations)
-We followed exactly the same process as the tempo for articulation values.
+We want to create 4 different types of recordings:
+1. low: neither articulation nor dynamics implemented
+2. intermediate-articulation: only articulation implemented
+3. intermediate-dynamics: only dynamics implemented
+4. high: both articulation and dynamics implemented
 
-### 3. Dynamics (from velocity profiles)
-We followed exactly the same process as the tempo for velocity values.
+## 1. Low
+Corresponding sheet music: stim_n
 
-## Generatin stimuli (recordings)
-Filtered data from [teaching-v2.0](https://osf.io/uemk5/) were used to generate stimuli.
-
-For a tempo, we used only onsets to determine intervals for two adjacent notes.
-For articulation, we used both onsets and offsets of keystrokes to determine durations of each note.
-For dynamics, we used only onsets to determine velocity profiles of each note.
-
-### Ideal performance
-![](stimuli/high/stim_m.png)
-
-We will generate 16 instances for each type.
-
-### high
-Both articulation and dynamics are implemented correctly.
-
-### art (intermediate-articulation)
-Only articulation is implemented correctly (dynamics missing).
-
-### dyn (intermediate-dynamics)
-Only dynamics is implemented correctly (articulation missing).
-
-### low
 None of them is implemented (both articulation and dynamics missing).
 
-## Selecting stimuli
-After we generated the stimuli (in total 64 artificial novices' recordings), we selected 4 of each type.
+### Tempo (from IOIs)
+First, we created baseline performances for the tempo. Based on the pre-analysis, 3 performances were randomly selected from the dataset (random selection without replacement) and interonset intervals (IOIs) were averaged across the 3 performances. Because of the size of the dataset (i.e., only 31 performances), some performances were used twice.
+
+We confirmed that the identical performance was not selected within each random selection.
+
+### Articulation (from durations)
+We used only Sub20 and 21 for the reason above.
+
+### Dynamics (from velocity profiles)
+We followed exactly the same process as the tempo for velocity values.
+
+## 2/3. Intermediate (articulation/dynamics)
+Corresponding sheet music: stim_a/stim_d
+
+### Tempo
+We used exactly the same timestamps generated for low performances for both intermediate-articulation/dynamics.
+
+### Articulation 
+We followed exactly the same process for articulation values as we did for the tempo in low performances for intermediate-articulation performances.  
+We used exactly the same articulation values generated for low performances for intermediate-dynamics.
+
+### Dynamics
+We used exactly the same velocity values generated for low performances for intermediate-articulation.
+We followed exactly the same process for dynamics values as we did for the tempo in low performances for intermediate-dynamics performances.  
+
+## 4. High
+Corresponding sheet music: stim_m (see below)
+![](stimuli/high/stim_m.png)
+
+Both articulation and dynamics are implemented correctly.
+
+### Tempo
+We used exactly the same timestamps generated for low performances.
+
+### Articulation 
+We used exactly the same articulation values generated for intermediate-articulation performances.
+
+### Dynamics
+We used exactly the same velocity values generated for intermediate-dynamics performances.
+
+## Export as mid files
