@@ -7,7 +7,7 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 # function
-source("./function.R")
+source("../function.R")
 
 # create a folder to store stimuli
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
@@ -33,7 +33,7 @@ dt_offset <- fread(filename_offset, header = T, sep = ",", dec = ".")
 # only for performing/dynamics
 dt_onset_kv <- dt_onset[Condition == "performing" & Skill == "dynamics"]
 # ideal
-dt_ideal <- fread("./ideal.txt", header = F)
+dt_ideal <- fread("../ideal.txt", header = F)
 
 # valid kv performances
 valid <- kv_valid[, c("SubNr", "TrialNr")]

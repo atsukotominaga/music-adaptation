@@ -7,7 +7,7 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 # function
-source("./function.R")
+source("../function.R")
 
 # create a folder to store stimuli
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
@@ -28,7 +28,7 @@ dt_offset <- fread(filename_offset, header = T, sep = ",", dec = ".")
 # offset_valid <- fread(filename_valid_off, header = T, sep = ",", dec = ".")
 duration_valid <- fread(filename_valid_du, header = T, sep = ",", dec = ".")
 kv_valid <- fread(filename_valid_kv, header = T, sep = ",", dec = ".")
-dt_ideal <- fread("./ideal.txt", header = F)
+dt_ideal <- fread("../ideal.txt", header = F)
 
 # duration and kv (note: valid_du means that both onsets and offsets are valid - therefore we only consider valid_du)
 valid_du_kv <- rbind(duration_valid[, c("SubNr", "TrialNr")], kv_valid[, c("SubNr", "TrialNr")])

@@ -7,7 +7,7 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 # function
-source("./function.R")
+source("../function.R")
 
 # create a folder to store stimuli
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
@@ -27,7 +27,7 @@ dt_ioi_instance <- fread(filename_ioi, header = T, sep = ",", dec = ".")
 dt_du_instance <- fread(filename_du, header = T, sep = ",", dec = ".")
 dt_kv_instance <- fread(filename_kv, header = T, sep = ",", dec = ".")
 # ideal
-dt_ideal <- fread("./ideal.txt", header = F)
+dt_ideal <- fread("../ideal.txt", header = F)
 
 ### create playback data for 16 instances! ###
 # 1. determine onsets/offsets

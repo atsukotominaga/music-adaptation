@@ -7,7 +7,7 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 # function
-source("./function.R")
+source("../function.R")
 
 # create a folder to store stimuli
 foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
@@ -34,7 +34,7 @@ dt_onset_du <- dt_onset[Condition == "performing" & Skill == "articulation"]
 dt_offset_du <- dt_offset[Condition == "performing" & Skill == "articulation"]
 duration_valid <- fread(filename_valid_du, header = T, sep = ",", dec = ".")
 # ideal
-dt_ideal <- fread("./ideal.txt", header = F)
+dt_ideal <- fread("../ideal.txt", header = F)
 
 # valid duration performances
 valid <- duration_valid[, c("SubNr", "TrialNr")]
