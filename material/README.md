@@ -8,13 +8,13 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
 
 1. No expression (stim_n)
-![](stimuli/low/stim_n.png)
+![](stimuli/averaging/low/stim_n.png)
 
 2. Articulation (stim_a)
-![](stimuli/art/stim_a.png)
+![](stimuli/averaging/art/stim_a.png)
 
 3. Dynamics (stim_d)
-![](stimuli/dyn/stim_d.png)
+![](stimuli/averaging/dyn/stim_d.png)
 
 # Basic idea
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances.
@@ -81,7 +81,7 @@ We followed exactly the same process for dynamics values as we did for the tempo
 
 ## 4. High
 Corresponding sheet music: stim_m (see below)
-![](stimuli/high/stim_m.png)
+![](stimuli/averaging/high/stim_m.png)
 
 Both articulation and dynamics are implemented correctly.
 
@@ -93,5 +93,3 @@ We used exactly the same articulation values generated for intermediate-articula
 
 ### Dynamics
 We used exactly the same velocity values generated for intermediate-dynamics performances.
-
-## Export as mid files
