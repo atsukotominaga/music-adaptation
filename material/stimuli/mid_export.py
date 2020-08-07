@@ -61,6 +61,4 @@ for folder in folders:
                     #print(currentOnOff)
                     track.append(mido.Message('note_off', note=currentPitch, velocity=currentVelocity, time=currentTime-previousTime))
             mid.save(midname)
-
-
 # %%
