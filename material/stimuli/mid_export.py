@@ -13,10 +13,10 @@ if not os.path.exists("mid"):
     os.mkdir("mid")
 
 #%% folder names
-folder_low = "./low/1596207520-310720/"
-folder_art = "./art/1596379937-020820/"
-folder_dyn = "./dyn/1596379899-020820/"
-folder_high = "./high/1596380946-020820/"
+folder_low = "./averaging/low/1596207520-310720/"
+folder_art = "./averaging/art/1596379937-020820/"
+folder_dyn = "./averaging/dyn/1596379899-020820/"
+folder_high = "./averaging/high/1596380946-020820/"
 folders = [folder_low, folder_art, folder_dyn, folder_high]
 
 #%% mid export
@@ -31,13 +31,13 @@ for folder in folders:
             track.append(mido.Message('program_change', program=0, time=0)) #program 0 = Acoustic Grand Piano
 
             # name for mid file
-            if folder == "./low/1596207520-310720/":
+            if folder == "./averaging/low/1596207520-310720/":
                 midname = "./mid/low_" + str(instance) + ".mid"
-            elif folder == "./art/1596379937-020820/":
+            elif folder == "./averaging/art/1596379937-020820/":
                 midname = "./mid/art_" + str(instance) + ".mid"
-            elif folder == "./dyn/1596379899-020820/":
+            elif folder == "/averaging/dyn/1596379899-020820/":
                 midname = "./mid/dyn_" + str(instance) + ".mid"
-            elif folder == "./high/1596380946-020820/":
+            elif folder == "./averaging/high/1596380946-020820/":
                 midname = "./mid/high_" + str(instance) + ".mid"
                 
             current = csv.reader(csvfile, delimiter = ",")
