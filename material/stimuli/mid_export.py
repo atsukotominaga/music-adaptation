@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 ####################
 # Created: 20/04/2020
-# This script converts a txt file to midi data and playbacks on Max MSP.
+# This script converts txt files to mid files.
 
 #%% import packages
 import os, csv, time, mido
@@ -28,8 +28,7 @@ for folder in folders:
             mid = mido.MidiFile()
             track = mido.MidiTrack()
             mid.tracks.append(track)
-            track.append(mido.Message('program_change', program=0, time=0)) #program 0 = Acoustic Grand Piano
-
+            track.append(mido.Message('program_change', program=0, time=0)) # program 0 = Acoustic Grand Piano
             # name for mid file
             if folder == "./averaging/low/1596207520-310720/":
                 midname = "./mid/low_" + str(instance) + ".mid"
@@ -39,7 +38,7 @@ for folder in folders:
                 midname = "./mid/dyn_" + str(instance) + ".mid"
             elif folder == "./averaging/high/1596380946-020820/":
                 midname = "./mid/high_" + str(instance) + ".mid"
-                
+            # read current track data (txt file)   
             current = csv.reader(csvfile, delimiter = ",")
             next(current) # skip first row
             counter = 0
@@ -58,7 +57,7 @@ for folder in folders:
                     track.append(mido.Message('note_on', note=currentPitch, velocity=currentVelocity, time=currentTime-previousTime))
                 elif currentOnOff == 0:
                     track.append(mido.Message('note_off', note=currentPitch, velocity=currentVelocity, time=currentTime-previousTime))
-            mid.save(midname)
+            mid.save(midname) # save track
 
 print("Done :D")
 # %%
