@@ -14,16 +14,16 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
 
 1. No expression (stim_n)
-![](stimuli/averaging/low/stim_n.png)
+![](averaging/low/stim_n.png)
 
 2. Articulation (stim_a)
-![](stimuli/averaging/art/stim_a.png)
+![](averaging/art/stim_a.png)
 
 3. Dynamics (stim_d)
-![](stimuli/averaging/dyn/stim_d.png)
+![](averaging/dyn/stim_d.png)
 
 # Pre-analysis
-We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/analysis).
+We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/analysis).
 
 1. No expression (stim_n) - baseline performance
 > [Filtered data](https://github.com/atsukotominaga/adaptation-v1.0/blob/master/material/analysis/stim_n/preprocessor/filtered) were used to generate stimuli.
@@ -45,7 +45,7 @@ We got **137 valid performances** for articulation.
 We got **139 valid performances** for dynamics.
 
 # Generating stimuli
-We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances.
+We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances- see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
 
 We want to create 4 different types of recordings:
 1. low: neither articulation nor dynamics implemented
@@ -85,7 +85,7 @@ We followed exactly the same process for dynamics values as we did for the tempo
 
 ## 4. High
 Corresponding sheet music: stim_m (see below)
-![](stimuli/averaging/high/stim_m.png)
+![](averaging/high/stim_m.png)
 
 Both articulation and dynamics are implemented correctly.
 
@@ -99,4 +99,4 @@ We used exactly the same articulation values generated for intermediate-articula
 We used exactly the same velocity values generated for intermediate-dynamics performances.
 
 # Export stimuli as mid files
-After generated stimuli (averaging), export stimuli as mid files using mid_export.py. >> **output**: mid folder
+After generating stimuli (txt files), export them as mid files using mid_export.py. >> **output**: mid folder
