@@ -1,9 +1,14 @@
+#!/usr/bin/env python
+
 """
 This script is based on tutorials on Psychopy3 website.
+https://www.psychopy.org/coder/tutorial2.html
 """
 
 # import libraries
-from psychopy import core, visual, gui, data, event
+from psychopy import core, visual, gui, data, event, prefs
+prefs.hardware['audioLib'] = ['PTB']
+from psychopy import sound
 from psychopy.tools.filetools import fromFile, toFile
 import numpy, random
 
@@ -39,11 +44,26 @@ globalClock = core.Clock()
 trialClock = core.Clock()
 
 # display instructions and wait
-mes1 = visual.TextStim(win, pos=[0, +3], font = 'Helvetica', height = 42, wrapWidth = 1400,
+mes1 = visual.TextStim(win, pos=[0, 0], font = 'Helvetica', height = 42, wrapWidth = 1400,
     text='Thank you very much for taking part in the pilot study!\n\n In this experiment, you are going to listen to a number of piano performances and asked to rate to what extent musical expressions are implemented.')
 mes1.draw()
 fixation.draw()
 win.flip()
 
 # pause until there's a keypress
+event.waitKeys(keyList = ['space'])
+
+# stimuli presentation - TBC
+
+# get response (rating scale)
+ratingScale = visual.RatingScale(win, low = 1, high = 5, markerStart = 3, leftKeys = '1', rightKeys = '2', acceptKeys = 'space', acceptPreText='move left (1) / right (2)')
+while ratingScale.noResponse:
+    mid = sound.Sound('art_1.wav')
+    mid.setVolume(1)
+    mid.play(when=win)
+    ratingScale.draw()
+    win.flip()
+rating = ratingScale.getRating()
+decisionTime = ratingScale.getRT()
+
 event.waitKeys(keyList = ['space'])
