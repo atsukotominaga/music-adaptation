@@ -2,5 +2,8 @@
 *DS_STORE
 *html
 
+# script
+script/psychopy/data
+
 # material
 material/analysis/stim_n/preprocessor/practice/
