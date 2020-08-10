@@ -58,16 +58,17 @@
 			}
 , 			{
 				"box" : 				{
+					"fontface" : 0,
 					"id" : "obj-7",
 					"linecount" : 3,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 24.0, 23.0, 178.0, 47.0 ],
+					"patching_rect" : [ 24.0, 23.0, 180.0, 47.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 3,
-					"presentation_rect" : [ 24.0, 23.0, 178.0, 47.0 ],
-					"text" : "Midi player for rating.py\n1. make sound from a mid file\n2. print output"
+					"presentation_rect" : [ 24.0, 23.0, 179.0, 47.0 ],
+					"text" : "MIDI player for rating.py\n1. make sound from a mid file\n2. print output"
 				}
 
 			}
