@@ -22,54 +22,49 @@ def next():
                 core.quit()
     return
 
-def trial(imagefile):
+def trial(imageFile, midFile, itemText, resultsList):
     # stimuli presentation
     ## 1. sheet music  
-    stimuli = visual.ImageStim(win, image = imagefile, size = [1500, 535])
+    stimuli = visual.ImageStim(win, image = imageFile, size = [1500, 535])
     stimuli.draw()
 
     ## 2. midi play
     playing = True
     while playing:
-        win.flip()
-        core.wait(3)
+        win.flip() # sheet music
+        core.wait(3) # delete after implementing mid
+        event.clearEvents() # clear if any keypress
         playing = False
-    """     midfile = "../../material/stimuli/mid/art_1.mid"
+    """     midfile = midFile
         mid = mido.MidiFile(midfile)
         for msg in mid.play():
             port.send(msg) """
 
     # get response (rating scale)
-    ratingScale = visual.RatingScale(win, low = 1, high = 5, markerStart = 3, leftKeys = "1", rightKeys = "2", acceptKeys = "space", acceptPreText="move left (1) / right (2)")
-    resp = None
-    while resp == None:
+    ratingScale = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
+    item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    text = itemText)
+    trialClock1 = core.Clock()
+    while ratingScale.noResponse:
+        item.draw()
         ratingScale.draw()
         win.flip()
-        allKeys = event.getKeys(keyList = ["space", "escape"])
-        for resp in allKeys:
-            if resp == "space":
-                rating = ratingScale.getRating()
-                decisionTime = ratingScale.getRT()
-                print(rating)
-                print(decisionTime)
-                core.wait(3)
-            elif resp == "escape": # escape
-                core.quit()
-
+    print(trialClock1.getTime())
+    print(ratingScale.getRating())
+    print(ratingScale.getRT())
+    print(ratingScale.getHistory())
+    resultsList.append([
+        ratingScale.getRating(), # final answer
+        trialClock1.getTime(), # RT1
+        ratingScale.getRT(), # RT2
+        ratingScale.getHistory(), # history
+        expInfo["Number"], # subject number
+        expInfo["Today"] # date
+    ])
+    print(resultsList)
     event.clearEvents()
-    return
+    
 #################
-
-# open Max port
-# open max file
-os.system("open " + "./midiplayer.maxpat")
-port = mido.open_output("to Max 1")
-
-# participant"s info (only works with light mode - Mac)
-expInfo = {"Number": "", "Today": data.getDateStr()}
-dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
-if dlg.OK == False:
-    core.quit() # cancel
 
 """
    ("-.  ) (`-.       _ (`-.    ("-.  _  .-")          _   .-")       ("-.       .-") _  .-") _    
@@ -83,6 +78,16 @@ if dlg.OK == False:
  `------""--"   "--"`--"      `------"`--" "--" `--"   `--"   `--"  `------"`--"  `--"     `--"    
 
 """
+# open Max port
+os.system("open " + "./midiplayer.maxpat") # open max file
+port = mido.open_output("to Max 1")
+
+# participant"s info (only works with light mode - Mac)
+expInfo = {"Number": "", "Today": data.getDateStr()}
+dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
+if dlg.OK == False:
+    core.quit() # cancel
+
 # make a text file to save data
 if not os.path.exists("data"): # make a folder if not exists
     os.makedirs("data")
@@ -90,8 +95,12 @@ filename = expInfo["Number"] + expInfo["Today"]
 dataFile = open("./data/" + filename + ".txt", "w")
 dataFile.write("stim, likertScale, RT\n")
 
+# list to store answers
+answers = []
+
 # create window and stimuli
 win = visual.Window([1920, 1200], monitor = "testMonitor", fullscr = True, color = (-.7,-.7,-.7), units = "pix")
+win.mouseVisible = False # hide mouse
 fixation = visual.GratingStim(win, color = -1, colorSpace = "rgb", tex=None, mask="circle", size=0.2)
 
 # add clocks
@@ -112,10 +121,17 @@ next() # proceed/force quit
 ## instruction 3
 
 ### Practice ###
-practiceImage = "./image/stim_m.png"
-trial(practiceImage)
+pImage = "./image/stim_m.png"
+pMid = "./mid/art_1.mid"
+pText = "Hello!"
+trial(pImage, pMid, pText, answers)
 
 ### Experiment ###
+
+# write results
+for item in answers:
+        dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}\n'.format(*item))
+        dataFile.close()
 
 ### Thank you ###
 thanks = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
@@ -124,5 +140,6 @@ thanks.draw()
 win.flip()
 core.wait(3)
 
+### Close ###
 win.close()
 core.quit()
