@@ -11,7 +11,53 @@ from psychopy.tools.filetools import fromFile, toFile
 import os, numpy, random, mido
 
 ### functions ###
+def next():
+    resp = None
+    while resp == None:
+        allKeys = event.getKeys(keyList = ["space", "escape"])
+        for resp in allKeys:
+            if resp == "space": # proceed
+                break
+            elif resp == "escape": # force quit
+                core.quit()
+    return
 
+def trial(imagefile):
+    # stimuli presentation
+    ## 1. sheet music  
+    stimuli = visual.ImageStim(win, image = imagefile, size = [1500, 535])
+    stimuli.draw()
+
+    ## 2. midi play
+    playing = True
+    while playing:
+        win.flip()
+        core.wait(3)
+        playing = False
+    """     midfile = "../../material/stimuli/mid/art_1.mid"
+        mid = mido.MidiFile(midfile)
+        for msg in mid.play():
+            port.send(msg) """
+
+    # get response (rating scale)
+    ratingScale = visual.RatingScale(win, low = 1, high = 5, markerStart = 3, leftKeys = "1", rightKeys = "2", acceptKeys = "space", acceptPreText="move left (1) / right (2)")
+    resp = None
+    while resp == None:
+        ratingScale.draw()
+        win.flip()
+        allKeys = event.getKeys(keyList = ["space", "escape"])
+        for resp in allKeys:
+            if resp == "space":
+                rating = ratingScale.getRating()
+                decisionTime = ratingScale.getRT()
+                print(rating)
+                print(decisionTime)
+                core.wait(3)
+            elif resp == "escape": # escape
+                core.quit()
+
+    event.clearEvents()
+    return
 #################
 
 # open Max port
@@ -23,7 +69,7 @@ port = mido.open_output("to Max 1")
 expInfo = {"Number": "", "Today": data.getDateStr()}
 dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
 if dlg.OK == False:
-    core.quit()
+    core.quit() # cancel
 
 """
    ("-.  ) (`-.       _ (`-.    ("-.  _  .-")          _   .-")       ("-.       .-") _  .-") _    
@@ -45,64 +91,38 @@ dataFile = open("./data/" + filename + ".txt", "w")
 dataFile.write("stim, likertScale, RT\n")
 
 # create window and stimuli
-win = visual.Window([1920, 1200], monitor = "testMonitor", fullscr = True, color = (1,1,1), units = "pix")
+win = visual.Window([1920, 1200], monitor = "testMonitor", fullscr = True, color = (-.7,-.7,-.7), units = "pix")
 fixation = visual.GratingStim(win, color = -1, colorSpace = "rgb", tex=None, mask="circle", size=0.2)
 
 # add clocks
 globalClock = core.Clock()
 trialClock = core.Clock()
 
+### Instrution ###
 # display instructions and wait
-mes1 = visual.TextStim(win, pos=[0, 0], font = "Arial", height = 60, wrapWidth = 1400,
+## instruction 1
+inst1 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text="Thank you very much for taking part in the pilot study!\n\n In this experiment, you are going to listen to a number of piano performances and asked to rate to what extent musical expressions are implemented.")
-mes1.draw()
+inst1.draw()
 win.flip()
+next() # proceed/force quit
 
-# pause until there's a keypress
-resp = None
-while resp == None:
-    allKeys = event.getKeys(keyList = ["space", "escape"])
-    for resp in allKeys:
-        if resp == "escape":
-            core.quit()
-        elif resp == "space":
-            break
+## instruction 2
 
-# stimuli presentation
-## 1. sheet music
-imagefile = "./image/stim_m.png"
-stimuli = visual.ImageStim(win, image = imagefile, size = [1500, 535])
-stimuli.draw()
+## instruction 3
 
-## 2. midi play
-playing = True
-while playing:
-    win.flip()
-    midfile = "../../material/stimuli/mid/art_1.mid"
-    mid = mido.MidiFile(midfile)
-    for msg in mid.play():
-        port.send(msg)
-    playing = False
+### Practice ###
+practiceImage = "./image/stim_m.png"
+trial(practiceImage)
 
-# get response (rating scale)
-ratingScale = visual.RatingScale(win, low = 1, high = 5, markerStart = 3, leftKeys = "1", rightKeys = "2", acceptKeys = "space", acceptPreText="move left (1) / right (2)")
-resp = None
-while resp == None:
-    ratingScale.draw()
-    win.flip()
-    allKeys = event.getKeys(keyList = ["space", "escape"])
-    for thisKey in ["space", "escape"]:
-        if thisKey == "space":
-            rating = ratingScale.getRating()
-            decisionTime = ratingScale.getRT()
-            print(rating)
-            print(decisionTime)
-            core.wait(3)
+### Experiment ###
 
-        elif thisKey == "escape": # escape
-            core.quit()
-
-event.clearEvents()
+### Thank you ###
+thanks = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    text="Thank you!")
+thanks.draw()
+win.flip()
+core.wait(3)
 
 win.close()
 core.quit()
