@@ -45,7 +45,7 @@ dataFile = open("./data/" + filename + ".txt", "w")
 dataFile.write("stim, likertScale, RT\n")
 
 # create window and stimuli
-win = visual.Window([1920, 1200], fullscr = True, monitor = "testMonitor", units = "pix")
+win = visual.Window([1920, 1200], monitor = "testMonitor", fullscr = True, color = (1,1,1), units = "pix")
 fixation = visual.GratingStim(win, color = -1, colorSpace = "rgb", tex=None, mask="circle", size=0.2)
 
 # add clocks
@@ -53,7 +53,7 @@ globalClock = core.Clock()
 trialClock = core.Clock()
 
 # display instructions and wait
-mes1 = visual.TextStim(win, pos=[0, 0], font = "Arial", height = 100, wrapWidth = 1400,
+mes1 = visual.TextStim(win, pos=[0, 0], font = "Arial", height = 60, wrapWidth = 1400,
     text="Thank you very much for taking part in the pilot study!\n\n In this experiment, you are going to listen to a number of piano performances and asked to rate to what extent musical expressions are implemented.")
 mes1.draw()
 win.flip()
@@ -61,7 +61,7 @@ win.flip()
 # pause until there's a keypress
 resp = None
 while resp == None:
-    allKeys = event.waitKeys(keyList = ["space", "escape"])
+    allKeys = event.getKeys(keyList = ["space", "escape"])
     for resp in allKeys:
         if resp == "escape":
             core.quit()
@@ -90,6 +90,7 @@ resp = None
 while resp == None:
     ratingScale.draw()
     win.flip()
+    allKeys = event.getKeys(keyList = ["space", "escape"])
     for thisKey in ["space", "escape"]:
         if thisKey == "space":
             rating = ratingScale.getRating()
@@ -102,3 +103,6 @@ while resp == None:
             core.quit()
 
 event.clearEvents()
+
+win.close()
+core.quit()
