@@ -160,12 +160,20 @@ next() # proceed/force quit
 ### Practice ###
 pMid = "./mid/art_1.mid"
 pText = "Hello!"
+pOrder = ["A", "B", "C"]
+random.shuffle(pOrder) # randomisation
 # trial(imageFile, pMid, pText, answers)
 
 practice = True
 while practice:
-    for trial in range(3):
+    for trial in pOrder:
         print(str(trial) + "trial")
+        if trial == "A":
+            print("yeah A!")
+        elif trial == "B":
+            print("now B!")
+        elif trial == "C":
+            print("wow C!")
 
     ## instruction 7
     inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
@@ -185,12 +193,15 @@ while practice:
 
 ### Experiment ###
 inst8 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
-    text = "In the experimental, there are 64 performance recordings (i.e., trials).\n\nThe order of rating will be randomly presented (articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
+    text = "In total, there are 64 performance recordings.\n\nThe order of rating will be randomly presented (articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
 inst8.draw()
 win.flip()
 next() # proceed/force quit
 
-for trial in range(64):
+eOrder = ["articulation", "dynamics"] * 32
+random.shuffle(eOrder) # randomisation
+
+for trial in eOrder:
     print(str(trial) + "trial")
 
 # write results
