@@ -158,10 +158,10 @@ win.flip()
 next() # proceed/force quit
 
 ### Practice ###
-pMid = "./mid/art_1.mid"
-pText = "Hello!"
+pFileList = os.listdir("practice")
+random.shuffle(pFileList) # stimuli randomisation
 pOrder = ["A", "B", "C"]
-random.shuffle(pOrder) # randomisation
+random.shuffle(pOrder) # randomisation for rating questions
 # trial(imageFile, pMid, pText, answers)
 
 practice = True
@@ -198,8 +198,10 @@ inst8.draw()
 win.flip()
 next() # proceed/force quit
 
+eFileList = os.listdir("mid")
+random.shuffle(eFileList) # stimuli randomisation
 eOrder = ["articulation", "dynamics"] * 32
-random.shuffle(eOrder) # randomisation
+random.shuffle(eOrder) # randomisation for rating questions
 
 for trial in eOrder:
     print(str(trial) + "trial")
