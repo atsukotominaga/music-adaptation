@@ -33,15 +33,19 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
     while playing:
         win.flip() # sheet music
         mid = mido.MidiFile(midFile)
-        core.wait(3) # delete afterwards
+        core.wait(1) # delete afterwards
         playing = False
 
     if ratingOrder == "articulation":
         itemText1 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
         itemText2 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
+        ratingCategory1 = "articulation"
+        ratingCategory2 = "dynamics"
     elif ratingOrder == "dynamics":
         itemText1 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
         itemText2 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
+        ratingCategory1 = "dynamics"
+        ratingCategory2 = "articulation"
 
     # get response (rating scale)
     ratingScale1 = visual.RatingScale(win, scale = "not at all                             fully", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
@@ -58,6 +62,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         expMode, # practice/experiment
         trialCounter, # trial number
         midFile, # mid file
+        ratingCategory1, # articulation or dynamics
         ratingScale1.getRating(), # final answer
         trialClock1.getTime(), # RT1
         ratingScale1.getRT(), # RT2
@@ -84,6 +89,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         expMode, # practice/experiment
         trialCounter, # trial number
         midFile, # mid file
+        ratingCategory2, # articulation or dynamics
         ratingScale2.getRating(), # final answer
         trialClock2.getTime(), # RT1
         ratingScale2.getRT(), # RT2
@@ -100,7 +106,6 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
     win.flip()
     next() # proceed/force quit
     event.clearEvents()
-
     return
     
 #################
@@ -225,20 +230,25 @@ while practice:
             elif resp == "returm": # practice again
                 practice = True
 
-### Experiment ###
 inst8 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "In total, there are 64 performance recordings.\n\nThe order of rating will be randomised (rating articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
 inst8.draw()
 win.flip()
 next() # proceed/force quit
 
+### Experiment ###
+expMode = "experiment"
 eFileList = os.listdir("mid")
 random.shuffle(eFileList) # stimuli randomisation
 eOrder = ["articulation", "dynamics"] * 32
 random.shuffle(eOrder) # randomisation for rating questions
 
-for trial in eOrder:
-    print(str(trial) + "trial")
+trialCounter = 1
+for file in eFileList:
+    midFile = "./mid/" + file
+    ratingOrder = eOrder[trialCounter-1] # python indexing
+    trial(expMode, imageFile, midFile, ratingOrder, resultsList)
+    trialCounter += 1
 
 # write results
 for item in resultsList:
