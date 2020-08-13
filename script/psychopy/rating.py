@@ -22,7 +22,7 @@ def next():
                 core.quit()
     return
 
-def trial(imageFile, midFile, ratingOrder, resultsList):
+def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
     # stimuli presentation
     ## 1. sheet music  
     stimuli = visual.ImageStim(win, image = imageFile, size = [1500, 535])
@@ -55,14 +55,16 @@ def trial(imageFile, midFile, ratingOrder, resultsList):
         
     # store responses
     resultsList.append([
+        expMode, # practice/experiment
+        trialCounter, # trial number
+        midFile, # mid file
         ratingScale1.getRating(), # final answer
         trialClock1.getTime(), # RT1
         ratingScale1.getRT(), # RT2
-        ratingScale1.getHistory(), # history
         ratingOrder, # which rate first
         expInfo["Number"], # subject number
         expInfo["Today"], # date
-        globalClock
+        globalClock.getTime()
     ])
     print(resultsList)
     event.clearEvents()
@@ -79,14 +81,16 @@ def trial(imageFile, midFile, ratingOrder, resultsList):
         
     # store responses
     resultsList.append([
+        expMode, # practice/experiment
+        trialCounter, # trial number
+        midFile, # mid file
         ratingScale2.getRating(), # final answer
         trialClock2.getTime(), # RT1
         ratingScale2.getRT(), # RT2
-        ratingScale2.getHistory(), # history
         ratingOrder, # wchich rate first
         expInfo["Number"], # subject number
         expInfo["Today"], # date
-        globalClock
+        globalClock.getTime()
     ])
     print(resultsList)
 
@@ -127,9 +131,9 @@ if dlg.OK == False:
 # make a text file to save data
 if not os.path.exists("data"): # make a folder if not exists
     os.makedirs("data")
-""" filename = expInfo["Number"] + expInfo["Today"]
-dataFile = open("./data/" + filename + ".txt", "w")
-dataFile.write("stim, likertScale, RT\n") """
+filename = expInfo["Number"] + expInfo["Today"]
+dataFile = open("./data/" + filename + ".csv", "w")
+dataFile.write("expMode, trialNumber, midFile, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
 
 # list to store answers
 resultsList = []
@@ -192,17 +196,18 @@ win.flip()
 next() # proceed/force quit
 
 ### Practice ###
+expMode = "practice"
 pFileList = os.listdir("practice")
 random.shuffle(pFileList) # stimuli randomisation
-# trial(imageFile, pMid, pText, answers)
-
 imageFile = "./image/stim_m.png"
 practice = True
 while practice:
+    trialCounter = 1
     for file in pFileList:
         midFile = "./practice/" + file
         ratingOrder = random.choice(["articulation", "dynamics"])
-        trial(imageFile, midFile, ratingOrder, resultsList)
+        trial(expMode, imageFile, midFile, ratingOrder, resultsList)
+        trialCounter += 1
         
     ## instruction 7
     inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
@@ -236,9 +241,9 @@ for trial in eOrder:
     print(str(trial) + "trial")
 
 # write results
-""" for item in answers:
-        dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}\n'.format(*item))
-        dataFile.close() """
+for item in resultsList:
+    dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}\n'.format(*item))
+dataFile.close()
 
 ### Thank you ###
 thanks = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 100, wrapWidth = 1400,
