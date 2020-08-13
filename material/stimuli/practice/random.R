@@ -97,9 +97,18 @@ for (i in c(stim_n, stim_a, stim_d)){
 for (subnr in unique(dt_demo$SubNr)){
   current <- dt_demo[SubNr == subnr]
   current$TimeStamp <- current$TimeStamp-current$TimeStamp[1]
-  if (unique(current$Tempo) != 100){
-    current$TimeStamp <- round((current$TimeStamp)/unique(current$Tempo)*100, 0)
+  current <- current[order(TimeStamp),]
+  # if (unique(current$Tempo) != 100){ # NEED TO BE FIXED!
+  #   current$TimeStamp <- round((current$TimeStamp)/unique(current$Tempo)*100, 0)
+  # }
+  if (length(unique(current$Skill)) > 1){
+    print("It seems the same participant was used more than twice. Run the script again.")
+  } else if (unique(current$Skill == "non-expression")){
+    fwrite(current, paste(foldername, "1", "_instance.txt", sep = ""))
+  } else if (unique(current$Skill == "articulation")){
+    fwrite(current, paste(foldername, "2", "_instance.txt", sep = ""))
+  } else if (unique(current$Skill == "dynamics")){
+    fwrite(current, paste(foldername, "3", "_instance.txt", sep = ""))
   }
-  fwrite(current, paste(foldername, unique(current$Skill), "_instance.txt", sep = ""))
 }
 
