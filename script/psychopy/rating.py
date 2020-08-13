@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
 """
-This is a pre-experiment for stimuli selection.
+This is a pilot experiment for stimuli selection.
 Code reference: https://www.psychopy.org/coder/tutorial2.html
 """
 
 # import libraries
 from psychopy import core, visual, gui, data, event
 from psychopy.tools.filetools import fromFile, toFile
-import os, numpy, random, mido
+import os, random, mido
 
 ### functions ###
 def next():
@@ -22,7 +22,7 @@ def next():
                 core.quit()
     return
 
-def trial(imageFile, midFile, resultsList):
+def trial(imageFile, midFile, ratingOrder, resultsList):
     # stimuli presentation
     ## 1. sheet music  
     stimuli = visual.ImageStim(win, image = imageFile, size = [1500, 535])
@@ -32,43 +32,48 @@ def trial(imageFile, midFile, resultsList):
     playing = True
     while playing:
         win.flip() # sheet music
-        midfile = midFile
-        mid = mido.MidiFile(midfile)
-        for msg in mid.play():
-            port.send(msg)
-        event.clearEvents() # clear if any keypress
-        core.wait(1)
+        mid = mido.MidiFile(midFile)
+        core.wait(3) # delete afterwards
         playing = False
 
+    if ratingOrder == "articulation":
+        itemText1 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
+        itemText2 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
+    elif ratingOrder == "dynamics":
+        itemText1 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
+        itemText2 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
+
     # get response (rating scale)
-    ratingScale = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
-    item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
-    text = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n")
+    ratingScale1 = visual.RatingScale(win, scale = "not at all                             fully", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
+    item1 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    text = itemText1)
     trialClock1 = core.Clock()
-    while ratingScale.noResponse: # noResponse will be False once participant accepts the answer
-        item.draw()
-        ratingScale.draw()
+    while ratingScale1.noResponse: # noResponse will be False once participant accepts the answer
+        item1.draw()
+        ratingScale1.draw()
         win.flip()
         
     # store responses
     resultsList.append([
-        ratingScale.getRating(), # final answer
+        ratingScale1.getRating(), # final answer
         trialClock1.getTime(), # RT1
-        ratingScale.getRT(), # RT2
-        ratingScale.getHistory(), # history
+        ratingScale1.getRT(), # RT2
+        ratingScale1.getHistory(), # history
+        ratingOrder, # which rate first
         expInfo["Number"], # subject number
-        expInfo["Today"] # date
+        expInfo["Today"], # date
+        globalClock
     ])
     print(resultsList)
     event.clearEvents()
 
     # get response2 (rating scale)
-    ratingScale2 = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
-    item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
-    text = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n")
+    ratingScale2 = visual.RatingScale(win, scale = "not at all                              fully", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
+    item2 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    text = itemText2)
     trialClock2 = core.Clock()
     while ratingScale2.noResponse: # noResponse will be False once participant accepts the answer
-        item.draw()
+        item2.draw()
         ratingScale2.draw()
         win.flip()
         
@@ -78,8 +83,10 @@ def trial(imageFile, midFile, resultsList):
         trialClock2.getTime(), # RT1
         ratingScale2.getRT(), # RT2
         ratingScale2.getHistory(), # history
+        ratingOrder, # wchich rate first
         expInfo["Number"], # subject number
-        expInfo["Today"] # date
+        expInfo["Today"], # date
+        globalClock
     ])
     print(resultsList)
 
@@ -89,6 +96,7 @@ def trial(imageFile, midFile, resultsList):
     win.flip()
     next() # proceed/force quit
     event.clearEvents()
+
     return
     
 #################
@@ -103,8 +111,8 @@ def trial(imageFile, midFile, resultsList):
  |  .--"   ."    \_)|  .___." |  .--" |  .  ".",|  |_."|  |   |  |  |  .--" |  |\    |     |  |    
  |  `---. /  .".  \ |  |      |  `---.|  |\  \(_|  |   |  |   |  |  |  `---.|  | \   |     |  |    
  `------""--"   "--"`--"      `------"`--" "--" `--"   `--"   `--"  `------"`--"  `--"     `--"    
-
 """
+
 # open Max port
 os.system("open " + "./midiplayer.maxpat") # open max file
 port = mido.open_output("to Max 1")
@@ -124,16 +132,14 @@ dataFile = open("./data/" + filename + ".txt", "w")
 dataFile.write("stim, likertScale, RT\n") """
 
 # list to store answers
-answers = []
+resultsList = []
 
 # create window and stimuli
 win = visual.Window([1920, 1200], monitor = "testMonitor", fullscr = True, color = (-.7,-.7,-.7), units = "pix")
 win.mouseVisible = False # hide mouse
-fixation = visual.GratingStim(win, color = -1, colorSpace = "rgb", tex=None, mask="circle", size=0.2)
 
-# add clocks
+# add global clock
 globalClock = core.Clock()
-trialClock = core.Clock()
 
 ### Instrution ###
 # display instructions and wait
@@ -188,19 +194,15 @@ next() # proceed/force quit
 ### Practice ###
 pFileList = os.listdir("practice")
 random.shuffle(pFileList) # stimuli randomisation
-pOrder = ["articulation", "dynamics", "articulation"]
-random.shuffle(pOrder) # randomisation for rating questions
 # trial(imageFile, pMid, pText, answers)
 
-sheetMusic = "./image/stim_m.png"
+imageFile = "./image/stim_m.png"
 practice = True
 while practice:
-    midFile = "./practice/demo_1.mid"
-    trial(sheetMusic, midFile, answers)
-    midFile = "./practice/demo_2.mid"
-    trial(sheetMusic, midFile, answers)
-    midFile = "./practice/demo_3.mid"
-    trial(sheetMusic, midFile, answers)
+    for file in pFileList:
+        midFile = "./practice/" + file
+        ratingOrder = random.choice(["articulation", "dynamics"])
+        trial(imageFile, midFile, ratingOrder, resultsList)
         
     ## instruction 7
     inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
