@@ -22,7 +22,7 @@ def next():
                 core.quit()
     return
 
-def trial(imageFile, midFile, itemText, resultsList):
+def trial(imageFile, midFile, resultsList):
     # stimuli presentation
     ## 1. sheet music  
     stimuli = visual.ImageStim(win, image = imageFile, size = [1500, 535])
@@ -32,18 +32,17 @@ def trial(imageFile, midFile, itemText, resultsList):
     playing = True
     while playing:
         win.flip() # sheet music
-        core.wait(3) # delete after implementing mid
-        event.clearEvents() # clear if any keypress
-        playing = False
-    """     midfile = midFile
+        midfile = midFile
         mid = mido.MidiFile(midfile)
         for msg in mid.play():
-            port.send(msg) """
+            port.send(msg)
+        event.clearEvents() # clear if any keypress
+        playing = False
 
     # get response (rating scale)
     ratingScale = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
     item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
-    text = itemText)
+    text = "To what extend is articulation implemented as notated in sheet music?")
     trialClock1 = core.Clock()
     while ratingScale.noResponse: # noResponse will be False once participant accepts the answer
         item.draw()
@@ -56,6 +55,28 @@ def trial(imageFile, midFile, itemText, resultsList):
         trialClock1.getTime(), # RT1
         ratingScale.getRT(), # RT2
         ratingScale.getHistory(), # history
+        expInfo["Number"], # subject number
+        expInfo["Today"] # date
+    ])
+    print(resultsList)
+    event.clearEvents()
+
+    # get response2 (rating scale)
+    ratingScale2 = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
+    item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    text = "To what extend is dynamics implemented as notated in sheet music?")
+    trialClock2 = core.Clock()
+    while ratingScale2.noResponse: # noResponse will be False once participant accepts the answer
+        item.draw()
+        ratingScale2.draw()
+        win.flip()
+        
+    # store responses
+    resultsList.append([
+        ratingScale2.getRating(), # final answer
+        trialClock2.getTime(), # RT1
+        ratingScale2.getRT(), # RT2
+        ratingScale2.getHistory(), # history
         expInfo["Number"], # subject number
         expInfo["Today"] # date
     ])
@@ -160,21 +181,20 @@ next() # proceed/force quit
 ### Practice ###
 pFileList = os.listdir("practice")
 random.shuffle(pFileList) # stimuli randomisation
-pOrder = ["A", "B", "C"]
+pOrder = ["articulation", "dynamics", "articulation"]
 random.shuffle(pOrder) # randomisation for rating questions
 # trial(imageFile, pMid, pText, answers)
 
+sheetMusic = "./image/stim_m.png"
 practice = True
 while practice:
-    for trial in pOrder:
-        print(str(trial) + "trial")
-        if trial == "A":
-            print("yeah A!")
-        elif trial == "B":
-            print("now B!")
-        elif trial == "C":
-            print("wow C!")
-
+    midFile = "./practice/demo_1.mid"
+    trial(sheetMusic, midFile, answers)
+    midFile = "./practice/demo_2.mid"
+    trial(sheetMusic, midFile, answers)
+    midFile = "./practice/demo_3.mid"
+    trial(sheetMusic, midFile, answers)
+        
     ## instruction 7
     inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
         text = "Any quesions?\n\nIf you want to repeat the practice trials,\nPress <Return> key.\n\nIf you are ready for experimental trials,\nPress <Space> to start")
@@ -207,9 +227,9 @@ for trial in eOrder:
     print(str(trial) + "trial")
 
 # write results
-for item in answers:
+""" for item in answers:
         dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}\n'.format(*item))
-        dataFile.close()
+        dataFile.close() """
 
 ### Thank you ###
 thanks = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 100, wrapWidth = 1400,
