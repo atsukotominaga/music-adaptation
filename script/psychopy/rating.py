@@ -37,12 +37,13 @@ def trial(imageFile, midFile, resultsList):
         for msg in mid.play():
             port.send(msg)
         event.clearEvents() # clear if any keypress
+        core.wait(1)
         playing = False
 
     # get response (rating scale)
     ratingScale = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
     item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
-    text = "To what extend is articulation implemented as notated in sheet music?")
+    text = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n")
     trialClock1 = core.Clock()
     while ratingScale.noResponse: # noResponse will be False once participant accepts the answer
         item.draw()
@@ -64,7 +65,7 @@ def trial(imageFile, midFile, resultsList):
     # get response2 (rating scale)
     ratingScale2 = visual.RatingScale(win, scale = "very poor                              very good", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
     item = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
-    text = "To what extend is dynamics implemented as notated in sheet music?")
+    text = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n")
     trialClock2 = core.Clock()
     while ratingScale2.noResponse: # noResponse will be False once participant accepts the answer
         item.draw()
@@ -81,6 +82,12 @@ def trial(imageFile, midFile, resultsList):
         expInfo["Today"] # date
     ])
     print(resultsList)
+
+    inst = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+    text = "Press <Space> to continue")
+    inst.draw()
+    win.flip()
+    next() # proceed/force quit
     event.clearEvents()
     return
     
@@ -166,14 +173,14 @@ next() # proceed/force quit
 
 ## instruction 5
 inst5 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
-    text = "You will listen to a performance recording first. After that, you will be required to rate to what extent musical techniques are implemented in terms of articulation (legato and staccato) and dynamics (forte and piano).\n\nRating is separate for each technique.\n\nPress <Space> to continue")
+    text = "You will listen to a performance recording first. After that, you will be required to rate to what extent musical techniques are implemented in terms of both articulation (legato and staccato) and dynamics (forte and piano).\n\nRating is separate for each technique.\n\nPress <Space> to continue")
 inst5.draw()
 win.flip()
 next() # proceed/force quit
 
 ## instruction 6
 inst6 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
-    text = "Any quesions?\n\nThere will be 3 practice trials where you can see how to rate each performance. Also adjust the volume so that you can comfortably listen to the recordings.\n\nPress <Space> to start practice trials")
+    text = "Any questions?\n\nThere will be 3 practice trials where you can see how to rate each performance. Also adjust the volume so that you can comfortably listen to the recording.\n\nPress <Space> to start practice trials")
 inst6.draw()
 win.flip()
 next() # proceed/force quit
@@ -197,7 +204,7 @@ while practice:
         
     ## instruction 7
     inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
-        text = "Any quesions?\n\nIf you want to repeat the practice trials,\nPress <Return> key.\n\nIf you are ready for experimental trials,\nPress <Space> to start")
+        text = "Any questions?\n\nIf you want to repeat the practice trials again,\nPress <Return> key.\n\nIf you are ready for experimental trials,\nPress <Space> to start")
     inst7.draw()
     win.flip()
     resp = None
@@ -213,7 +220,7 @@ while practice:
 
 ### Experiment ###
 inst8 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
-    text = "In total, there are 64 performance recordings.\n\nThe order of rating will be randomly presented (articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
+    text = "In total, there are 64 performance recordings.\n\nThe order of rating will be randomised (rating articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
 inst8.draw()
 win.flip()
 next() # proceed/force quit
