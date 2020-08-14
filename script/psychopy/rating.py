@@ -19,6 +19,9 @@ def next():
             if resp == "space": # proceed
                 break
             elif resp == "escape": # force quit
+                for item in resultsList: # export data so far
+                    dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}\n'.format(*item))
+                dataFile.close()
                 core.quit()
     return
 
@@ -135,6 +138,13 @@ dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
 if dlg.OK == False:
     core.quit() # cancel
 
+# open csv file to store data
+if not os.path.exists("data"): # make a folder if not exists
+    os.makedirs("data")
+filename = expInfo["Number"] + expInfo["Today"]
+dataFile = open("./data/" + filename + ".csv", "w")
+dataFile.write("expMode, trialNumber, midFile, ratingCategory, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
+
 # list to store answers
 resultsList = []
 
@@ -246,13 +256,9 @@ for file in eFileList:
     trialCounter += 1
 
 # write results
-if not os.path.exists("data"): # make a folder if not exists
-    os.makedirs("data")
-filename = expInfo["Number"] + expInfo["Today"]
-dataFile = open("./data/" + filename + ".csv", "w")
-dataFile.write("expMode, trialNumber, midFile, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
+dataFile.write("expMode, trialNumber, midFile, ratingCategory, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
 for item in resultsList:
-    dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}\n'.format(*item))
+    dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}\n'.format(*item))
 dataFile.close()
 
 ### Thank you ###
