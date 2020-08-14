@@ -53,7 +53,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         ratingCategory1 = "dynamics"
         ratingCategory2 = "articulation"
 
-    # get response (rating scale)
+    # get responses1 (rating scale)
     ratingScale1 = visual.RatingScale(win, scale = "not at all                             fully", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
     item1 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text = itemText1)
@@ -63,7 +63,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         ratingScale1.draw()
         win.flip()
         
-    # store responses
+    # store responses1
     resultsList.append([
         expMode, # practice/experiment
         trialCounter, # trial number
@@ -90,7 +90,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         ratingScale2.draw()
         win.flip()
         
-    # store responses
+    # store responses2
     resultsList.append([
         expMode, # practice/experiment
         trialCounter, # trial number
@@ -105,6 +105,7 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         globalClock.getTime()
     ])
     print(resultsList)
+    event.clearEvents()
 
     inst = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "Press <Space> to continue")
