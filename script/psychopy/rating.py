@@ -19,7 +19,7 @@ def next():
             if resp == "space": # proceed
                 break
             elif resp == "escape": # force quit
-                for item in resultsList: # export data so far
+                for item in resultsList: # export data so farl
                     dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}\n'.format(*item))
                 dataFile.close()
                 core.quit()
