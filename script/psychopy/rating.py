@@ -19,7 +19,7 @@ def next():
             if resp == "space": # proceed
                 break
             elif resp == "escape": # force quit
-                for item in resultsList: # export data so farl
+                for item in resultsList: # save data so far
                     dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}\n'.format(*item))
                 dataFile.close()
                 core.quit()
@@ -43,13 +43,13 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         playing = False
 
     if ratingOrder == "articulation":
-        itemText1 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
-        itemText2 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
+        itemText1 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText2 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
         ratingCategory1 = "articulation"
         ratingCategory2 = "dynamics"
     elif ratingOrder == "dynamics":
-        itemText1 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n"
-        itemText2 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n"
+        itemText1 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText2 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
         ratingCategory1 = "dynamics"
         ratingCategory2 = "articulation"
 
@@ -138,12 +138,12 @@ dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
 if dlg.OK == False:
     core.quit() # cancel
 
-# open csv file to store data
+# create csv to save data
 if not os.path.exists("data"): # make a folder if not exists
     os.makedirs("data")
 filename = expInfo["Number"] + expInfo["Today"]
 dataFile = open("./data/" + filename + ".csv", "w")
-dataFile.write("expMode, trialNumber, midFile, ratingCategory, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
+dataFile.write("expMode,trialNumber,midFile,ratingCategory,rating,RT1 (manual),RT2 (ratingScale),ratingOrder,subjectNumber,date,globalClock\n")
 
 # list to store answers
 resultsList = []
@@ -205,11 +205,13 @@ inst6.draw()
 win.flip()
 next() # proceed/force quit
 
+# sheet music
+imageFile = "./image/stim_m.png"
+
 ### Practice ###
 expMode = "practice"
 pFileList = os.listdir("practice")
 random.shuffle(pFileList) # stimuli randomisation
-imageFile = "./image/stim_m.png"
 practice = True
 while practice:
     trialCounter = 1
@@ -256,7 +258,6 @@ for file in eFileList:
     trialCounter += 1
 
 # write results
-dataFile.write("expMode, trialNumber, midFile, ratingCategory, rating, RT1 (manual), RT2 (ratingScale), ratingOrder, subjectNumber, date, globalClock\n")
 for item in resultsList:
     dataFile.write('{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}\n'.format(*item))
 dataFile.close()
