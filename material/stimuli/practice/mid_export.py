@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 ####################
-# Created: 20/04/2020
+# Created: 12/08/2020
 # This script converts txt files to mid files.
+# For demo, I used raw performance data (not averages ones), so indexing for currentTime is different from original mid_export.py for stimuli
 
 #%% import packages
 import os, csv, time, mido
@@ -13,7 +14,7 @@ if not os.path.exists("mid"):
     os.mkdir("mid")
 
 #%% folder names
-folders = ["./1597302140-130820/"]
+folders = ["./1597388391-140820/"]
 
 #%% mid export
 for folder in folders:
@@ -38,8 +39,13 @@ for folder in folders:
                     counter += 1
                 else:
                     previousTime = currentTime
-                # modifed indexing as data structure is a bit different
-                currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, 500000))
+                # tempo always 100bpm
+                if int(row[6]) == 120:
+                    currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, round(500000*(500/600), 0))) # adjust tempo
+                elif int(row[6]) == 110:
+                    currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, round(500000*(545/600), 0))) # adjust tempo
+                elif int(row[6]) == 100:
+                    currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, 500000))
                 currentPitch = int(row[2])
                 currentVelocity = int(row[3])
                 currentOnOff = int(row[4])
