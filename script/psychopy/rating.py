@@ -43,13 +43,13 @@ def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
         playing = False
 
     if ratingOrder == "articulation":
-        itemText1 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
-        itemText2 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText1 = "To what extent was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText2 = "To what extent was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
         ratingCategory1 = "articulation"
         ratingCategory2 = "dynamics"
     elif ratingOrder == "dynamics":
-        itemText1 = "To what extend was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
-        itemText2 = "To what extend was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText1 = "To what extent was [ Dynamics ] implemented?\n\nPress <Return> to confirm\n\n\n"
+        itemText2 = "To what extent was [ Articulation ] implemented?\n\nPress <Return> to confirm\n\n\n"
         ratingCategory1 = "dynamics"
         ratingCategory2 = "articulation"
 
