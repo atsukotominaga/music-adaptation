@@ -4,6 +4,7 @@
 
 # script
 script/psychopy/data
+script/psychopy/feedback.md
 
 # material
 material/analysis/stim_n/preprocessor/practice/
