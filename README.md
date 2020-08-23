@@ -1,14 +1,20 @@
-This repo contains an experiment investigating whether expert pianists can adapt their performance depending on the level of novices' skills.
+This repo contains scripts and materials for the experiment investigating whether expert pianists can adapt their performance depending on the level of novices' skills.
 
 Open Science Framework: TBC (Raw data are available here)
 
 # Overview
-- Script
+- [Script](#script)
+    + [Rating](#rating)
+    + [Experiment](#experiment)
 - [Material](#Material)
     + [Lilypond (Sheet music)](#lilypond)
     + [Stimuli](#stimuli)
 
 ## Script
+### Rating
+- For a pilot study for stimuli selection (python)
+
+### Experiment
 - TBC
 
 ## Material
