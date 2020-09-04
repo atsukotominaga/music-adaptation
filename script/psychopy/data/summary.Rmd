@@ -3,7 +3,27 @@ title: "Summary for the stimuli selection experiment"
 output: html_notebook
 ---
 
-Participants: Anna, Thomas and me
+**Participants:** Anna, Thomas and me
+
+**Experiment brief overview:**
+
+- Participants were asked to listen to a number of recordings and required to rate to what extent articulation/dynamics was implemented. They rated for each expression (articulation, dynamics).
+- We used a 5-point likert scale for rating.
+- 64 stimuli, consisting of high (both articulation and dynamics implemented), articulation-only (only articulation implemented), dynamics-only (only dynamics implemeneted) and low (none of them implemented).
+
+**Technical things:**
+
+- The stimuli were presented randomly for each participant.
+- The order of rating (articulation first or dynamics first) was randomised within participants, but the half of the ratings started with articulation and the other half started with 
+- There were 3 practice trials.
+
+**Goal:**
+
+- Pick 4 performances which represent the characteristics of each category the most.
+
+**Issues:**
+
+- How to select? Need stats?
 
 ```{r setup, include = FALSE}
 # install packages
@@ -15,6 +35,11 @@ theme_update(legend.position = "bottom")
 ```
 
 ## Overall rating for each category
+- Art_only (articulation only)
+- Dyn_only (dynamics only)
+- High (articulation + dynamics)
+- Low (none)
+
 ```{r raw, echo = FALSE}
 # Create a list of data file names
 lf <- list.files(".", pattern = "csv")
@@ -33,7 +58,6 @@ raw_data$midFile <- gsub(".mid", "", raw_data$midFile)
 # remove practice trials
 data <- raw_data[expMode == "experiment"]
 ```
-
 
 ```{r summary, echo = FALSE}
 data$stimCategory <- "NA"
@@ -57,6 +81,9 @@ plot <- ggplot(summary_data, aes(x = stimCategory, y = meanRating)) +
   facet_wrap(ratingCategory ~ .)
 plot
 ```
+**Comments:**
+
+It seems participants can easily detect articulation but not dynamics.
 
 ## For each performance
 ### High performance
@@ -126,3 +153,16 @@ p_low
 ```
 
 ## Feedback from Anna and Thomas
+- If expressions are not matched with notated ones but he likes the expressions, what to rate?
+    + Judge to what extent expressions are corresponded with notated ones
+- There are many changes in the first system (especially for articulation), it was easy to judge articulation and then focused on dynamics afterwards. When rating, forgot what he thought about articulation.
+- Staccato and piano seem to be correlated very much. Could not tell the intention of producing piano. Might be that participants played softly (piano) but just as a result of staccato, for instance.
+- The same one for the definition of expressions (should be matched or whether I like them?)
+- Definition of staccato. Especially when participants are not implementing articulation, all sounds like staccato or just detached (detaché). she did not know whether participants meant to implement staccato or not. Range of staccato is much smaller than that of legato, so hard to judge. How long should staccato be?
+- Range 1-5 is too rough as differences in each performance is so subtle.
+- **Several performances have timing issues.**
+    + I only looked at 8th not so maybe better to look at 
+- Wordings for instructions: to what extent participants follow instructions
+
+## Feedback for my performance
+- As I generated stimuli, I am not sure whether my responses are valid because I could mostly categorise stimuli for 4 types even though they were presented randomly (of course some of them, I couldn't).
