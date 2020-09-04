@@ -3,7 +3,7 @@
 *html
 
 # script
-script/psychopy/data
+script/psychopy/data/*csv
 script/psychopy/feedback.md
 
 # material
