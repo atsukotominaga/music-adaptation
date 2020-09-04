@@ -9,7 +9,7 @@ output: html_notebook
 
 - Participants were asked to listen to a number of recordings and required to rate to what extent articulation/dynamics was implemented. They rated for each expression (articulation, dynamics).
 - We used a 5-point likert scale for rating.
-- 64 stimuli, consisting of high (both articulation and dynamics implemented), articulation-only (only articulation implemented), dynamics-only (only dynamics implemeneted) and low (none of them implemented).
+- 64 stimuli, consisting of 16 high (both articulation and dynamics implemented), 16 articulation-only (only articulation implemented), 16 dynamics-only (only dynamics implemented) and 16 low (none of them implemented).
 
 **Technical things:**
 
@@ -159,7 +159,7 @@ p_low
 - Staccato and piano seem to be correlated very much. Could not tell the intention of producing piano. Might be that participants played softly (piano) but just as a result of staccato, for instance.
 - The same one for the definition of expressions (should be matched or whether I like them?)
 - Definition of staccato. Especially when participants are not implementing articulation, all sounds like staccato or just detached (detaché). she did not know whether participants meant to implement staccato or not. Range of staccato is much smaller than that of legato, so hard to judge. How long should staccato be?
-- Range 1-5 is too rough as differences in each performance is so subtle.
+- Range 1-5 is too rough as differences in each performance are so subtle.
 - **Several performances have timing issues.**
     + I only looked at 8th not so maybe better to look at 
 - Wordings for instructions: to what extent participants follow instructions
