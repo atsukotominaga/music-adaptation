@@ -1,0 +1,128 @@
+---
+title: "Summary for the stimuli selection experiment"
+output: html_notebook
+---
+
+Participants: Anna, Thomas and me
+
+```{r setup, include = FALSE}
+# install packages
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# setting
+theme_update(legend.position = "bottom")
+```
+
+## Overall rating for each category
+```{r raw, echo = FALSE}
+# Create a list of data file names
+lf <- list.files(".", pattern = "csv")
+
+# Create raw_data - merge all data files into one
+raw_data <- data.table()
+for (i in 1:length(lf)){
+  data_i <- fread(file.path(".", lf[i]), header = T, sep = ",", dec = ".")
+  raw_data <- rbind(raw_data, data_i)
+}
+# remove unnecessary strings from midFile
+raw_data$midFile <- gsub("./practice/", "", raw_data$midFile)
+raw_data$midFile <- gsub("./mid/", "", raw_data$midFile)
+raw_data$midFile <- gsub(".mid", "", raw_data$midFile)
+
+# remove practice trials
+data <- raw_data[expMode == "experiment"]
+```
+
+
+```{r summary, echo = FALSE}
+data$stimCategory <- "NA"
+data[startsWith(midFile, "high") == TRUE]$stimCategory <- "High"
+data[startsWith(midFile, "art") == TRUE]$stimCategory <- "Art_only"
+data[startsWith(midFile, "dyn") == TRUE]$stimCategory <- "Dyn_only"
+data[startsWith(midFile, "low") == TRUE]$stimCategory <- "Low"
+
+# overall rating for each category
+summary_data <- data[, .(N = .N/2, meanRating = mean(rating), SD = sd(rating), SEM = sd(rating)/sqrt(.N/2)), by = .(stimCategory, ratingCategory)]
+summary_data[order(ratingCategory, stimCategory)]
+```
+
+## Plot
+- Error bars represent SEM.
+```{r summary_plot, echo = FALSE}
+plot <- ggplot(summary_data, aes(x = stimCategory, y = meanRating)) +
+  geom_bar(stat = 'identity') +
+  geom_errorbar(aes(ymin = meanRating-SEM, ymax = meanRating + SEM), width=.2,
+                 position=position_dodge(.9)) +
+  facet_wrap(ratingCategory ~ .)
+plot
+```
+
+## For each performance
+### High performance
+```{r high, echo = ALSE}
+data_high <- data[stimCategory == "High", .(N = .N, rating = rating), by = .(subjectNumber, ratingCategory, midFile)]
+
+# organise data.table
+data_high$subjectNumber <- factor(data_high$subjectNumber)
+data_high$Rating <- factor(data_high$rating)
+data_high$midFile <- gsub("high_", "", data_high$midFile)
+
+# plot
+p_high <- ggplot(data_high, aes(x = midFile, y = rating, colour = subjectNumber, group = subjectNumber)) +
+  geom_point(aes(shape = subjectNumber), position = position_dodge(width = .5)) +
+  facet_wrap((ratingCategory ~ .))
+p_high
+```
+
+### Articulation-only performance
+```{r art, echo = FALSE}
+data_art <- data[stimCategory == "Art_only", .(N = .N, rating = rating), by = .(subjectNumber, ratingCategory, midFile)]
+
+# organise data.table
+data_art$subjectNumber <- factor(data_art$subjectNumber)
+data_art$Rating <- factor(data_art$rating)
+data_art$midFile <- gsub("art_", "", data_art$midFile)
+
+# plot
+p_art <- ggplot(data = data_art, aes(x = midFile, y = rating, colour = subjectNumber, group = subjectNumber)) +
+  geom_point(aes(shape = subjectNumber), position = position_dodge(width = .5)) +
+  facet_wrap((ratingCategory ~ .)) +
+  ylim(1, 5)
+p_art
+```
+
+### Dynamics-only performance
+```{r dyn, echo = FALSE}
+data_dyn <- data[stimCategory == "Dyn_only", .(N = .N, rating = rating), by = .(subjectNumber, ratingCategory, midFile)]
+
+# organise data.table
+data_dyn$subjectNumber <- factor(data_dyn$subjectNumber)
+data_dyn$Rating <- factor(data_dyn$rating)
+data_dyn$midFile <- gsub("dyn_", "", data_dyn$midFile)
+
+# plot
+p_dyn <- ggplot(data = data_dyn, aes(x = midFile, y = rating, colour = subjectNumber, group = subjectNumber)) +
+  geom_point(aes(shape = subjectNumber), position = position_dodge(width = .5)) +
+  facet_wrap((ratingCategory ~ .)) +
+  ylim(1, 5)
+p_dyn
+```
+### Low performance
+```{r low, echo = FALSE}
+data_low <- data[stimCategory == "Low", .(N = .N, rating = rating), by = .(subjectNumber, ratingCategory, midFile)]
+
+# organise data.table
+data_low$subjectNumber <- factor(data_low$subjectNumber)
+data_low$Rating <- factor(data_low$rating)
+data_low$midFile <- gsub("low_", "", data_low$midFile)
+
+# plot
+p_low <- ggplot(data = data_low, aes(x = midFile, y = rating, colour = subjectNumber, group = subjectNumber)) +
+  geom_point(aes(shape = subjectNumber), position = position_dodge(width = .5)) +
+  facet_wrap((ratingCategory ~ .)) +
+  ylim(1, 5)
+p_low
+```
+
+## Feedback from Anna and Thomas
