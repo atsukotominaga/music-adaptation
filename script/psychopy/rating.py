@@ -235,7 +235,7 @@ while practice:
                 practice = False
             elif resp == "escape": # force quit
                 core.quit()
-            elif resp == "returm": # practice again
+            elif resp == "return": # practice again
                 practice = True
 
 inst8 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
@@ -265,7 +265,7 @@ dataFile.close()
 
 ### Thank you ###
 thanks = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 100, wrapWidth = 1400,
-    text="Thank you!")
+    text = "Thank you!")
 thanks.draw()
 win.flip()
 core.wait(3)
