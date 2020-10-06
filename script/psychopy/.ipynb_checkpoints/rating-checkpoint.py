@@ -25,7 +25,7 @@ def next():
                 core.quit()
     return
 
-def trial(expMode, imageFile, midFile, ratingOrder, resultsList):
+def trial(expMode, ßimageFile, midFile, ratingOrder, resultsList):
     # stimuli presentation
     ## 1. sheet music  
     stimuli = visual.ImageStim(win, image = imageFile, size = [1500, 535])
