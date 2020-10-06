@@ -55,7 +55,7 @@ def trial(expMode, imageFile, midFile, ratingOrder, resultsList):
 
     # get responses1 (rating scale)
     ratingScale1 = visual.RatingScale(win, scale = "not at all                             fully", low = 1, high = 5, markerStart = 3, marker = "circle", markerColor = "Orange", textFont = "Avenir", size = 1.5, noMouse = True, acceptKeys = "return", showAccept = False, skipKeys = None)
-    item1 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+    item1 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text = itemText1)
     trialClock1 = core.Clock()
     while ratingScale1.noResponse: # noResponse will be False once participant accepts the answer
@@ -135,7 +135,7 @@ port = mido.open_output("to Max 1")
 
 # participant's info (only works with light mode - Mac)
 expInfo = {"Number": "", "Today": data.getDateStr()}
-dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
+dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title = "Rating Pilot")
 if dlg.OK == False:
     core.quit() # cancel
 
@@ -159,7 +159,7 @@ globalClock = core.Clock()
 ### Instrution ###
 # display instructions and wait
 ## instruction 1
-inst1 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+inst1 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "Thank you very much for participating in the pilot study!\n\nIn this experiment, you are going to listen to a number of piano performances and will be asked to rate to what extent musical expressions are implemented in each performance.\n\nPress <Space> to continue")
 inst1.draw()
 win.flip()
@@ -167,7 +167,7 @@ next() # proceed/force quit
 
 ## instruction 2
 imageFile = visual.ImageStim(win, image = "./image/stim_m.png", pos = [0, -50], size = [1500, 535])
-inst2 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+inst2 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text = "You will listen to one piece with two notated musical techniques.\n\n\n\n\n\n\n\n\nPress <Space> to continue")
 imageFile.draw()
 inst2.draw()
@@ -176,7 +176,7 @@ next() # proceed/force quit
 
 ## instruction 3
 imageFile = visual.ImageStim(win, image = "./image/stim_m.png", pos = [0, -50], size = [1500, 535])
-inst3 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+inst3 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text = "[ Articulation ]\nthe smoothness of sound (legato and staccato)\n\n\n\n\n\n\n\n\nPress <Space> to continue")
 imageFile.draw()
 inst3.draw()
@@ -185,7 +185,7 @@ next() # proceed/force quit
 
 ## instruction 4
 imageFile = visual.ImageStim(win, image = "./image/stim_m.png", pos = [0, -50], size = [1500, 535])
-inst4 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
+inst4 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400,
     text = "[ Dynamics ]\nthe loudness of sound (forte and piano)\n\n\n\n\n\n\n\n\nPress <Space> to continue")
 imageFile.draw()
 inst4.draw()
@@ -193,14 +193,14 @@ win.flip()
 next() # proceed/force quit
 
 ## instruction 5
-inst5 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+inst5 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "You will listen to a performance recording first. After that, you will be required to rate to what extent musical techniques are implemented in terms of both articulation (legato and staccato) and dynamics (forte and piano).\n\nRating is separate for each technique.\n\nPress <Space> to continue")
 inst5.draw()
 win.flip()
 next() # proceed/force quit
 
 ## instruction 6
-inst6 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+inst6 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "Any questions?\n\nThere will be 3 practice trials where you can see how to rate each performance. Also adjust the volume so that you can comfortably listen to the recording.\n\nPress <Space> to start practice trials")
 inst6.draw()
 win.flip()
@@ -223,7 +223,7 @@ while practice:
         trialCounter += 1
         
     ## instruction 7
-    inst7 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+    inst7 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
         text = "Any questions?\n\nIf you want to repeat the practice trials again,\nPress <Return> key.\n\nIf you are ready for experimental trials,\nPress <Space> to start")
     inst7.draw()
     win.flip()
@@ -238,7 +238,7 @@ while practice:
             elif resp == "returm": # practice again
                 practice = True
 
-inst8 = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
+inst8 = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 60, wrapWidth = 1400, alignText = "left",
     text = "In total, there are 64 performance recordings.\n\nThe order of rating will be randomised (rating articulation first or dynamics first).\n\nAny questions? If not,\n\nPress <Space> to start experimental trials")
 inst8.draw()
 win.flip()
@@ -264,7 +264,7 @@ for item in resultsList:
 dataFile.close()
 
 ### Thank you ###
-thanks = visual.TextStim(win, pos=[0, 0], font = "Avenir", height = 100, wrapWidth = 1400,
+thanks = visual.TextStim(win, pos = [0, 0], font = "Avenir", height = 100, wrapWidth = 1400,
     text="Thank you!")
 thanks.draw()
 win.flip()
