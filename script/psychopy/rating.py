@@ -133,7 +133,7 @@ def trial(expMode, imageFile, midFile, ratingOrder, resultsList):
 os.system("open " + "./midiplayer.maxpat") # open max file
 port = mido.open_output("to Max 1")
 
-# participant"s info (only works with light mode - Mac)
+# participant's info (only works with light mode - Mac)
 expInfo = {"Number": "", "Today": data.getDateStr()}
 dlg = gui.DlgFromDict(expInfo, fixed = ["Today"], title="Rating Pilot")
 if dlg.OK == False:
