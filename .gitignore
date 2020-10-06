@@ -3,8 +3,6 @@
 *html
 
 # script
-script/psychopy/data/*csv
-script/psychopy/feedback.md
 
 # material
 material/analysis/stim_n/preprocessor/practice/
