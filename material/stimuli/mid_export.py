@@ -4,9 +4,7 @@
 # This script converts txt files to mid files.
 
 #%% import packages
-import os, csv, time, mido
-import pandas as pd
-import numpy as np
+import os, csv, mido
 
 #%% create mid folder if not existed
 if not os.path.exists("mid"):
