@@ -7,7 +7,6 @@ Code reference: https://www.psychopy.org/coder/tutorial2.html
 
 # import libraries
 from psychopy import core, visual, gui, data, event
-from psychopy.tools.filetools import fromFile, toFile
 import os, random, mido
 
 ### functions ###
