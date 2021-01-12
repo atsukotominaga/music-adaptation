@@ -21,8 +21,8 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 ```
 
 ```{r extract, include = FALSE}
-dt_onset <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
-dt_error <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+dt_onset <- fread("../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+
 # assign RowNr
 dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
 # sort by SubNr, BlockNr, TrialNr and NoteNr
@@ -33,14 +33,7 @@ dt_ioi <- dt_onset[Condition == "performing" & Skill == "articulation"]
 # SubNr as a factor
 dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
 dt_ioi$TrialNr <- as.factor(dt_ioi$TrialNr)
-
-# remove performances which contain NA
-dt_ioi$Error <- 0
-for (error in 1:nrow(dt_error)){
-  dt_ioi[SubNr == dt_error[error]$SubNr & BlockNr == dt_error[error]$BlockNr & TrialNr == dt_error[error]$TrialNr]$Error <- 1
-}
-dt_ioi_ori <- dt_ioi # save original data
-dt_ioi <- dt_ioi_ori[Error == 0]
+dt_ioi <- dt_ioi[Error == 0]
 ```
 
 ```{r normIOIs, include = FALSE}
