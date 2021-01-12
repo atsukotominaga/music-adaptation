@@ -22,8 +22,7 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 
 ```{r extract, include = FALSE}
 # onset
-dt_kv <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
-dt_error_on <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+dt_kv <- fread("../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
 
 # SubNr as a factor
 dt_kv$SubNr <- as.factor(dt_kv$SubNr)
@@ -33,14 +32,7 @@ dt_kv$RowNr <- rep(1:72, nrow(dt_kv)/72)
 
 # include only dynamics
 dt_kv <- dt_kv[Condition == "performing" & Skill == "dynamics"]
-
-# remove performances which contain NA
-dt_kv$Error <- 0
-for (error in 1:nrow(dt_error_on)){
-  dt_kv[SubNr == dt_error_on[error]$SubNr & BlockNr == dt_error_on[error]$BlockNr & TrialNr == dt_error_on[error]$TrialNr]$Error <- 1
-}
-dt_kv_ori <- dt_kv # save original data
-dt_kv <- dt_kv_ori[Error == 0]
+dt_kv <- dt_kv[Error == 0]
 ```
 
 ```{r Velocitys, include = FALSE}

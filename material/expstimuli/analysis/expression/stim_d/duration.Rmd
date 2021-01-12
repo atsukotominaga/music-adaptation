@@ -22,48 +22,34 @@ theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 C
 
 ```{r extract, include = FALSE}
 # onset
-dt_onset <- fread("../filtered/data_correct_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
-dt_error_on <- fread("../filtered/data_error_correction_onset.csv", header = T, sep = ",", dec = ".") # read an error csv
+dt_onset_all <- fread("../preprocessor/filtered/data_onset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+
 # assign RowNr
-dt_onset$RowNr <- rep(1:72, nrow(dt_onset)/72)
+dt_onset_all$RowNr <- rep(1:72, nrow(dt_onset_all)/72)
 # sort by SubNr, BlockNr, TrialNr and NoteNr
-dt_onset <- dt_onset[order(SubNr, BlockNr, TrialNr, RowNr),]
+dt_onset_all <- dt_onset_all[order(SubNr, BlockNr, TrialNr, RowNr),]
 # include only dynamics
-dt_onset <- dt_onset[Condition == "performing" & Skill == "dynamics"]
+dt_onset <- dt_onset_all[Condition == "performing" & Skill == "dynamics"]
 
 # SubNr as a factor
 dt_onset$SubNr <- as.factor(dt_onset$SubNr)
 dt_onset$TrialNr <- as.factor(dt_onset$TrialNr)
-
-# remove performances which contain NA
-dt_onset$Error <- 0
-for (error in 1:nrow(dt_error_on)){
-  dt_onset[SubNr == dt_error_on[error]$SubNr & BlockNr == dt_error_on[error]$BlockNr & TrialNr == dt_error_on[error]$TrialNr]$Error <- 1
-}
-dt_onset_ori <- dt_onset # save original data
-dt_onset <- dt_onset_ori[Error == 0]
+dt_onset <- dt_onset[Error == 0]
 
 # offset
-dt_offset <- fread("../filtered/data_correct_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
-dt_error_off <- fread("../filtered/data_error_correction_offset.csv", header = T, sep = ",", dec = ".") # read an error csv
+dt_offset_all <- fread("../preprocessor/filtered/data_offset.csv", header = T, sep = ",", dec = ".") # read a filtered csv
+
 # assign RowNr
-dt_offset$RowNr <- rep(1:72, nrow(dt_offset)/72)
+dt_offset_all$RowNr <- rep(1:72, nrow(dt_offset_all)/72)
 # sort by SubNr, BlockNr, TrialNr and NoteNr
-dt_offset <- dt_offset[order(SubNr, BlockNr, TrialNr, RowNr),]
+dt_offset_all <- dt_offset_all[order(SubNr, BlockNr, TrialNr, RowNr),]
 # include only dynamics
-dt_offset <- dt_offset[Condition == "performing" & Skill == "dynamics"]
+dt_offset <- dt_offset_all[Condition == "performing" & Skill == "dynamics"]
 
 # SubNr as a factor
 dt_offset$SubNr <- as.factor(dt_offset$SubNr)
 dt_offset$TrialNr <- as.factor(dt_offset$TrialNr)
-
-# remove performances which contain NA
-dt_offset$Error <- 0
-for (error in 1:nrow(dt_error_off)){
-  dt_offset[SubNr == dt_error_off[error]$SubNr & BlockNr == dt_error_off[error]$BlockNr & TrialNr == dt_error_off[error]$TrialNr]$Error <- 1
-}
-dt_offset_ori <- dt_offset # save original data
-dt_offset <- dt_offset_ori[Error == 0]
+dt_offset <- dt_offset[Error == 0]
 ```
 
 ```{r normDu, include = FALSE}
