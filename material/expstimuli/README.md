@@ -1,4 +1,4 @@
-We aim to generate artificial novices' performances by using existing data of our previous study (GitHub repo: [teaching-v2.0](https://github.com/atsukotominaga/teaching-v2.0)).
+We aim to generate artificial novices' performances by using existing data of our previous study (GitHub repo: [experiment 2](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2)).
 
 # previous experiment
 
