@@ -26,7 +26,8 @@ Sheet music for 4 types of expressions
 See details in [Memo](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/)
 
 ## prerating
-3 raters including myself rated how much each expression (e.g., articulation and dynamics) was implemented in each performance.
+- Environment: Mac OS X 10.15.6, Max MSP 8
+- [Python Environment](https://gist.github.com/atsukotominaga/3414c38eb5add5110d39c4f74723743c)
 
 ### psychopy3
 - `rating.py`: for the experiment
