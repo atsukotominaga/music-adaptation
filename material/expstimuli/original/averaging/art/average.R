@@ -1,5 +1,5 @@
 # /usr/local/bin/r
-# Average key velocity for averaged expressive performance
+# Average duration for averaged expressive performance
 # Created: 06/05/2020
 
 # packages
@@ -14,54 +14,60 @@ foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current tim
 dir.create(foldername)
 
 # file location
-# 1. data from stim_n (tempo, articulation)
+# 1. data from stim_n (tempo, dynamics)
 filename_ioi = "../low/1596207520-310720/dt_ioi_instance.txt"
-filename_du = "../low/1596207520-310720/dt_du_instance.txt"
-# 2. data from stim_d (dynamics)
-filename_onset = "../../analysis/expression/filtered/data_onset.csv"
-filename_offset = "../../analysis/expression/filtered/data_offset.csv"
-filename_valid_kv = "../../analysis/expression/stim_d/kv_valid.csv"
+filename_kv = "../low/1596207520-310720/dt_kv_instance.txt"
+# 2. data from stim_a (articulation)
+filename_onset = "../../../analysis/expression/filtered/data_onset.csv"
+filename_offset = "../../../analysis/expression/filtered/data_offset.csv"
+filename_valid_du = "../../../analysis/expression/stim_a/duration_valid.csv"
 
 # read csv/txt
-# 1. use normative performance for ioi, duration
+# 1. use normative performance for ioi, kv
 dt_ioi_instance <- fread(filename_ioi, header = T, sep = ",", dec = ".")
-dt_du_instance <- fread(filename_du, header = T, sep = ",", dec = ".")
-# 2. use performing performance for kv
-kv_valid <- fread(filename_valid_kv, header = T, sep = ",", dec = ".")
+dt_kv_instance <- fread(filename_kv, header = T, sep = ",", dec = ".")
+# 2. use performing performance for duration
 dt_onset <- fread(filename_onset, header = T, sep = ",", dec = ".")
 dt_offset <- fread(filename_offset, header = T, sep = ",", dec = ".")
-# only for performing/dynamics
-dt_onset_kv <- dt_onset[Condition == "performing" & Skill == "dynamics"]
+# only for performing/articulation
+dt_onset_du <- dt_onset[Condition == "performing" & Skill == "articulation"]
+dt_offset_du <- dt_offset[Condition == "performing" & Skill == "articulation"]
+duration_valid <- fread(filename_valid_du, header = T, sep = ",", dec = ".")
 # ideal
 dt_ideal <- fread("../ideal.txt", header = F)
 
-# valid kv performances
-valid <- kv_valid[, c("SubNr", "TrialNr")]
+# valid duration performances
+valid <- duration_valid[, c("SubNr", "TrialNr")]
 
 ### create 16 instances! ###
 valid$Sample <- sample(c(1:nrow(valid)), replace = FALSE)
 print(valid)
 fwrite(valid, paste(foldername, "valid.txt", sep = ""))
 
-# 1. average kv
-dt_kv_instance <- data.table()
+# 1. average duration
+dt_du_instance <- data.table()
 counter = 0
 for (i in c(1:16)){
-  stim <- combining_onset(dt_onset_kv, valid, i)
+  stim <- combining_onset(dt_onset_du, valid, i) #onset
+  stim_offset <- combining_offset(dt_offset_du, valid, i)
   
-  # average KV
-  stim_average <- stim[, .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(RowNr)]
+  # calculate Duration
+  stim$Duration <- stim_offset$TimeStamp - stim$TimeStamp
+  stim$normDu <- stim$Duration/stim$Tempo
+  
+  # average normDu
+  stim_average <- stim[, .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(RowNr)]
   # label instance no
   stim_average$Instance <- as.character(i)
   # add to dt_du_instance
-  dt_kv_instance <- rbind(dt_kv_instance, stim_average)
+  dt_du_instance <- rbind(dt_du_instance, stim_average)
   
   # next instance
   counter = counter+2
 }
 
-# export dt_kv_instance
-fwrite(dt_kv_instance, paste(foldername, "dt_kv_instance.txt", sep = ""))
+# export dt_du_instance
+fwrite(dt_du_instance, paste(foldername, "dt_du_instance.txt", sep = ""))
 
 ### create playback data! ###
 # 1. determine onsets/offsets

@@ -14,12 +14,12 @@ foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current tim
 dir.create(foldername)
 
 # file location
-filename_onset = "../../analysis/stim_n/preprocessor/filtered/data_onset.csv"
-filename_offset = "../../analysis/stim_n/preprocessor/filtered/data_offset.csv"
-filename_valid_on = "../../analysis/stim_n/onset_valid.csv"
-filename_valid_off = "../../analysis/stim_n/offset_valid.csv"
-filename_valid_du = "../../analysis/stim_n/duration_valid.csv"
-filename_valid_kv = "../../analysis/stim_n/kv_valid.csv"
+filename_onset = "../../../analysis/stim_n/preprocessor/filtered/data_onset.csv"
+filename_offset = "../../../analysis/stim_n/preprocessor/filtered/data_offset.csv"
+filename_valid_on = "../../../analysis/stim_n/onset_valid.csv"
+filename_valid_off = "../../../analysis/stim_n/offset_valid.csv"
+filename_valid_du = "../../../analysis/stim_n/duration_valid.csv"
+filename_valid_kv = "../../../analysis/stim_n/kv_valid.csv"
 
 # read csv/txt
 dt_onset <- fread(filename_onset, header = T, sep = ",", dec = ".")
