@@ -2,6 +2,9 @@
 title: "Summary for the stimuli selection experiment"
 output: html_notebook
 ---
+- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
+
+# Descriptive Stats for the generated stimuli
 
 **Participants:** Anna, Thomas and me
 
@@ -81,7 +84,7 @@ plot <- ggplot(summary_data, aes(x = stimCategory, y = meanRating)) +
   facet_wrap(ratingCategory ~ .)
 plot
 ```
-**Comments:**
+**Comments**
 
 It seems participants can easily detect articulation but not dynamics.
 
@@ -166,3 +169,116 @@ p_low
 
 ## Feedback for my performance
 - As I generated stimuli, I am not sure whether my responses are valid because I could mostly categorise stimuli for 4 types even though they were presented randomly (of course some of them, I couldn't).
+
+# Ranking for the generated stimuli
+### High performance
+- summed the rating for both articulation and dynamics and ranked the performances
+
+### with 3 raters
+```{r ranking-high, echo = FALSE}
+data_high <- data_high[order(midFile, ratingCategory)]
+data_high_sep <- data_high[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_high_both <- data_high[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_high_both[order(-Sum)]
+```
+
+### with 2 raters
+```{r ranking-high-2, echo = FALSE}
+data_high_2 <- data_high[subjectNumber != 3]
+data_high_sep_2 <- data_high_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_high_both_2 <- data_high_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_high_both_2[order(-Sum)]
+```
+
+### Articulation performance
+- summed the rating for both articulation and dynamics and ranked the performances
+
+### with 3 raters
+```{r ranking-art, echo = FALSE}
+data_art <- data_art[order(midFile, ratingCategory)]
+data_art_sep <- data_art[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_art_both <- data_art[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_art_both[order(-Sum)]
+```
+
+### Difference (not sum)
+- calculated the difference between the rating for articulation and the rating for dynamics and ranked the performances
+
+```{r ranking-art-diff, echo = FALSE}
+# or difference
+data_art_diff <- cbind(data_art[ratingCategory == "articulation"], data_art[ratingCategory == "dynamics"])
+data_art_diff$Diff <- 0
+colnames(data_art_diff)[c(5,11)] <- c("rating1", "rating2")
+data_art_diff$Diff <- data_art_diff$rating1 - data_art_diff$rating2
+data_art_diff_both <- data_art_diff[, .(N = .N, Diff = sum(Diff)), by = .(midFile)]
+
+data_art_diff_both[order(-Diff)]
+```
+
+### with 2 raters
+```{r ranking-art-2, echo = FALSE}
+data_art_2 <- data_art[subjectNumber != 3]
+data_art_sep_2 <- data_art_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_art_both_2 <- data_art_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_art_both_2[order(-Sum)]
+```
+
+### Dynamics performance
+- summed the rating for both articulation and dynamics and ranked the performances
+
+### with 3 raters
+```{r ranking-dyn, echo = FALSE}
+data_dyn <- data_dyn[order(midFile, ratingCategory)]
+data_dyn_sep <- data_dyn[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_dyn_both <- data_dyn[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_dyn_both[order(-Sum)]
+```
+
+### Difference (not sum)
+- calculated the difference between the rating for articulation and the rating for dynamics and ranked the performances
+
+```{r ranking-dyn-diff, echo = FALSE}
+# or difference
+data_dyn_diff <- cbind(data_dyn[ratingCategory == "dynamics"], data_dyn[ratingCategory == "articulation"])
+data_dyn_diff$Diff <- 0
+colnames(data_dyn_diff)[c(5,11)] <- c("rating1", "rating2")
+data_dyn_diff$Diff <- data_dyn_diff$rating1 - data_dyn_diff$rating2
+data_dyn_diff_both <- data_dyn_diff[, .(N = .N, Diff = sum(Diff)), by = .(midFile)]
+
+data_dyn_diff_both[order(-Diff)]
+```
+
+### with 2 raters
+```{r ranking-dyn-2, echo = FALSE}
+data_dyn_2 <- data_dyn[subjectNumber != 3]
+data_dyn_sep_2 <- data_dyn_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_dyn_both_2 <- data_dyn_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_dyn_both_2[order(-Sum)]
+```
+
+### Low performance
+- summed the rating for both articulation and dynamics and ranked the performances
+
+### with 3 raters
+```{r ranking-low, echo = FALSE}
+data_low <- data_low[order(midFile, ratingCategory)]
+data_low_sep <- data_low[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_low_both <- data_low[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_low_both[order(Sum)]
+```
+
+### with 2 raters
+```{r ranking-low-2, echo = FALSE}
+data_low_2 <- data_low[subjectNumber != 3]
+data_low_sep_2 <- data_low_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
+data_low_both_2 <- data_low_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+
+data_low_both_2[order(Sum)]
+```
