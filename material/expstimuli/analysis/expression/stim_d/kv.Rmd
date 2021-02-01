@@ -177,22 +177,20 @@ kv_all <- kv[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean)), by = .(Sub
 print(kv_all)
 ```
 
-# Valid performances (exclude KVs outliers)
+# Included performances for averaging
 ## Forte
 ```{r outlier_for, echo = FALSE}
 # for forte
-excluded_kv_for <- kv[Subcomponent == "Forte" & Mean < kv_all[Subcomponent == "Forte"]$Mean+3*kv_all[Subcomponent == "Forte"]$SD & Mean > kv_all[Subcomponent == "Forte"]$Mean-3*kv_all$SD]
-print(excluded_kv_for)
+kv_trial_for <- dt_kv[Subcomponent == "Forte", .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr)]
+kv_trial_for
 ```
-- The number of excluded performance: `r kv_all[Subcomponent == "Forte"]$N-nrow(excluded_kv_for)`
 
 ## Piano
 ```{r outlier_pia, echo = FALSE}
 # for piano
-excluded_kv_pia <- kv[Subcomponent == "Piano" & Mean < kv_all[Subcomponent == "Piano"]$Mean+3*kv_all[Subcomponent == "Piano"]$SD & Mean > kv_all[Subcomponent == "Piano"]$Mean-3*kv_all$SD]
-print(excluded_kv_pia)
+kv_trial_pia <- dt_kv[Subcomponent == "Piano", .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr)]
+kv_trial_pia
 ```
-- The number of excluded performance: `r kv_all[Subcomponent == "Piano"]$N-nrow(excluded_kv_pia)`
 
 ```{r export, include = FALSE}
 kv_valid <- dt_kv[, .(N = length(Velocity), Mean = mean(Velocity)), .(SubNr, TrialNr)]

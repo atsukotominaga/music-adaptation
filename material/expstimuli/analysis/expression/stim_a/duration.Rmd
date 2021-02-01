@@ -226,24 +226,20 @@ duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))
 print(duration_all)
 ```
 
-# Valid performances (exclude Duration outliers)
-- Exclude mean Duration outside 3SD
-
+# Included performances for averaging
 ## Legato
 ```{r outlier_leg, echo = FALSE}
 # for legato
-excluded_duration_leg <- duration[Subcomponent == "Legato" & Mean < duration_all[Subcomponent == "Legato"]$Mean+3*duration_all[Subcomponent == "Legato"]$SD & Mean > duration_all[Subcomponent == "Legato"]$Mean-3*duration_all$SD]
-print(excluded_duration_leg)
+duration_trial_leg <- dt_duration[Subcomponent == "Legato", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr)]
+duration_trial_leg
 ```
-- The number of excluded performance: `r duration_all[Subcomponent == "Legato"]$N-nrow(excluded_duration_leg)`
 
 ## Staccato
 ```{r outlier_sta, echo = FALSE}
 # for staccato
-excluded_duration_sta <- duration[Subcomponent == "Staccato" & Mean < duration_all[Subcomponent == "Staccato"]$Mean+3*duration_all[Subcomponent == "Staccato"]$SD & Mean > duration_all$Mean-3*duration_all[Subcomponent == "Staccato"]$SD]
-print(excluded_duration_sta)
+duration_trial_sta <- dt_duration[Subcomponent == "Staccato", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr, Subcomponent)]
+duration_trial_sta
 ```
-- The number of excluded performance: `r duration_all[Subcomponent == "Staccato"]$N-nrow(excluded_duration_sta)`
 
 ```{r export, include = FALSE}
 duration_valid <- dt_duration[, .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr)]
