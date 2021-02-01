@@ -6,7 +6,9 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of performing performance (IOI-Onset) from teaching-v2.0.
+Description: This is a rough overview of performing performance (IOI-Onset) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Performing-Articulation performances: data from the performing condition (articulation)
 
 ```{r setup, include = FALSE}
 # packages
@@ -128,13 +130,6 @@ ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-### Valid performances (exclude outliers)
-```{r outlier, echo = FALSE}
-excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
-print(excluded_ioi)
-```
-- The number of excluded performance: `r ioi_all$N-nrow(excluded_ioi)`
-
 # IOI Variability
 ## 1. All - individual
 - Average CV for each participant
@@ -160,10 +155,3 @@ p_cv_box
 cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
 ```
-
-### Valid performances (exclude outliers)
-```{r cv_outlier, echo = FALSE}
-excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
-print(excluded_cv)
-```
-- The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`

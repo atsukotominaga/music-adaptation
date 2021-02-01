@@ -6,7 +6,11 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of performing performance (Duration) from teaching-v2.0.
+***Duration values from this analysis were used.***
+
+Description: This is a rough overview of performing performance (Duration) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Performing-Articulation performances: data from the performing condition (articulation)
 
 ```{r setup, include = FALSE}
 # packages
@@ -222,7 +226,8 @@ duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))
 print(duration_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude Duration outliers)
+- Exclude mean Duration outside 3SD
 #### Legato
 ```{r outlier_leg, echo = FALSE}
 # for legato
@@ -243,27 +248,3 @@ print(excluded_duration_sta)
 duration_valid <- dt_duration[, .(N = length(normDu), Mean = mean(normDu)), .(SubNr, TrialNr)]
 fwrite(duration_valid, "./duration_valid.csv")
 ```
-
-<!-- # Duration Variability -->
-<!-- ```{r cv, echo = FALSE} -->
-<!-- # for each participant -->
-<!-- cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)] -->
-<!-- print(cv) -->
-<!-- ``` -->
-
-<!-- ```{r cv_box, echo = FALSE} -->
-<!-- p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) + -->
-<!--   geom_boxplot() + -->
-<!--   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) -->
-<!-- p_cv_box -->
-<!-- ``` -->
-
-<!-- ### Exclude outlier performacnes -->
-<!-- ```{r cv_outlier, echo = FALSE} -->
-<!-- # for all -->
-<!-- cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))] -->
-<!-- print(cv_all) -->
-
-<!-- excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD] -->
-<!-- print(excluded_cv) -->
-<!-- ``` -->
