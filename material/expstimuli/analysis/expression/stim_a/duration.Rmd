@@ -228,7 +228,8 @@ print(duration_all)
 
 # Valid performances (exclude Duration outliers)
 - Exclude mean Duration outside 3SD
-#### Legato
+
+## Legato
 ```{r outlier_leg, echo = FALSE}
 # for legato
 excluded_duration_leg <- duration[Subcomponent == "Legato" & Mean < duration_all[Subcomponent == "Legato"]$Mean+3*duration_all[Subcomponent == "Legato"]$SD & Mean > duration_all[Subcomponent == "Legato"]$Mean-3*duration_all$SD]
@@ -236,7 +237,7 @@ print(excluded_duration_leg)
 ```
 - The number of excluded performance: `r duration_all[Subcomponent == "Legato"]$N-nrow(excluded_duration_leg)`
 
-#### Staccato
+## Staccato
 ```{r outlier_sta, echo = FALSE}
 # for staccato
 excluded_duration_sta <- duration[Subcomponent == "Staccato" & Mean < duration_all[Subcomponent == "Staccato"]$Mean+3*duration_all[Subcomponent == "Staccato"]$SD & Mean > duration_all$Mean-3*duration_all[Subcomponent == "Staccato"]$SD]

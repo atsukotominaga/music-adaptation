@@ -6,7 +6,11 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of performing performance (KV) from teaching-v2.0.
+***KV values from this analysis were used.***
+
+Description: This is a rough overview of performing performance (KV) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Performing-Dynamics performances: data from the performing condition (dynamics)
 
 ```{r setup, include = FALSE}
 # packages
@@ -36,11 +40,6 @@ dt_kv <- dt_kv[Error == 0]
 ```
 
 ```{r Velocitys, include = FALSE}
-# # convert bpm to ms
-# dt_kv[Tempo == 120]$Tempo <- 250
-# dt_kv[Tempo == 110]$Tempo <- 273
-# dt_kv[Tempo == 100]$Tempo <- 300
-
 # define subcomponents
 # for intervals
 ls_legato <- list(c(1:4), c(9:16), c(21:24), c(40:46))
@@ -178,8 +177,8 @@ kv_all <- kv[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean)), by = .(Sub
 print(kv_all)
 ```
 
-### Valid performances (exclude outliers)
-#### Forte
+# Valid performances (exclude KVs outliers)
+## Forte
 ```{r outlier_for, echo = FALSE}
 # for forte
 excluded_kv_for <- kv[Subcomponent == "Forte" & Mean < kv_all[Subcomponent == "Forte"]$Mean+3*kv_all[Subcomponent == "Forte"]$SD & Mean > kv_all[Subcomponent == "Forte"]$Mean-3*kv_all$SD]
@@ -187,7 +186,7 @@ print(excluded_kv_for)
 ```
 - The number of excluded performance: `r kv_all[Subcomponent == "Forte"]$N-nrow(excluded_kv_for)`
 
-#### Piano
+## Piano
 ```{r outlier_pia, echo = FALSE}
 # for piano
 excluded_kv_pia <- kv[Subcomponent == "Piano" & Mean < kv_all[Subcomponent == "Piano"]$Mean+3*kv_all[Subcomponent == "Piano"]$SD & Mean > kv_all[Subcomponent == "Piano"]$Mean-3*kv_all$SD]
@@ -199,27 +198,3 @@ print(excluded_kv_pia)
 kv_valid <- dt_kv[, .(N = length(Velocity), Mean = mean(Velocity)), .(SubNr, TrialNr)]
 fwrite(kv_valid, "./kv_valid.csv")
 ```
-
-<!-- # KV Variability -->
-<!-- ```{r cv, echo = FALSE} -->
-<!-- # for each participant -->
-<!-- cv <- dt_kv[EighthNote == "Yes", .(N = length(Velocity), CV = sd(Velocity)/mean(Velocity)) , by = .(SubNr, TrialNr)] -->
-<!-- cv -->
-<!-- ``` -->
-
-<!-- ```{r cv_box, echo = FALSE} -->
-<!-- p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) + -->
-<!--   geom_boxplot() + -->
-<!--   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) -->
-<!-- p_cv_box -->
-<!-- ``` -->
-
-<!-- ### Exclude outlier performances -->
-<!-- ```{r cv_outlier, echo = FALSE} -->
-<!-- # for all -->
-<!-- cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))] -->
-<!-- print(cv_all) -->
-
-<!-- excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD] -->
-<!-- print(excluded_cv) -->
-<!-- ``` -->
