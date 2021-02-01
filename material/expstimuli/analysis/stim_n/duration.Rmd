@@ -144,10 +144,12 @@ print(duration_all)
 - Exclude mean Duration outside 3SD
 
 ```{r outlier, echo = FALSE}
-excluded_duration <- duration[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
+duration_trial <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr)]
+
+excluded_duration <- duration_trial[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
 print(excluded_duration)
 ```
-- The number of excluded performance: `r duration_all$N-nrow(excluded_duration)`
+- The number of excluded performance: `r nrow(duration_trial)-nrow(excluded_duration)`
 
 # Duration Variability
 ## 1. All - individual

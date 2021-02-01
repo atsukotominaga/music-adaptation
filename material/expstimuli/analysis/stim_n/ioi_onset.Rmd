@@ -128,10 +128,12 @@ print(ioi_all)
 - Exclude mean IOIs outside 3SD
 
 ```{r outlier, echo = FALSE}
-excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
+ioi_trial <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr, TrialNr)]
+
+excluded_ioi <- ioi_trial[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
-- The number of excluded performance: `r ioi_all$N-nrow(excluded_ioi)`
+- The number of excluded performance: `r nrow(ioi_trial)-nrow(excluded_ioi)`
 
 # IOI Variability
 ## 1. All - individual

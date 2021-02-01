@@ -112,10 +112,12 @@ print(kv_all)
 - Exclude mean KVs outside 3SD
 
 ```{r outlier, echo = FALSE}
-excluded_kv <- kv[Mean < kv_all$Mean+3*kv_all$SD & Mean > kv_all$Mean-3*kv_all$SD]
+kv_trial <- dt_kv[EighthNote == "Yes", .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr)]
+
+excluded_kv <- kv_trial[Mean < kv_all$Mean+3*kv_all$SD & Mean > kv_all$Mean-3*kv_all$SD]
 print(excluded_kv)
 ```
-- The number of excluded performance: `r kv_all$N-nrow(excluded_kv)`
+- The number of excluded performance: `r nrow(kv_trial)-nrow(excluded_kv)`
 
 # KV Variability
 ## 1. All - individual
