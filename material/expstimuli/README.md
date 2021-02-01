@@ -16,6 +16,8 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ![](original/averaging/dyn/stim_d.png)
 
 # pre-analysis
+- `analysis` folder
+
 We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli/original/averaging).
 
 1. No expression (stim_n) - baseline performance
@@ -33,6 +35,8 @@ We got **137 valid performances** for articulation.
 We got **139 valid performances** for dynamics.
 
 # generating stimuli
+- `original` & `practice` folders
+
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances- see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
 
 We want to create 4 different types of recordings:
@@ -86,5 +90,12 @@ We used exactly the same duration values generated for intermediate-articulation
 ### Dynamics
 We used exactly the same velocity values generated for intermediate-dynamics performances.
 
-# export stimuli as mid files
+## 5. export stimuli as mid files
+- `mid_export.py`
+
 After generating stimuli (txt files), export them as mid files using mid_export.py. >> **output**: mid folder
+
+# selecting stimuli
+- `selected` folder
+
+Based on the results of the pilot rating, we selected stimuli (TBC).
