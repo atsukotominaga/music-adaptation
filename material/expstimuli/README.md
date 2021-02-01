@@ -7,16 +7,16 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 ***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
 
 1. No expression (stim_n)
-![](averaging/low/stim_n.png)
+![](original/averaging/low/stim_n.png)
 
 2. Articulation (stim_a)
-![](averaging/art/stim_a.png)
+![](original/averaging/art/stim_a.png)
 
 3. Dynamics (stim_d)
-![](averaging/dyn/stim_d.png)
+![](original/averaging/dyn/stim_d.png)
 
 # pre-analysis
-We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli/analysis).
+We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli/original/averaging).
 
 1. No expression (stim_n) - baseline performance
 
@@ -73,7 +73,7 @@ We used exactly the same duration values generated for low performances.
 
 ## 4. High
 Corresponding sheet music: stim_m (see below)
-![](averaging/high/stim_m.png)
+![](original/averaging/high/stim_m.png)
 
 Both articulation and dynamics are implemented correctly.
 
