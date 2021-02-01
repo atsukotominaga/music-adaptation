@@ -6,7 +6,9 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance (Duration) from teaching-v2.0.
+Description: This is a rough overview of non-expressive performance (Duration) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Non-expressive performances: data from practice trials
 
 ```{r setup, include = FALSE}
 # packages
@@ -138,7 +140,9 @@ duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))
 print(duration_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude Duration outliers)
+- Exclude mean Duration outside 3SD
+
 ```{r outlier, echo = FALSE}
 excluded_duration <- duration[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
 print(excluded_duration)
@@ -171,7 +175,9 @@ cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude CVs outliers)
+- Exclude mean CVs outside 3SD
+
 ```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)

@@ -6,7 +6,9 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance (KV) from teaching-v2.0.
+Description: This is a rough overview of non-expressive performance (KV) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Non-expressive performances: data from practice trials
 
 ```{r setup, include = FALSE}
 # packages
@@ -106,7 +108,9 @@ kv_all <- kv[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(kv_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude KVs outliers)
+- Exclude mean KVs outside 3SD
+
 ```{r outlier, echo = FALSE}
 excluded_kv <- kv[Mean < kv_all$Mean+3*kv_all$SD & Mean > kv_all$Mean-3*kv_all$SD]
 print(excluded_kv)
@@ -139,7 +143,9 @@ cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude CVs outliers)
+- Exclude mean CVs outside 3SD
+
 ```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)

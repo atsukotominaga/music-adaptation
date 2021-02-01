@@ -6,7 +6,9 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a rough overview of non-expressive performance (IOI-offset) from teaching-v2.0.
+Description: This is a rough overview of non-expressive performance (IOI-Offset) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
+
+Non-expressive performances: data from practice trials
 
 ```{r setup, include = FALSE}
 # packages
@@ -122,7 +124,9 @@ ioi_all <- ioi[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean))]
 print(ioi_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude outliers)
+- Exclude mean IOIs outside 3SD
+
 ```{r outlier, echo = FALSE}
 excluded_ioi <- ioi[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
@@ -155,7 +159,9 @@ cv_all <- cv[, .(N = length(CV), Mean = mean(CV), SD = sd(CV))]
 print(cv_all)
 ```
 
-### Valid performances (exclude outliers)
+# Valid performances (exclude outliers)
+- Exclude mean CVs outside 3SD
+
 ```{r cv_outlier, echo = FALSE}
 excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
