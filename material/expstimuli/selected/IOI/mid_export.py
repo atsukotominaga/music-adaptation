@@ -1,6 +1,5 @@
 #!/usr/local/bin/python
 ####################
-# Created: 20/04/2020
 # This script converts txt files to mid files.
 
 #%% import packages

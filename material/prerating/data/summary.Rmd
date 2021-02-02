@@ -6,7 +6,7 @@ output: html_notebook
 
 # Descriptive Stats for the generated stimuli
 
-**Participants:** Anna, Thomas and me
+**Participants:** 3 including myself (author)
 
 **Experiment brief overview:**
 
@@ -17,16 +17,12 @@ output: html_notebook
 **Technical things:**
 
 - The stimuli were presented randomly for each participant.
-- The order of rating (articulation first or dynamics first) was randomised within participants, but the half of the ratings started with articulation and the other half started with 
+- The order of rating (articulation first or dynamics first) was randomised within participants, but the half of the ratings started with articulation and the other half started with dynamics.
 - There were 3 practice trials.
 
 **Goal:**
 
 - Pick 4 performances which represent the characteristics of each category the most.
-
-**Issues:**
-
-- How to select? Need stats?
 
 ```{r setup, include = FALSE}
 # install packages
@@ -44,15 +40,13 @@ theme_update(legend.position = "bottom")
 - Low (none)
 
 ```{r raw, echo = FALSE}
-# Create a list of data file names
-lf <- list.files(".", pattern = "csv")
+# create raw_data - merge all data files into one
+data_ls <- list.files(".", pattern = "csv")
+combined <- lapply(data_ls, function(f){
+  fread(paste("./", f, sep = ""), sep = ",")
+})
+raw_data <- do.call(rbind.data.frame, combined)
 
-# Create raw_data - merge all data files into one
-raw_data <- data.table()
-for (i in 1:length(lf)){
-  data_i <- fread(file.path(".", lf[i]), header = T, sep = ",", dec = ".")
-  raw_data <- rbind(raw_data, data_i)
-}
 # remove unnecessary strings from midFile
 raw_data$midFile <- gsub("./practice/", "", raw_data$midFile)
 raw_data$midFile <- gsub("./mid/", "", raw_data$midFile)
@@ -70,7 +64,7 @@ data[startsWith(midFile, "dyn") == TRUE]$stimCategory <- "Dyn_only"
 data[startsWith(midFile, "low") == TRUE]$stimCategory <- "Low"
 
 # overall rating for each category
-summary_data <- data[, .(N = .N/2, meanRating = mean(rating), SD = sd(rating), SEM = sd(rating)/sqrt(.N/2)), by = .(stimCategory, ratingCategory)]
+summary_data <- data[, .(N = .N, meanRating = mean(rating), SD = sd(rating), SEM = sd(rating)/sqrt(.N)), by = .(stimCategory, ratingCategory)]
 summary_data[order(ratingCategory, stimCategory)]
 ```
 
@@ -84,9 +78,6 @@ plot <- ggplot(summary_data, aes(x = stimCategory, y = meanRating)) +
   facet_wrap(ratingCategory ~ .)
 plot
 ```
-**Comments**
-
-It seems participants can easily detect articulation but not dynamics.
 
 ## For each performance
 ### High performance
@@ -155,26 +146,10 @@ p_low <- ggplot(data = data_low, aes(x = midFile, y = rating, colour = subjectNu
 p_low
 ```
 
-## Feedback from Anna and Thomas
-- If expressions are not matched with notated ones but he likes the expressions, what to rate?
-    + Judge to what extent expressions are corresponded with notated ones
-- There are many changes in the first system (especially for articulation), it was easy to judge articulation and then focused on dynamics afterwards. When rating, forgot what he thought about articulation.
-- Staccato and piano seem to be correlated very much. Could not tell the intention of producing piano. Might be that participants played softly (piano) but just as a result of staccato, for instance.
-- The same one for the definition of expressions (should be matched or whether I like them?)
-- Definition of staccato. Especially when participants are not implementing articulation, all sounds like staccato or just detached (detaché). she did not know whether participants meant to implement staccato or not. Range of staccato is much smaller than that of legato, so hard to judge. How long should staccato be?
-- Range 1-5 is too rough as differences in each performance are so subtle.
-- **Several performances have timing issues.**
-    + I only looked at 8th not so maybe better to look at 
-- Wordings for instructions: to what extent participants follow instructions
+# Selecting stimuli
+## High performance
+- sum the ratings for both articulation and dynamics and rank the performances by Sum
 
-## Feedback for my performance
-- As I generated stimuli, I am not sure whether my responses are valid because I could mostly categorise stimuli for 4 types even though they were presented randomly (of course some of them, I couldn't).
-
-# Ranking for the generated stimuli
-### High performance
-- summed the rating for both articulation and dynamics and ranked the performances
-
-### with 3 raters
 ```{r ranking-high, echo = FALSE}
 data_high <- data_high[order(midFile, ratingCategory)]
 data_high_sep <- data_high[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
@@ -183,89 +158,80 @@ data_high_both <- data_high[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
 data_high_both[order(-Sum)]
 ```
 
-### with 2 raters
-```{r ranking-high-2, echo = FALSE}
-data_high_2 <- data_high[subjectNumber != 3]
-data_high_sep_2 <- data_high_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_high_both_2 <- data_high_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+### Selected 4 performances
+```{r, echo = FALSE}
+select_high <- data_high_both[order(-Sum)]
+select_high$Rank <- 1:nrow(select_high)
+select_high$Category <- "High"
 
-data_high_both_2[order(-Sum)]
+# dummy
+select_high$Sample <- 0
+select_high$Diff <- 0
+select_high$Total <- 0
+
+select_high[Rank < 5]
 ```
 
-### Articulation performance
-- summed the rating for both articulation and dynamics and ranked the performances
+## Articulation performance
+- sum the ratings for articulation (Sum) and calculate the difference between articulation and dynamics ratings (Diff)
+- find bigger articulation ratings and bigger differences between articulation and dynamics ratings
+- rank the performances by Total
 
-### with 3 raters
 ```{r ranking-art, echo = FALSE}
 data_art <- data_art[order(midFile, ratingCategory)]
 data_art_sep <- data_art[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_art_both <- data_art[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+data_art_art <- data_art[ratingCategory == "articulation", .(N = .N, Sum = sum(rating)), by = .(midFile)]
+data_art_art$Diff <- data_art_sep[ratingCategory == "articulation"]$Sum - data_art_sep[ratingCategory == "dynamics"]$Sum
 
-data_art_both[order(-Sum)]
+# articulation ratings + difference between articulation and dynamics ratings (bigger values are good stimuli)
+data_art_art$Total <- data_art_art$Sum + data_art_art$Diff
+data_art_art[order(-Total)]
 ```
 
-### Difference (not sum)
-- calculated the difference between the rating for articulation and the rating for dynamics and ranked the performances
+### Selected 4 performances
+```{r, echo = FALSE}
+select_art <- data_art_art[order(-Total)]
+select_art$Rank <- 1:nrow(select_art)
+select_art$Category <- "Art_only"
 
-```{r ranking-art-diff, echo = FALSE}
-# or difference
-data_art_diff <- cbind(data_art[ratingCategory == "articulation"], data_art[ratingCategory == "dynamics"])
-data_art_diff$Diff <- 0
-colnames(data_art_diff)[c(5,11)] <- c("rating1", "rating2")
-data_art_diff$Diff <- data_art_diff$rating1 - data_art_diff$rating2
-data_art_diff_both <- data_art_diff[, .(N = .N, Diff = sum(Diff)), by = .(midFile)]
-
-data_art_diff_both[order(-Diff)]
+# randomly select 3 from Total == 22
+select_art$Sample <- 0
+select_art[Rank == 1]$Sample <- 1
+select_art[Total == 22]$Sample <- sample(c(1:nrow(select_art[Total == 22])), replace = FALSE)
+select_art[Sample != 0 & Sample < 4]
 ```
 
-### with 2 raters
-```{r ranking-art-2, echo = FALSE}
-data_art_2 <- data_art[subjectNumber != 3]
-data_art_sep_2 <- data_art_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_art_both_2 <- data_art_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+## Dynamics performance
+- sum the ratings for dynamics (Sum) and calculate the difference between dynamics and articulation ratings (Diff)
+- find bigger dynamics ratings and bigger differences between dynamics and articulation ratings
+- rank the performances by Total
 
-data_art_both_2[order(-Sum)]
-```
-
-### Dynamics performance
-- summed the rating for both articulation and dynamics and ranked the performances
-
-### with 3 raters
 ```{r ranking-dyn, echo = FALSE}
 data_dyn <- data_dyn[order(midFile, ratingCategory)]
 data_dyn_sep <- data_dyn[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_dyn_both <- data_dyn[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+data_dyn_dyn <- data_dyn[ratingCategory == "dynamics", .(N = .N, Sum = sum(rating)), by = .(midFile)]
+data_dyn_dyn$Diff <- data_dyn_sep[ratingCategory == "dynamics"]$Sum - data_dyn_sep[ratingCategory == "articulation"]$Sum
 
-data_dyn_both[order(-Sum)]
+# dynamics ratings + difference between dynamics and articulation ratings (bigger values are good stimuli)
+data_dyn_dyn$Total <- data_dyn_dyn$Sum + data_dyn_dyn$Diff
+data_dyn_dyn[order(-Total)]
 ```
 
-### Difference (not sum)
-- calculated the difference between the rating for articulation and the rating for dynamics and ranked the performances
+### Selected 4 performances
+```{r, echo = FALSE}
+select_dyn <- data_dyn_dyn[order(-Total)]
+select_dyn$Rank <- 1:nrow(select_dyn)
+select_dyn$Category <- "Dyn_only"
 
-```{r ranking-dyn-diff, echo = FALSE}
-# or difference
-data_dyn_diff <- cbind(data_dyn[ratingCategory == "dynamics"], data_dyn[ratingCategory == "articulation"])
-data_dyn_diff$Diff <- 0
-colnames(data_dyn_diff)[c(5,11)] <- c("rating1", "rating2")
-data_dyn_diff$Diff <- data_dyn_diff$rating1 - data_dyn_diff$rating2
-data_dyn_diff_both <- data_dyn_diff[, .(N = .N, Diff = sum(Diff)), by = .(midFile)]
+# dummy
+select_dyn$Sample <- 0
 
-data_dyn_diff_both[order(-Diff)]
+select_dyn[Total >= 11]
 ```
 
-### with 2 raters
-```{r ranking-dyn-2, echo = FALSE}
-data_dyn_2 <- data_dyn[subjectNumber != 3]
-data_dyn_sep_2 <- data_dyn_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_dyn_both_2 <- data_dyn_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+## Low performance
+- sum the ratings for both articulation and dynamics and rank the performances by Sum
 
-data_dyn_both_2[order(-Sum)]
-```
-
-### Low performance
-- summed the rating for both articulation and dynamics and ranked the performances
-
-### with 3 raters
 ```{r ranking-low, echo = FALSE}
 data_low <- data_low[order(midFile, ratingCategory)]
 data_low_sep <- data_low[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
@@ -274,11 +240,28 @@ data_low_both <- data_low[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
 data_low_both[order(Sum)]
 ```
 
-### with 2 raters
-```{r ranking-low-2, echo = FALSE}
-data_low_2 <- data_low[subjectNumber != 3]
-data_low_sep_2 <- data_low_2[, .(N = .N, Sum = sum(rating)), by = .(midFile, ratingCategory)]
-data_low_both_2 <- data_low_2[, .(N = .N, Sum = sum(rating)), by = .(midFile)]
+### Selected 4 performances
+```{r, echo = FALSE}
+select_low <- data_low_both[order(Sum)]
+select_low$Rank <- 1:nrow(select_low)
+select_low$Category <- "Low"
+select_low <- select_low[Sum == min(select_low$Sum)]
 
-data_low_both_2[order(Sum)]
+# randomly select 4
+select_low$Sample <- sample(c(1:nrow(select_low)), replace = FALSE)
+
+# dummy
+select_low$Diff <- 0
+select_low$Total <- 0
+
+select_low[Sample < 5]
+```
+# Export selected stimuli
+```{r, echo = FALSE}
+selected <- rbind(select_high[Rank < 5], select_art[Sample != 0 & Sample < 4], select_dyn[Total >= 11], select_low[Sample < 5])
+selected
+
+# export txt file
+filename = paste("./selected_", format(Sys.time(), "%s-%d%m%y"), ".txt", sep = "") # current time
+fwrite(selected, filename)
 ```
