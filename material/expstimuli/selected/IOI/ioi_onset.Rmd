@@ -1,0 +1,108 @@
+---
+title: 'IOI-Onset Selection'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: In order to select 4 performances to determine a tempo of each performance, we look at previously generated 16 instances and randomly selected from them.
+
+Original stimuli: `material/expstimuli/original/averaging/low/1596207520-310720/dt_ioi_instance.txt`
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# plot
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+
+# ggplots
+theme_set(theme_classic())
+theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+```
+
+```{r extract, include = FALSE}
+dt_ioi <- fread("../../original/averaging/low/1596207520-310720/dt_ioi_instance.txt")
+dt_ioi$IOI <- dt_ioi$Mean*300
+```
+
+# IOIs plot
+```{r plot-ioi, echo = FALSE, fig.height = 6}
+ggplot(data = dt_ioi, aes(x = RowNr, y = IOI)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(Instance ~ .) +
+  labs(x = "RowNr", y = "IOIs (100bpm)", subtitle = "IOI: 16 instances") +
+  scale_x_continuous(breaks=seq(1,72,1))
+```
+- Looks like 13 may have a delay at Row 24?
+
+```{r playback, include = FALSE}
+# create a folder to store stimuli
+foldername = paste(format(Sys.time(), "%s-%d%m%y"), "/", sep = "") # current time
+dir.create(foldername)
+
+# 1. determine onsets/offsets
+# onsets
+dt_playback_onset <- dt_ioi[, c("Instance", "RowNr")]
+dt_playback_onset$Key_OnOff <- 1
+for (i in 1:nrow(dt_playback_onset)){
+  if (dt_playback_onset$RowNr[i] == 1){
+    dt_playback_onset$TimeStamp[i] <- 0
+  } else {
+    dt_playback_onset$TimeStamp[i] <- dt_playback_onset$TimeStamp[i-1]+dt_ioi$Mean[i]
+  }
+}
+# Tempo 100 bpm (IOI - 300ms (8th notes))
+dt_playback_onset$TimeStamp <- round(dt_playback_onset$TimeStamp*300)
+
+# offsets
+dt_playback_offset <- dt_ioi[, c("Instance", "RowNr")]
+dt_playback_offset$Key_OnOff <- 0
+# Tempo 100 bpm (IOI - 300ms (8th notes))
+dt_playback_offset$TimeStamp <- round(dt_playback_onset$TimeStamp+0.5*300)
+
+# kv
+dt_playback_onset$Velocity <- 80
+dt_playback_offset$Velocity <- 64
+
+# create txt for each instance
+for (i in 1:16){
+  onset <- dt_playback_onset[Instance == i]
+  offset <- dt_playback_offset[Instance == i]
+  onset$Pitch <- 60
+  offset$Pitch <- 60
+  instance <- rbind(onset, offset)
+  # sort by TimeStamp
+  instance <- instance[order(TimeStamp)]
+  
+  # export txt
+  filename = paste(foldername, i, "_instance.txt", sep = "")
+  fwrite(instance, filename)
+}
+```
+
+# Export as mid files
+```{bash, echo = TRUE}
+# python
+source /Users/atsukotominaga/Pyenv/bin/activate
+python mid_export.py
+```
+- Listened to each performance (mid files between 1-16) and `ioi_13.mid` was excluded because there was one tiny delay in a performance.
+- We select four of these performances (15 mid files) to determine a tempo of each stimulus.
+
+# Selected 4 performances (IOIs)
+```{r, echo = FALSE}
+select_ioi <- dt_ioi[Instance != 13, .N, .(Instance)]
+select_ioi$Sample <- sample(c(1:nrow(select_ioi)), replace = FALSE)
+select_ioi[Sample < 5]
+
+# export
+dir.create("./tempo/")
+for (i in 1:4){
+  current <- dt_ioi[Instance == select_ioi[Sample == i]$Instance]
+  filename = paste("./tempo/", i, ".txt", sep = "")
+  fwrite(current, filename)
+}
+```
