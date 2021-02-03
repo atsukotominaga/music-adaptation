@@ -172,21 +172,7 @@ dir.create("./stimuli")
 for (category in unique(all_data$Category)){
   for (i in 1:4){
     current <- all_data[Category == category & Stimuli == i]
-    filename = paste("./stimuli/", tolower(category), )
+    filename = paste("./stimuli/", tolower(category), "_", i, ".txt", sep = "")
     fwrite(current, filename)
   }
-}
-
-for (i in 1:16){
-  onset <- dt_playback_onset[Instance == i]
-  offset <- dt_playback_offset[Instance == i]
-  onset$Pitch <- dt_ideal$V1
-  offset$Pitch <- dt_ideal$V1
-  instance <- rbind(onset, offset)
-  # sort by TimeStamp
-  instance <- instance[order(TimeStamp)]
-  
-  # export txt
-  filename = paste(foldername, i, "_instance.txt", sep = "")
-  fwrite(instance, filename)
 }
