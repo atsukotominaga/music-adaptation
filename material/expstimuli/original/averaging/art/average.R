@@ -2,6 +2,10 @@
 # Average duration for averaged expressive performance
 # Created: 06/05/2020
 
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("average.R")
+
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
