@@ -7,6 +7,10 @@
 # Created: 02/04/2020
 # This script organises raw data and removes pitch errors.
 
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("filtering.R")
+
 ####################################
 #  Requirements
 ####################################
