@@ -2,6 +2,10 @@
 # Randomly select three raw performances for practice trials
 # Created: 13/08/2020
 
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("random.R")
+
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
