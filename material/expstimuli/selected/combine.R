@@ -2,6 +2,10 @@
 # Combine selected performances and create experimental stimuli
 # Created: 03/02/2021
 
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("combine.R")
+
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
