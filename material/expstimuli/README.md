@@ -39,7 +39,7 @@ We got **139 valid performances** for dynamics.
 
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances- see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
 
-We want to create 4 different types of recordings:
+We had 4 different types of recordings (each has 16 instances):
 1. low: neither articulation nor dynamics implemented
 2. intermediate-articulation: only articulation implemented
 3. intermediate-dynamics: only dynamics implemented
@@ -98,4 +98,7 @@ After generating stimuli (txt files), export them as mid files using mid_export.
 # selecting stimuli
 - `selected` folder
 
-Based on the results of the pilot rating, we selected stimuli (TBC).
+Based on the results of the pilot rating (`../prerating/data/summary.Rmd`), we selected 4 stimuli for each type.
+
+- `IOI`: 4 base tempi were randomly selected from the original 16 instances (see details: `IOI/ioi_onset.Rmd`)
+- `combine.R`: based on what were selected (`../prerating/data/selected_1612309984-030221.txt`), create 4 stimuli for eacy type.
