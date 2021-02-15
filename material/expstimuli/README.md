@@ -76,7 +76,7 @@ We followed exactly the same averaging process for velocity values as we did for
 We used exactly the same duration values generated for low performances.
 
 ## 4. High
-Corresponding sheet music: stim_m (see below)
+Corresponding sheet music: stim_m
 ![](original/averaging/high/stim_m.png)
 
 Both articulation and dynamics are implemented correctly.
