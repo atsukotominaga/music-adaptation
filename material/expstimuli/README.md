@@ -35,7 +35,7 @@ We got **137 valid performances** for articulation.
 We got **139 valid performances** for dynamics.
 
 # generating stimuli
-- `original` & `practice` folders
+- `original` folder
 
 We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances- see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
 
@@ -89,6 +89,10 @@ We used exactly the same duration values generated for intermediate-articulation
 
 ### Dynamics
 We used exactly the same velocity values generated for intermediate-dynamics performances.
+
+- `practice` folder
+
+We randomly selected one performance from each category (non-expressive, articulation-performing, dynamics-performing) for practice trials.
 
 ## 5. export stimuli as mid files
 - `mid_export.py`
