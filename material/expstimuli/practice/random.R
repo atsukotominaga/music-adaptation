@@ -72,7 +72,7 @@ stim_a <- min(valid[Skill == "articulation"]$Sample)
 stim_d <- min(valid[Skill == "dynamics"]$Sample)
 writeLines(paste("stim_n: ", stim_n, "stim_a: ", stim_a, "stim_d: ", stim_d), paste(foldername, "demo.txt", sep = ""))
 
-# remove first silence and adjust tempo for 100 bpm
+# create demo data
 dt_demo <- data.table()
 counter = 0
 for (i in c(stim_n, stim_a, stim_d)){

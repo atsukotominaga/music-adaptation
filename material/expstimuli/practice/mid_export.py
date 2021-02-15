@@ -39,12 +39,6 @@ for folder in folders:
                     counter += 1
                 else:
                     previousTime = currentTime
-                # tempo always 100bpm
-                if int(row[6]) == 120:
-                    currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, round(500000*(500/600), 0))) # adjust tempo
-                elif int(row[6]) == 110:
-                    currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, round(500000*(545/600), 0))) # adjust tempo
-                elif int(row[6]) == 100:
                     currentTime = int(mido.second2tick(int(row[1])*0.001+3, 480, round(500000*(600/600), 0)))
                 currentPitch = int(row[2])
                 currentVelocity = int(row[3])
