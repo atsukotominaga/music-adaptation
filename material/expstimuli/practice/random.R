@@ -21,8 +21,8 @@ filename_offset1 = "../analysis/stim_n/preprocessor/filtered/data_offset.csv"
 filename_valid_du1 = "../analysis/stim_n/duration_valid.csv"
 filename_valid_kv1 = "../analysis/stim_n/kv_valid.csv"
 # 2. data for raw expressive performances
-filename_onset2 = "../analysis/expression/filtered/data_onset.csv"
-filename_offset2 = "../analysis/expression/filtered/data_offset.csv"
+filename_onset2 = "../analysis/expression/preprocessor/filtered/data_onset.csv"
+filename_offset2 = "../analysis/expression/preprocessor/filtered/data_offset.csv"
 filename_valid_du2 = "../analysis/expression/stim_a/duration_valid.csv"
 filename_valid_kv2 = "../analysis/expression/stim_d/kv_valid.csv"
 
@@ -50,9 +50,6 @@ valid1$Skill <- "non-expression"
 # 2.expressive performances
 dt_onset2 <- fread(filename_onset2, header = T, sep = ",", dec = ".")
 dt_offset2 <- fread(filename_offset2, header = T, sep = ",", dec = ".")
-# remove unnecessary rows/columns
-dt_onset2$RowNr <- NULL
-dt_offset2$RowNr <- NULL
 dt_onset2 <- dt_onset2[Condition == "performing"]
 dt_offset2 <- dt_offset2[Condition == "performing"]
 # valid performances for each parameter
@@ -102,9 +99,9 @@ for (subnr in unique(dt_demo$SubNr)){
   current <- dt_demo[SubNr == subnr]
   current$TimeStamp <- current$TimeStamp-current$TimeStamp[1]
   current <- current[order(TimeStamp),]
-  # if (unique(current$Tempo) != 100){ # NEED TO BE FIXED!
-  #   current$TimeStamp <- round((current$TimeStamp)/unique(current$Tempo)*100, 0)
-  # }
+  if (unique(current$Tempo) != 100){
+    current$TimeStamp <- round((current$TimeStamp)/unique(current$Tempo)*100, 0)
+  }
   if (length(unique(current$Skill)) > 1){
     print("It seems the same participant was used more than twice. Run the script again.")
   } else if (unique(current$Skill == "non-expression")){
