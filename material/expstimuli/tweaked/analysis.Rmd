@@ -118,7 +118,7 @@ gghistogram(dt_ioi[SubArt != "NA"], x = "IOI", facet.by = "MidFile", bins = 50, 
 # mean
 dt_ioi[SubArt != "NA", .(N = .N, Mean = mean(IOI), SD = sd(IOI)), "MidFile"]
 
-ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter", width = 0.8)
+ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter", width = 0.8) + geom_hline(yintercept = 300, linetype = "dashed", color = "red")
 ```
 
 # KOT
