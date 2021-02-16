@@ -106,7 +106,7 @@ for (number in change_2){
 }
 ```
 
-- There are 4 base tempi
+- There are 4 base tempi.
 
 ## Histogram
 ```{r ioi-distribution, echo = FALSE}
@@ -114,6 +114,8 @@ gghistogram(dt_ioi[SubArt != "NA"], x = "IOI", facet.by = "MidFile", bins = 50, 
 ```
 
 ## Mean
+- The red line indicates the ideal tempo (100bpm - IOI: 300 ms)
+
 ```{r ioi-mean, echo = FALSE}
 # mean
 dt_ioi[SubArt != "NA", .(N = .N, Mean = mean(IOI), SD = sd(IOI)), "MidFile"]
@@ -122,6 +124,9 @@ ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter",
 ```
 
 # KOT
+- For art_only and high stimuli, there should be a bimodal distribution to represent legato and staccato.
+
+- For dyn_only and low stimuli, there should be a normal distribution.
 
 ```{r kot, include = FALSE}
 data_onset$KOT <- NA
@@ -186,6 +191,9 @@ ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "KOT", color = "SubArt
 ```
 
 ## Tweak
+- For dyn_only and low stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and high stimuli and add that difference to all KOT values for dyn_only and low, so that the KOT values should shift closer to the grand mean of art_only and high stimuli.
+
+
 ```{r kot-tweak, echo = FALSE}
 # grandMean of art_only & high stimuli
 kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("high", MidFile) & SubArt != "NA"]$KOT)
@@ -318,4 +326,41 @@ gghistogram(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "Diff", facet.
 dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(MidFile, SubDyn)]
 
 ggboxplot(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "MidFileShort", y = "Diff", color = "SubDyn", add = "jitter", width = 0.8)
+```
+
+
+# Export stimuli with fixed KOT as mid files
+```{r export, include = FALSE}
+# fix time for onset and offset data
+data_offset$timeFixed <- data_onset$time
+data_offset$timeFixed <- data_offset$time
+for (midfile in unique(tweak_data$MidFile)){
+   # offset[i] = onset[i+1]+KOT[i]
+   for (i in 1:nrow(data_onset[MidFile == midfile])-1){
+      data_offset[MidFile == midfile][i]$timeFixed <- data_onset[MidFile == midfile][i+1]$time+dt_kot[MidFile == midfile][i]$FixedKOT
+   }
+}
+
+for (stim in unique(data_onset$MidFile)){
+   onset <- data_onset[MidFile == stim]
+   offset <- data_offset[MidFile == stim]
+   instance <- rbind(onset, offset)
+   # round timeFixed
+   instance$timeFixed <- round(instance$timeFixed, 0)
+   # Note_On/Off >> 1 or 0
+   instance$KeyOnOff <- 0
+   instance[event == "Note On"]$KeyOnOff <- 1
+   # sort by timeFixed
+   instance <- instance[order(timeFixed)]
+   
+   filename = paste(stim, ".txt", sep = "")
+   fwrite(instance, filename)
+}
+```
+
+
+```{bash, echo = TRUE}
+# python
+source /Users/atsukotominaga/Pyenv/bin/activate
+python mid_export.py
 ```
