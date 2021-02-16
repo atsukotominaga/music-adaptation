@@ -200,7 +200,7 @@ kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("high", MidFile)
 
 # calculate the diff between each KOT mean and grandMean
 tweak_data <- dt_kot[grepl("dyn_only", MidFile) | grepl("low", MidFile) & SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile)]
-tweak_data$Diff <- abs(tweak_data$Mean-kot_grandMean)
+tweak_data$Diff <- round(abs(tweak_data$Mean-kot_grandMean), 0)
 tweak_data
 
 # add each fixed Diff value to TimeStamp
@@ -210,7 +210,7 @@ for (midfile in unique(tweak_data$MidFile)){
 }
 ```
 
-## Histogram (Fixed KOT)
+d KOT)
 ```{r kot-distribution-fixed, echo = FALSE}
 gghistogram(dt_kot[SubArt != "NA"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 ```
@@ -331,8 +331,12 @@ ggboxplot(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "MidFileShort", 
 
 # Export stimuli with fixed KOT as mid files
 ```{r export, include = FALSE}
+# remove unnecessary columns
+data_onset$IOI <- NULL
+data_onset$KOT <- NULL
+data_onset$Diff <- NULL
 # fix time for onset and offset data
-data_offset$timeFixed <- data_onset$time
+data_onset$timeFixed <- data_onset$time
 data_offset$timeFixed <- data_offset$time
 for (midfile in unique(tweak_data$MidFile)){
    # offset[i] = onset[i+1]+KOT[i]
@@ -341,12 +345,11 @@ for (midfile in unique(tweak_data$MidFile)){
    }
 }
 
+# export each instance as txt file
 for (stim in unique(data_onset$MidFile)){
    onset <- data_onset[MidFile == stim]
    offset <- data_offset[MidFile == stim]
    instance <- rbind(onset, offset)
-   # round timeFixed
-   instance$timeFixed <- round(instance$timeFixed, 0)
    # Note_On/Off >> 1 or 0
    instance$KeyOnOff <- 0
    instance[event == "Note On"]$KeyOnOff <- 1
