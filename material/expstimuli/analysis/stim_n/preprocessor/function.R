@@ -4,8 +4,8 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 ### define pitch remove function (pitch_remover)
-# data: data of all trials (df_onset/df_offset)
-# ideal: df_ideal
+# data: data of all trials (dt_onset/dt_offset)
+# ideal: dt_ideal
 pitch_remover <- function(data, ideal){
   ls_removed <- list()
   for (subnr in unique(data$SubNr)){ #set # of participants
@@ -23,7 +23,7 @@ pitch_remover <- function(data, ideal){
             if (current$Pitch[note] != ideal$Pitch[note]){
               while (counter == 0){
                 ls_removed <- c(ls_removed, list(c(subnr, trial, "Pitch error")))
-                print(sprintf("Pitch error - SubNr/TrialNr/NoteNr: %i//%i/%i", subnr, trial, note))
+                print(sprintf("Pitch error - SubNr/TrialNr/NoteNr: %i/%i/%i", subnr, trial, note))
                 counter = counter + 1
               }
             }
