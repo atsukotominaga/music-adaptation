@@ -16,7 +16,7 @@ pitch_remover <- function(data, ideal){
         if (length(ideal$Pitch) != length(current$Pitch)){ #if # of onsets/offsets is not equal to ideal performance
           ls_removed <- c(ls_removed, list(c(subnr, trial, "NoteNr error")))
           print(sprintf("NoteNr error - SubNr/TrialNr: %i/%i", subnr, trial))
-        } else if (length(ideal$Pitch) == length(current$Pitch)) { #if # of onsets and offsets are correct
+        } else if (length(ideal$Pitch) == length(current$Pitch)) { #if # of onsets/offsets is correct
           counter = 0 #set a counter so that the following loop will terminate once it detects one pitch error in a trial
           for (note in 1:length(ideal$Pitch)){
             # detect onset error
@@ -29,7 +29,7 @@ pitch_remover <- function(data, ideal){
             }
           }
         }
-      } else { #if current data is emtpy"
+      } else { #if current data is empty"
         ls_removed <- c(ls_removed, list(c(subnr, trial, "Missing")))
         print(sprintf("Missing - SubNr/TrialNr: %i/%i", subnr, trial))
       }
