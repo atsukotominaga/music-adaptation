@@ -6,6 +6,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
+- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
+
 Description: This is a rough overview of performing performance (KV) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
 
 Performing-Articulation performances: data from the performing condition (articulation)
@@ -19,7 +21,7 @@ if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
 # ggplots
 theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+theme_update(legend.position = "bottom")
 ```
 
 ```{r extract, include = FALSE}
@@ -85,14 +87,14 @@ print(kv)
 ```
 
 ### Plot
-#### Bar chart
-- Error bars show SD of the mean
+#### Box plot
 
 ```{r kv_bar,  echo = FALSE}
-p_kv <- ggplot(data = kv, aes(x = SubNr, y = Mean)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
-                width = .2, position = position_dodge(.9)) +
+kv_trial <- dt_kv[Subcomponent == "Legato" | Subcomponent == "Staccato", .(N = length(Velocity), Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr, Subcomponent)]
+
+p_kv <- ggplot(data = kv_trial, aes(x = SubNr, y = Mean)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) +
   facet_grid(Subcomponent ~ .) +
   labs(y = "Key Velocity", subtitle = "KV: Performing-Articulation")
 p_kv

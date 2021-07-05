@@ -6,6 +6,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
+- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
+
 Description: This is a rough overview of performing performance (Duration) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
 
 Performing-Dynamics performances: data from the performing condition (dynamics)
@@ -19,7 +21,7 @@ if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
 # ggplots
 theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+theme_update(legend.position = "bottom")
 ```
 
 ```{r extract, include = FALSE}
@@ -134,14 +136,14 @@ print(duration)
 ```
 
 ### Plot
-#### Bar chart
-- Error bars show SD of the mean
+#### Box plot
 
 ```{r duration_bar,  echo = FALSE}
-p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
-                width = .2, position = position_dodge(.9)) +
+duration_trial <- dt_duration[Subcomponent == "Forte" | Subcomponent == "Piano", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr, Subcomponent)]
+
+p_duration <- ggplot(data = duration_trial, aes(x = SubNr, y = Mean)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) +
   facet_grid(Subcomponent ~ .) +
   labs(y = "Normalised Duration", subtitle = "Duration: Performing-Dynamics")
 p_duration
@@ -224,4 +226,19 @@ p_duration_dis_pia
 # group mean
 duration_all <- duration[, .(N = length(Mean), Mean = mean(Mean), SD = sd(Mean)), by = .(Subcomponent)]
 print(duration_all)
+```
+
+# Included performances for averaging
+## Legato
+```{r outlier_leg, echo = FALSE}
+# for legato
+duration_trial_leg <- dt_duration[Subcomponent == "Legato", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr)]
+duration_trial_leg
+```
+
+## Staccato
+```{r outlier_sta, echo = FALSE}
+# for staccato
+duration_trial_sta <- dt_duration[Subcomponent == "Staccato", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr, Subcomponent)]
+duration_trial_sta
 ```
