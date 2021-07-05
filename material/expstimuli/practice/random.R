@@ -99,9 +99,6 @@ for (subnr in unique(dt_demo$SubNr)){
   current <- dt_demo[SubNr == subnr]
   current$TimeStamp <- current$TimeStamp-current$TimeStamp[1]
   current <- current[order(TimeStamp),]
-  if (unique(current$Tempo) != 100){
-    current$TimeStamp <- round((current$TimeStamp)/unique(current$Tempo)*100, 0)
-  }
   if (length(unique(current$Skill)) > 1){
     print("It seems the same participant was used more than twice. Run the script again.")
   } else if (unique(current$Skill == "non-expression")){
