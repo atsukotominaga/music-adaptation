@@ -6,6 +6,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
+- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
+
 Description: This is a rough overview of non-expressive performance (Duration) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
 
 Non-expressive performances: data from practice trials
@@ -19,7 +21,7 @@ if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
 # ggplots
 theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+theme_update(legend.position = "bottom")
 ```
 
 ```{r extract, include = FALSE}
@@ -90,14 +92,14 @@ print(duration)
 ```
 
 ### Plot
-#### Bar chart
-- Error bars show SD of the mean
+#### Box plot
 
 ```{r duration_bar,  echo = FALSE}
-p_duration <- ggplot(data = duration, aes(x = SubNr, y = Mean)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
-                width = .2, position = position_dodge(.9)) +
+duration_trial <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr)]
+
+p_duration <- ggplot(data = duration_trial, aes(x = SubNr, y = Mean)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) +
   labs(y = "Normalised Duration", subtitle = "Duration: Non-Expression")
 p_duration
 ```
@@ -144,8 +146,6 @@ print(duration_all)
 - Exclude mean Duration outside 3SD
 
 ```{r outlier, echo = FALSE}
-duration_trial <- dt_duration[EighthNote == "Yes", .(N = length(normDu), Mean = mean(normDu), SD = sd(normDu)), by = .(SubNr, TrialNr)]
-
 excluded_duration <- duration_trial[Mean < duration_all$Mean+3*duration_all$SD & Mean > duration_all$Mean-3*duration_all$SD]
 print(excluded_duration)
 ```
@@ -157,12 +157,14 @@ print(excluded_duration)
 
 ```{r cv, echo = FALSE}
 # for each participant
-cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
+cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr)]
 print(cv)
 ```
 
 ```{r cv_box, echo = FALSE}
-p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
+cv_trial <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
+
+p_cv_box <- ggplot(cv_trial, aes(x = SubNr, y = CV)) +
   geom_boxplot() +
   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
 p_cv_box
@@ -181,7 +183,7 @@ print(cv_all)
 - Exclude mean CVs outside 3SD
 
 ```{r cv_outlier, echo = FALSE}
-excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+excluded_cv <- cv_trial[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
 - The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`

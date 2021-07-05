@@ -6,6 +6,8 @@ editor_options:
   chunk_output_type: inline
 ---
 
+- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
+
 Description: This is a rough overview of non-expressive performance (IOI-Offset) from [music-teaching (experiment2)](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-2).
 
 Non-expressive performances: data from practice trials
@@ -19,7 +21,7 @@ if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
 # ggplots
 theme_set(theme_classic())
-theme_update(text = element_text(size = 20, family = "Helvetica Neue LT Std 57 Condensed"), legend.position = "bottom")
+theme_update(legend.position = "bottom")
 ```
 
 ```{r extract, include = FALSE}
@@ -72,15 +74,15 @@ print(ioi)
 ```
 
 ### Plot
-#### Bar chart
-- Error bars show SD of the mean
+#### Box plot
 - A dashed line represents the ideal tempo
 
 ```{r ioi_bar,  echo = FALSE}
-p_ioi <- ggplot(data = ioi, aes(x = SubNr, y = Mean)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD),
-                width = .2, position = position_dodge(.9)) +
+ioi_trial <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr, TrialNr)]
+
+p_ioi <- ggplot(data = ioi_trial, aes(x = SubNr, y = Mean)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5) +
   geom_hline(yintercept = 1, linetype = "dashed") + # Tempo
   labs(y = "Normalised IOI", subtitle = "IOI: Non-Expression")
 p_ioi
@@ -128,8 +130,6 @@ print(ioi_all)
 - Exclude mean IOIs outside 3SD
 
 ```{r outlier, echo = FALSE}
-ioi_trial <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), Mean = mean(normIOI), SD = sd(normIOI)), by = .(SubNr, TrialNr)]
-
 excluded_ioi <- ioi_trial[Mean < ioi_all$Mean+3*ioi_all$SD & Mean > ioi_all$Mean-3*ioi_all$SD]
 print(excluded_ioi)
 ```
@@ -141,12 +141,15 @@ print(excluded_ioi)
 
 ```{r cv, echo = FALSE}
 # for each participant
-cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
+cv <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr)]
 cv
 ```
 
+#### Box plot
 ```{r cv_box, echo = FALSE}
-p_cv_box <- ggplot(cv, aes(x = SubNr, y = CV)) +
+cv_trial <- dt_ioi[EighthNote == "Yes", .(N = length(normIOI), CV = sd(normIOI)/mean(normIOI)) , by = .(SubNr, TrialNr)]
+
+p_cv_box <- ggplot(cv_trial, aes(x = SubNr, y = CV)) +
   geom_boxplot() +
   geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.5)
 p_cv_box
@@ -165,7 +168,7 @@ print(cv_all)
 - Exclude mean CVs outside 3SD
 
 ```{r cv_outlier, echo = FALSE}
-excluded_cv <- cv[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
+excluded_cv <- cv_trial[CV < cv_all$Mean+3*(cv_all$SD) & CV > cv_all$Mean-3*cv_all$SD]
 print(excluded_cv)
 ```
 - The number of excluded performance: `r cv_all$N-nrow(excluded_cv)`
