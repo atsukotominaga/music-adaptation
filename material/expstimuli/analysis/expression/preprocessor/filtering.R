@@ -28,9 +28,9 @@ if (!file.exists("filtered")){
 }
 
 # read a text file for ideal performance
-df_ideal <- fread("./ideal.txt")
-colnames(df_ideal) <- "Pitch"
-df_ideal$RowNr <- c(1:nrow(df_ideal))
+dt_ideal <- fread("./ideal.txt")
+colnames(dt_ideal) <- "Pitch"
+dt_ideal$RowNr <- c(1:nrow(dt_ideal))
 
 # create a list of data file names
 lf <- list.files("./data", pattern = "txt")
@@ -54,55 +54,55 @@ raw_data$Image <- gsub(";", "", raw_data$Image)
 raw_data <- raw_data[order(raw_data$SubNr, raw_data$BlockNr, raw_data$TrialNr),]
 
 # separate raw_data into each skill
-df_stim_a <- raw_data[Skill == "articulation"]
-df_stim_d <- raw_data[Skill == "dynamics"]
-df_stim <- rbind(df_stim_a, df_stim_d)
+dt_stim_a <- raw_data[Skill == "articulation"]
+dt_stim_d <- raw_data[Skill == "dynamics"]
+dt_stim <- rbind(dt_stim_a, dt_stim_d)
 
 ####################################
 # Detect pitch errors
 ####################################
 # raw_data without metronome
-df_all <- df_stim[Pitch != 31 & Pitch != 34]
+dt_all <- dt_stim[Pitch != 31 & Pitch != 34]
 
 # onset and offset
-df_onset <- df_all[Key_OnOff == 1]
-df_offset <- df_all[Key_OnOff == 0]
+dt_onset <- dt_all[Key_OnOff == 1]
+dt_offset <- dt_all[Key_OnOff == 0]
 
 ####################################
 # ONSET
 ####################################
 # detect pitch errors
-ls_error_onset  <- pitch_remover(df_onset, df_ideal)
+ls_error_onset  <- pitch_remover(dt_onset, dt_ideal)
 
 # mark trials with errors by the first filtering
-df_onset$Error <- 0
+dt_onset$Error <- 0
 for (error in 1:length(ls_error_onset)){
-  df_onset[SubNr == ls_error_onset[[error]][1] & BlockNr == ls_error_onset[[error]][2] & TrialNr == ls_error_onset[[error]][3]]$Error <- 1
+  dt_onset[SubNr == ls_error_onset[[error]][1] & BlockNr == ls_error_onset[[error]][2] & TrialNr == ls_error_onset[[error]][3]]$Error <- 1
 }
 
-df_correct_onset <- df_onset[Error == 0]
+dt_correct_onset <- dt_onset[Error == 0]
 
 ####################################
 # OFFSET
 ####################################
 # detect pitch errors
-ls_error_offset  <- pitch_remover(df_offset, df_ideal)
+ls_error_offset  <- pitch_remover(dt_offset, dt_ideal)
 
 # mark trials with errors by the first filtering
-df_offset$Error <- 0
+dt_offset$Error <- 0
 for (error in 1:length(ls_error_offset)){
-  df_offset[SubNr == ls_error_offset[[error]][1] & BlockNr == ls_error_offset[[error]][2] & TrialNr == ls_error_offset[[error]][3]]$Error <- 1
+  dt_offset[SubNr == ls_error_offset[[error]][1] & BlockNr == ls_error_offset[[error]][2] & TrialNr == ls_error_offset[[error]][3]]$Error <- 1
 }
 
-df_correct_offset <- df_offset[Error == 0]
+dt_correct_offset <- dt_offset[Error == 0]
 
 ####################################
 # Export csv files
 ####################################
 # Export corrected onset/offset for stim_n
-write.csv(df_correct_onset, file = "./filtered/data_onset.csv", row.names = F)
-write.csv(df_correct_offset, file = "./filtered/data_offset.csv", row.names = F)
+fwrite(dt_correct_onset, file = "./filtered/data_onset.csv", row.names = F)
+fwrite(dt_correct_offset, file = "./filtered/data_offset.csv", row.names = F)
 
 # check whether there is still error
-pitch_remover(df_correct_onset, df_ideal)
-pitch_remover(df_correct_offset, df_ideal)
+pitch_remover(dt_correct_onset, dt_ideal)
+pitch_remover(dt_correct_offset, dt_ideal)

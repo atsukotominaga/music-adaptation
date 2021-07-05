@@ -4,8 +4,8 @@
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 ### define pitch remove function (pitch_remover)
-# data: data of all trials (df_onset/df_offset)
-# ideal: df_ideal
+# data: data of all trials (dt_onset/dt_offset)
+# ideal: dt_ideal
 pitch_remover <- function(data, ideal){
   ls_removed <- list()
   for (subnr in unique(data$SubNr)){ #set # of participants
@@ -17,7 +17,7 @@ pitch_remover <- function(data, ideal){
           if (length(ideal$Pitch) != length(current$Pitch)){ #if # of onsets/offsets is not equal to ideal performance
             ls_removed <- c(ls_removed, list(c(subnr, block, trial, "NoteNr error")))
             print(sprintf("NoteNr error - SubNr/BlockNr/TrialNr: %i/%i/%i", subnr, block, trial))
-          } else if (length(ideal$Pitch) == length(current$Pitch)) { #if # of onsets and offsets are correct
+          } else if (length(ideal$Pitch) == length(current$Pitch)) { #if # of onsets/offsets is correct
             counter = 0 #set a counter so that the following loop will terminate once it detects one pitch error in a trial
             for (note in 1:length(ideal$Pitch)){
               # detect onset error
@@ -30,7 +30,7 @@ pitch_remover <- function(data, ideal){
               }
             }
           }
-        } else { #if current data is emtpy"
+        } else { #if current data is empty"
           ls_removed <- c(ls_removed, list(c(subnr, block, trial, "Missing")))
           print(sprintf("Missing - SubNr/BlockNr/TrialNr: %i/%i/%i", subnr, block, trial))
         }
