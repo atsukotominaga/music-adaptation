@@ -2,9 +2,9 @@ We aim to generate artificial novices' performances by using existing data of ou
 
 # previous experiment
 
-In the previous study, we created one piece based on Clementi, Sonatina in C major, op. 36 no. 3. In the experiment, participants were asked to play the piece with either articulation (stim_a) or dynamics (stim_d). In a practice session before the experiment, participants also performed the piece without expression (stim_n) in order to check whether they could perform the piece without pitch errors.
+In the previous study, we created one piece based on Clementi, Sonatina in C major, op. 36 no. 3. In the experiment, participants were asked to play the piece with either articulation (stim_a) or dynamics (stim_d). In the practice session before the experiment, participants also performed the piece without expression (stim_n) in order to check whether they could perform the piece without pitch errors.
 
-***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of experts.
+***Important!*** There were two conditions (teaching vs. performing) in the previous experiment. We only used performances from the **performing** condition. Therefore, selected performances do not have any didactic intention of expert pianists.
 
 1. No expression (stim_n)
 ![](original/averaging/low/stim_n.png)
@@ -37,7 +37,7 @@ We got **139 valid performances** for dynamics.
 # generating stimuli
 - `original` folder
 
-We created artificial novices' recordings by **averaging** each parameter for a tempo, sound duration (articulation) and tone intensity (dynamics) across multiple performances- see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
+We created artificial novices' recordings by **averaging** each parameter for tempo (IOIs), articulation (sound duration) and dynamics (key velocity) across multiple performances - see [averaging](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/averaging).
 
 We had 4 different types of recordings (each has 16 instances):
 1. low: neither articulation nor dynamics implemented
@@ -51,7 +51,7 @@ Corresponding sheet music: stim_n
 None of them is implemented (both articulation and dynamics missing).
 
 ### Tempo (from IOIs)
-First, we created baseline performances for the tempo. Based on the pre-analysis, 3 performances were randomly selected from the dataset (without replacement) and interonset intervals (IOIs) were averaged across the 3 performances. Due to the size of the dataset (i.e., only 31 performances), some performances were used twice.
+First, we created baseline performances for the tempo. 3 performances out of 31 performances were randomly selected from the dataset and interonset intervals (IOIs) were averaged across the 3 performances. Due to the size of the dataset (i.e., only 31 performances), some performances were used twice.
 
 We confirmed that the identical performance was not selected within each random selection.
 

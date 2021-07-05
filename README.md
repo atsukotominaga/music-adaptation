@@ -23,7 +23,7 @@ Sheet music for 4 types of expressions
 4. with articulation and dynamics (stim_m)
 
 ## expstimuli
-See details in [Memo](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/stimuli/)
+See details in [Memo](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli)
 
 ## prerating
 - Environment: Mac OS X 10.15.6, Max MSP 8
