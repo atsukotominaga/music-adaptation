@@ -100,8 +100,8 @@ dt_correct_offset <- dt_offset[Error == 0]
 # Export csv files
 ####################################
 # Export corrected onset/offset for stim_n
-write.csv(dt_correct_onset, file = "./filtered/data_onset.csv", row.names = F)
-write.csv(dt_correct_offset, file = "./filtered/data_offset.csv", row.names = F)
+fwrite(dt_correct_onset, file = "./filtered/data_onset.csv", row.names = F)
+fwrite(dt_correct_offset, file = "./filtered/data_offset.csv", row.names = F)
 
 # check whether there is still error
 pitch_remover(dt_correct_onset, dt_ideal)
