@@ -18,7 +18,7 @@ In the previous study, we created one piece based on Clementi, Sonatina in C maj
 # pre-analysis
 - `analysis` folder
 
-We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli/original/averaging).
+We analysed performance data for the piece with no expression (stim_n), only articulation (stim_a) and only dynamics (stim_d) - see [analysis](https://github.com/atsukotominaga/adaptation-v1.0/tree/master/material/expstimuli/analysis).
 
 1. No expression (stim_n) - baseline performance
 

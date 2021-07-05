@@ -1,6 +1,6 @@
 # 
 <p align="center">
-  <img width="1024" height="300" src="https://media.giphy.com/media/abGjeRq4sQO6A/giphy.gif">
+  <img height="300" src="https://media.giphy.com/media/abGjeRq4sQO6A/giphy.gif">
 </p>
 
 This repo contains scripts and materials for the experiment investigating whether expert pianists can adapt their performance depending on the level of novices' skills.
