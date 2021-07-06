@@ -1,4 +1,4 @@
-# 
+# Can expert pianists adapt their didactic demonstration to novices’ skill levels?
 <p align="center">
   <img height="300" src="https://media.giphy.com/media/abGjeRq4sQO6A/giphy.gif">
 </p>
