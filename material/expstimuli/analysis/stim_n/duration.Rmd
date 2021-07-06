@@ -161,6 +161,7 @@ cv <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mea
 print(cv)
 ```
 
+#### Box plot
 ```{r cv_box, echo = FALSE}
 cv_trial <- dt_duration[EighthNote == "Yes", .(N = length(normDu), CV = sd(normDu)/mean(normDu)), by = .(SubNr, TrialNr)]
 
