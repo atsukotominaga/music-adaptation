@@ -3,8 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 0,
-			"revision" : 5,
+			"minor" : 1,
+			"revision" : 11,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -37,6 +37,7 @@
 		"tags" : "",
 		"style" : "",
 		"subpatcher_template" : "",
+		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
 					"id" : "obj-6",
@@ -123,11 +124,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-9",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 518.0, 412.5, 356.699950999999999, 22.0 ]
+					"patching_rect" : [ 518.0, 412.5, 356.699950999999999, 35.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/black.png\""
 				}
 
 			}
@@ -146,11 +149,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-67",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 518.0, 229.5, 356.699950999999999, 22.0 ]
+					"patching_rect" : [ 518.0, 229.5, 356.699950999999999, 35.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/\""
 				}
 
 			}
@@ -209,14 +214,16 @@
 			}
 , 			{
 				"box" : 				{
+					"autofit" : 1,
 					"id" : "obj-1",
 					"maxclass" : "fpic",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 50.0, 222.0, 450.0, 250.0 ],
+					"pic" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/black.png",
 					"presentation" : 1,
-					"presentation_rect" : [ 0.0, 50.0, 2560.0, 1440.0 ]
+					"presentation_rect" : [ 152.0, 88.0, 2258.666660308837891, 1270.499996423721313 ]
 				}
 
 			}
@@ -491,7 +498,14 @@
 
 			}
  ],
-		"dependency_cache" : [  ],
+		"dependency_cache" : [ 			{
+				"name" : "black.png",
+				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment/stimuli",
+				"patcherrelativepath" : "./stimuli",
+				"type" : "PNG",
+				"implicit" : 1
+			}
+ ],
 		"autosave" : 0,
 		"styles" : [ 			{
 				"name" : "AudioStatus_Menu",
@@ -514,8 +528,8 @@
 , 			{
 				"name" : "newobjYellow-1",
 				"default" : 				{
-					"fontsize" : [ 12.059008 ],
-					"accentcolor" : [ 0.82517, 0.78181, 0.059545, 1.0 ]
+					"accentcolor" : [ 0.82517, 0.78181, 0.059545, 1.0 ],
+					"fontsize" : [ 12.059008 ]
 				}
 ,
 				"parentstyle" : "",
