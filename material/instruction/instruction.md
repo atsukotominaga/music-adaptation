@@ -116,7 +116,8 @@ TBC
 
 ### Experiment
 
-TBC
+Read instructions on `Slides 1-5`.
+Playing phase: performances are only recorded after the metronome beats!
 
 Definition (based on Wikipedia)
 
@@ -130,6 +131,11 @@ Definition (based on Wikipedia)
 > **1 - 16 trials**
 
 > **Close experiment.maxpat**
+
+### Post-check session
+> **Open practice.maxpat**
+
+TBC
 
 ## Questionnaire
 
