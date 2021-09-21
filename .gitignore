@@ -4,6 +4,8 @@
 
 # experiment
 experiment/*mid
+experiment/data
+experiment/midi
 
 # material
 material/prerating/feedback.md
