@@ -316,7 +316,7 @@
 					"presentation" : 1,
 					"presentation_linecount" : 5,
 					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-122559-participant-1.txt\""
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-15520-participant-1.txt\""
 				}
 
 			}
@@ -339,15 +339,15 @@
 				"box" : 				{
 					"fontface" : 1,
 					"id" : "obj-336",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 469.0, 57.266665935516357, 257.0, 47.0 ],
+					"patching_rect" : [ 469.0, 57.266665935516357, 257.0, 33.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 3,
-					"presentation_rect" : [ 389.583311557769775, 21.766665935516357, 268.0, 47.0 ],
-					"text" : "Yellow panel: for experiment\nOrange panels: don't touch :)\nFullscreen mode: ON (F key) / Off (esc key)",
+					"presentation_linecount" : 2,
+					"presentation_rect" : [ 389.583311557769775, 42.266665935516357, 268.0, 33.0 ],
+					"text" : "Yellow panel: for experiment\nOrange panels: don't touch :)",
 					"textcolor" : [ 0.301960784313725, 0.301960784313725, 0.301960784313725, 1.0 ]
 				}
 
@@ -786,90 +786,6 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 2216.0, 868.0, 34.0, 22.0 ],
 					"text" : "path"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-247",
-					"maxclass" : "number",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "bang" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 2453.0, 70.0, 50.0, 22.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-213",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 2348.0, 32.266657471656799, 69.0, 20.0 ],
-					"text" : "\bFullscreen"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-225",
-					"maxclass" : "newobj",
-					"numinlets" : 3,
-					"numoutlets" : 3,
-					"outlettype" : [ "bang", "bang", "" ],
-					"patching_rect" : [ 2348.0, 86.266657471656799, 66.0, 22.0 ],
-					"text" : "sel 102 27"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-227",
-					"maxclass" : "newobj",
-					"numinlets" : 0,
-					"numoutlets" : 4,
-					"outlettype" : [ "int", "int", "int", "int" ],
-					"patching_rect" : [ 2348.0, 54.266657471656799, 50.5, 22.0 ],
-					"text" : "key"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-231",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 2348.0, 120.266657471656799, 72.0, 22.0 ],
-					"text" : "fullscreen 1"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-235",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 2348.0, 156.266657471656799, 69.0, 22.0 ],
-					"save" : [ "#N", "thispatcher", ";", "#Q", "end", ";" ],
-					"text" : "thispatcher"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-237",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 2429.0, 120.266657471656799, 72.0, 22.0 ],
-					"text" : "fullscreen 0"
 				}
 
 			}
@@ -2973,20 +2889,19 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/mid/prepost-09-2021-24-122559-participant-1.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-24-15520-participant-1.mid\""
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-29",
-					"linecount" : 2,
 					"maxclass" : "newobj",
 					"numinlets" : 16,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 1196.999992370605469, 454.783323585987091, 368.0, 35.0 ],
-					"text" : "combine path mid/ prepost - year - month - day - time - participant - trial .mid"
+					"patching_rect" : [ 1196.999992370605469, 454.783323585987091, 416.0, 22.0 ],
+					"text" : "combine path midi/ prepost - year - month - day - time - participant - trial .mid"
 				}
 
 			}
@@ -3035,7 +2950,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-122559-participant-1.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-15520-participant-1.txt\""
 				}
 
 			}
@@ -4059,38 +3974,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-231", 0 ],
-					"source" : [ "obj-225", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-237", 0 ],
-					"source" : [ "obj-225", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-228", 0 ],
 					"source" : [ "obj-226", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-225", 0 ],
-					"order" : 1,
-					"source" : [ "obj-227", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-247", 0 ],
-					"order" : 0,
-					"source" : [ "obj-227", 0 ]
 				}
 
 			}
@@ -4119,13 +4004,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-235", 0 ],
-					"source" : [ "obj-231", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-236", 0 ],
 					"source" : [ "obj-232", 0 ]
 				}
@@ -4142,13 +4020,6 @@
 				"patchline" : 				{
 					"destination" : [ "obj-238", 0 ],
 					"source" : [ "obj-236", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-235", 0 ],
-					"source" : [ "obj-237", 0 ]
 				}
 
 			}
