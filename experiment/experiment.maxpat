@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 79.0, 1587.0, 937.0 ],
+		"rect" : [ 34.0, 79.0, 953.0, 937.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -126,16 +126,16 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-344",
-					"linecount" : 8,
+					"linecount" : 7,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 116.0 ],
+					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 102.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 5,
-					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-24-113425-participant-1-stimuli.txt\""
+					"presentation_linecount" : 4,
+					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 62.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-24-133124-1-1-9.txt\""
 				}
 
 			}
@@ -411,13 +411,11 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-274",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 2412.0, 1238.0, 422.0, 35.0 ],
-					"text" : "mkdir \"/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi\""
+					"patching_rect" : [ 2412.0, 1238.0, 422.0, 22.0 ]
 				}
 
 			}
@@ -436,26 +434,22 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-277",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 2412.0, 1053.0, 476.0, 35.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi\""
+					"patching_rect" : [ 2412.0, 1053.0, 476.0, 22.0 ]
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-278",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 2412.0, 1153.0, 390.0, 35.0 ],
-					"text" : "\"/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi\""
+					"patching_rect" : [ 2412.0, 1153.0, 390.0, 22.0 ]
 				}
 
 			}
@@ -513,13 +507,11 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-284",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1831.0, 1238.0, 424.0, 35.0 ],
-					"text" : "mkdir \"/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data\""
+					"patching_rect" : [ 1831.0, 1238.0, 424.0, 22.0 ]
 				}
 
 			}
@@ -538,26 +530,22 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-286",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1831.0, 1053.0, 478.0, 35.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data\""
+					"patching_rect" : [ 1831.0, 1053.0, 478.0, 22.0 ]
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-288",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1831.0, 1153.0, 390.0, 35.0 ],
-					"text" : "\"/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data\""
+					"patching_rect" : [ 1831.0, 1153.0, 390.0, 22.0 ]
 				}
 
 			}
@@ -816,7 +804,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 228.333319902420044, 1049.699982881546021, 50.0, 22.0 ],
-					"text" : "0"
+					"text" : "1"
 				}
 
 			}
@@ -1229,7 +1217,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 65.60000866651535, 1379.0, 50.0, 22.0 ],
-					"text" : "0"
+					"text" : "1"
 				}
 
 			}
@@ -2000,7 +1988,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 1821.0, 432.266657471656799, 492.0, 292.0 ],
-					"pic" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/black.png",
+					"pic" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/listening.png",
 					"presentation" : 1,
 					"presentation_rect" : [ 535.362409032898086, 98.89998197555542, 489.770935140533311, 295.866671085357666 ]
 				}
@@ -3740,8 +3728,8 @@
 					"numinlets" : 3,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 250.000008821487427, 1667.666659951210022, 125.0, 22.0 ],
-					"text" : "combine path mid/ file"
+					"patching_rect" : [ 250.000008821487427, 1667.666659951210022, 162.0, 22.0 ],
+					"text" : "combine path recordings/ file"
 				}
 
 			}
@@ -3866,13 +3854,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-33",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/mid/adaptation-09-2021-24-113425-participant-1-stimuli.mid\""
+					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/mid/adaptation-09-2021-24-133124-1-1-9.mid\""
 				}
 
 			}
@@ -3950,13 +3938,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-122",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-24-113425-participant-1-stimuli.txt\""
+					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-24-133124-1-1-9.txt\""
 				}
 
 			}
@@ -6727,7 +6715,7 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "black.png",
+				"name" : "listening.png",
 				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment/stimuli",
 				"patcherrelativepath" : "./stimuli",
 				"type" : "PNG",
