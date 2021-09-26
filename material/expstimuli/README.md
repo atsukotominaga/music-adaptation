@@ -106,3 +106,14 @@ Based on the results of the pilot rating (`../prerating/data/summary.Rmd`), we s
 
 - `IOI`: 4 base tempi were randomly selected from the original 16 instances (see details: `IOI/ioi_onset.Rmd`)
 - `combine.R`: based on what were selected (`../prerating/data/selected_1612309984-030221.txt`), create 4 stimuli for eacy type.
+
+# tweaked stimuli
+- `tweak` folder
+
+For dyn_only and low stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and high stimuli and add that difference to all KOT values for dyn_only and low, so that the KOT values should shift closer to the grand mean of art_only and high stimuli.
+
+# Rename stimuli for the experiment
+- art_only_1 ~ art_only_4 -> 1 ~ 4
+- dyn_only_1 ~ dyn_only_4 -> 5 ~ 8
+- high_1 ~ high_4 -> 9 ~ 12
+- low_1 ~ low_4 -> 13 ~ 16
