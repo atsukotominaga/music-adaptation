@@ -182,7 +182,7 @@
 					"presentation" : 1,
 					"presentation_linecount" : 5,
 					"presentation_rect" : [ 42.612433411197799, 238.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-18842-participant-1-stimuli.txt\""
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-185912-participant-1-stimuli.txt\""
 				}
 
 			}
@@ -228,7 +228,7 @@
 					"patching_rect" : [ 309.0, 68.266665935516357, 257.0, 33.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 303.375000506639481, 28.266665935516357, 268.0, 33.0 ],
+					"presentation_rect" : [ 303.375000506639481, 42.266665935516357, 268.0, 33.0 ],
 					"text" : "Pink panels: for experiment\nBlue panels: don't touch :)",
 					"textcolor" : [ 0.301960784313725, 0.301960784313725, 0.301960784313725, 1.0 ]
 				}
@@ -3802,7 +3802,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/adaptation-09-2021-26-18842-participant-1-stimuli.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/adaptation-09-2021-26-185912-participant-1-stimuli.mid\""
 				}
 
 			}
@@ -3886,7 +3886,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-18842-participant-1-stimuli.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-185912-participant-1-stimuli.txt\""
 				}
 
 			}

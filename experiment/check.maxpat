@@ -40,6 +40,34 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-31",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 214.566660583019257, 772.766658127307892, 77.0, 22.0 ],
+					"text" : "inst_p_3.png"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 20.0,
+					"id" : "obj-36",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 214.566660583019257, 730.766658127307892, 65.0, 31.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 56.416686236858368, 530.616655170917511, 126.0, 31.0 ],
+					"text" : "Post 1",
+					"textjustification" : 1
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
@@ -216,10 +244,10 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 120.499985694885254, 730.766658127307892, 70.0, 31.0 ],
+					"patching_rect" : [ 120.499985694885254, 730.766658127307892, 56.0, 31.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 211.416686236858368, 491.616655170917511, 126.0, 31.0 ],
-					"text" : "Slide 2",
+					"text" : "Pre 2",
 					"textjustification" : 1
 				}
 
@@ -335,9 +363,9 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 102.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 5,
-					"presentation_rect" : [ 37.612433411197799, 236.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-18027-participant-1.txt\""
+					"presentation_linecount" : 4,
+					"presentation_rect" : [ 37.612433411197799, 236.449988663196564, 246.5, 62.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-2046-participant-1.txt\""
 				}
 
 			}
@@ -375,15 +403,15 @@
 			}
 , 			{
 				"box" : 				{
-					"fontsize" : 24.0,
+					"fontsize" : 20.0,
 					"id" : "obj-333",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 210.166668057441711, 730.766658127307892, 146.0, 35.0 ],
+					"patching_rect" : [ 315.166668057441711, 730.766658127307892, 123.0, 31.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 119.916686236858368, 530.616655170917511, 154.0, 35.0 ],
+					"presentation_rect" : [ 211.416686236858368, 530.616655170917511, 130.0, 31.0 ],
 					"text" : "Black screen",
 					"textcolor" : [ 0.529411764705882, 0.529411764705882, 0.529411764705882, 1.0 ],
 					"textjustification" : 1
@@ -397,7 +425,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 210.166668057441711, 772.766658127307892, 60.0, 22.0 ],
+					"patching_rect" : [ 315.166668057441711, 772.766658127307892, 60.0, 22.0 ],
 					"text" : "black.png"
 				}
 
@@ -1224,10 +1252,10 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 37.499985694885254, 730.766658127307892, 70.0, 31.0 ],
+					"patching_rect" : [ 37.499985694885254, 730.766658127307892, 56.0, 31.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 56.416686236858368, 491.616655170917511, 126.0, 31.0 ],
-					"text" : "Slide 1",
+					"text" : "Pre 1",
 					"textjustification" : 1
 				}
 
@@ -1461,7 +1489,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "jit_matrix" ],
 					"patching_rect" : [ 1821.0, 432.266657471656799, 492.0, 292.0 ],
-					"pic" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/black.png",
+					"pic" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/stimuli/inst_p_3.png",
 					"presentation" : 1,
 					"presentation_rect" : [ 535.362409032898086, 98.89998197555542, 489.770935140533311, 295.866671085357666 ]
 				}
@@ -2888,7 +2916,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-26-18027-participant-1.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-26-2046-participant-1.mid\""
 				}
 
 			}
@@ -2949,7 +2977,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-18027-participant-1.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-2046-participant-1.txt\""
 				}
 
 			}
@@ -4583,6 +4611,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-206", 0 ],
+					"source" : [ "obj-31", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-309", 0 ],
 					"source" : [ "obj-310", 0 ]
 				}
@@ -4736,6 +4771,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-59", 0 ],
 					"source" : [ "obj-35", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"source" : [ "obj-36", 0 ]
 				}
 
 			}
@@ -5107,13 +5149,6 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "black.png",
-				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment/stimuli",
-				"patcherrelativepath" : "./stimuli",
-				"type" : "PNG",
-				"implicit" : 1
-			}
-, 			{
 				"name" : "datarec_check.maxpat",
 				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment",
 				"patcherrelativepath" : ".",
