@@ -108,7 +108,7 @@ Based on the results of the pilot rating (`../prerating/data/summary.Rmd`), we s
 - `combine.R`: based on what were selected (`../prerating/data/selected_1612309984-030221.txt`), create 4 stimuli for eacy type.
 
 # tweaked stimuli
-- `tweak` folder
+- `tweaked` folder
 
 For dyn_only and low stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and high stimuli and add that difference to all KOT values for dyn_only and low, so that the KOT values should shift closer to the grand mean of art_only and high stimuli.
 
