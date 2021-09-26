@@ -8,6 +8,14 @@ This repo contains scripts and materials for the experiment investigating whethe
 Open Science Framework: TBC
 
 # experiment
+- Environment: Mac OS X 10.15.6, Max MSP 8.1.11
+
+## prerequisite
+- Install the Shell package (https://github.com/jeremybernstein/shell/releases) into the package folder of Max 8.
+
+- The Shell package is used to generate necessary folders to store collected data. If it does not work in your environment, please create the following 2 folders manually.
+    + data (path: ~/experiment/data)
+    + midi (path: ~/experiment/midi)
 
 # analysis
 TBC
