@@ -60,7 +60,7 @@ Audio interface (Focusrite)
 
 Note: Start from 1 (not 01) to 20, 30 etc..
 
-2. Open the “display.maxpat”**. Move the window of the “display.maxpat” to the right (on the screen in front of the piano”) and press F for a fullscreen mode. <span>If there is a toolbar surrounding the display, get rid of it by pressing command+8 (not F8)</span>.
+2. **Open the “display.maxpat”**. Move the window of the “display.maxpat” to the right (on the screen in front of the piano”) and press F for a fullscreen mode. <span>If there is a toolbar surrounding the display, get rid of it by pressing command+8 (not F8)</span>.
 3. Check whether the piano sounds come from the headphone.
 4. If the sound of the metronome and the piano does not come from the computer speaker, go to **System Preference -> Sound -> Output -> select “Scarllet 6i6 USB”**.
 5. If you cannot still solve the problem above, please quit Max and relaunch it again.
@@ -69,8 +69,10 @@ Note: Start from 1 (not 01) to 20, 30 etc..
 
 <img src="./image/check.png" width="1024">
 
+- Please enter Participant ID and *pre* or *post* (pop-up windows)
 - How to give instructions
-  + `Slide 1`, `Slide 2`
+  + `Pre 1`, `Pre 2` for pre-check
+  + `Post 1` for post-check
 
 - How to start a trial
 1. `Start trial`
@@ -82,6 +84,7 @@ Note: Start from 1 (not 01) to 20, 30 etc..
 
 <img src="./image/experiment.png" width="1024">
 
+- Please enter Participant ID (pop-up window)
 - How to give instructions
   + `Slide 1`, `Slide 2`, `Slide 3`, `Slide 4`, `Slide 5`
   
@@ -108,7 +111,7 @@ Note: Start from 1 (not 01) to 20, 30 etc..
 > **Collect the informed consent form**
 
 ## 0. Warm-up session
-*Now, you are going to play what you practised during the experiment. Before we start testing, I would like you to practise your favourite pieces / exercises so that you can get used to the digital piano. I am going to leave the room, so when you think that you can comfortably perform music with this piano, please let me know.*
+*Now, you are going to play what you practised during the experiment. Before we start testing, I would like you to practise your favourite pieces / exercises so that you can get used to the digital piano. When you think that you can comfortably perform music with this piano, please let me know.*
 
 > **Experimenter can leave the room / Let participants practise their favourite pieces alone**
 
