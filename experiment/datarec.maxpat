@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 0.0, 0.0, 640.0, 480.0 ],
+		"rect" : [ 34.0, 79.0, 975.0, 937.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,18 @@
 		"subpatcher_template" : "",
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1270.5, 512.0, 57.0, 22.0 ],
+					"text" : "r session"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-6",
 					"maxclass" : "comment",
@@ -403,15 +415,18 @@
 			}
 , 			{
 				"box" : 				{
-					"fontsize" : 24.0,
+					"fontsize" : 16.0,
 					"id" : "obj-172",
+					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 28.0, 30.0, 287.0, 33.0 ],
+					"patching_rect" : [ 28.0, 30.0, 349.0, 42.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 28.0, 30.0, 287.0, 33.0 ],
-					"text" : "Data recording"
+					"presentation_linecount" : 2,
+					"presentation_rect" : [ 28.0, 30.0, 349.0, 42.0 ],
+					"text" : "Data recording\n(experiment)",
+					"textcolor" : [ 0.258823529411765, 0.258823529411765, 0.258823529411765, 1.0 ]
 				}
 
 			}
@@ -713,8 +728,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1090.0, 660.0, 508.0, 20.0 ],
-					"text" : "data: pitch, velocity, noteOnOff, device, participantID, blockNr, trialNr, technique, level, picture"
+					"patching_rect" : [ 1090.0, 660.0, 419.0, 20.0 ],
+					"text" : "data: pitch, velocity, noteOnOff, device, participantID, trialNr, stimuli, session"
 				}
 
 			}
@@ -722,11 +737,11 @@
 				"box" : 				{
 					"id" : "obj-48",
 					"maxclass" : "newobj",
-					"numinlets" : 7,
+					"numinlets" : 8,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 953.0, 660.0, 103.0, 22.0 ],
-					"text" : "pack 0 0 0 0 0 0 s"
+					"patching_rect" : [ 953.0, 660.0, 113.0, 22.0 ],
+					"text" : "pack 0 0 0 0 0 0 s s"
 				}
 
 			}
@@ -1207,6 +1222,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-149", 0 ],
 					"source" : [ "obj-48", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 7 ],
+					"source" : [ "obj-5", 0 ]
 				}
 
 			}

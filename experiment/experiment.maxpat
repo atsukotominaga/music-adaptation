@@ -40,6 +40,41 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-231",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 582.0, 50.0, 68.0, 22.0 ],
+					"text" : "experiment"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-225",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 582.0, 20.800006449222565, 58.0, 22.0 ],
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-213",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 582.0, 79.116655051708221, 59.0, 22.0 ],
+					"text" : "s session"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-326",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -114,16 +149,16 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-344",
-					"linecount" : 8,
+					"linecount" : 7,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 116.0 ],
+					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 102.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 5,
-					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-14610-participant-1-stimuli.txt\""
+					"presentation_linecount" : 4,
+					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 62.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-142540-0-1-4.txt\""
 				}
 
 			}
@@ -2891,7 +2926,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1277.999984979629517, 1949.233368098735809, 216.0, 22.0 ],
-					"text" : "9 5 15 16 7 4 1 3 14 8 2 10 12 11 13 6"
+					"text" : "14 13 15 3 2 7 6 9 12 1 10 8 16 4 11 5"
 				}
 
 			}
@@ -3010,7 +3045,7 @@
 					"patching_rect" : [ 1088.499992370605469, 1858.199981212615967, 50.0, 22.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 220.112433411197799, 207.616657555103302, 70.0, 22.0 ],
-					"text" : "9.mid"
+					"text" : "14.mid"
 				}
 
 			}
@@ -3634,7 +3669,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 402.800005793571472, 1726.06666898727417, 542.0, 35.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/recordings/9.mid\""
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/recordings/14.mid\""
 				}
 
 			}
@@ -3646,7 +3681,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 564.000008821487427, 1500.666659951210022, 51.0, 22.0 ],
-					"text" : "9.mid"
+					"text" : "14.mid"
 				}
 
 			}
@@ -3727,7 +3762,7 @@
 					"offset" : [ 0.0, 0.0 ],
 					"patching_rect" : [ 45.000009417533875, 2530.666729509830475, 298.0, 204.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 299.000009417533875, 90.166650056838989, 298.0, 204.0 ],
+					"presentation_rect" : [ 295.000009417533875, 83.166650056838989, 198.0, 204.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -3747,13 +3782,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-33",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/adaptation-09-2021-26-14610-participant-1-stimuli.mid\""
+					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/adaptation-09-2021-26-142540-0-1-4.mid\""
 				}
 
 			}
@@ -3831,13 +3866,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-122",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 49.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-14610-participant-1-stimuli.txt\""
+					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/adaptation-2021-09-26-142540-0-1-4.txt\""
 				}
 
 			}
@@ -5212,6 +5247,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-231", 0 ],
+					"source" : [ "obj-225", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-228", 0 ],
 					"source" : [ "obj-226", 0 ]
 				}
@@ -5244,6 +5286,13 @@
 					"destination" : [ "obj-29", 16 ],
 					"order" : 0,
 					"source" : [ "obj-230", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-213", 0 ],
+					"source" : [ "obj-231", 0 ]
 				}
 
 			}

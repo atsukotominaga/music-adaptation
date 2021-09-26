@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 79.0, 1612.0, 937.0 ],
+		"rect" : [ 34.0, 79.0, 978.0, 937.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,27 @@
 		"subpatcher_template" : "",
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"bgmode" : 0,
+					"border" : 0,
+					"clickthrough" : 0,
+					"enablehscroll" : 0,
+					"enablevscroll" : 0,
+					"id" : "obj-28",
+					"lockeddragscroll" : 0,
+					"maxclass" : "bpatcher",
+					"name" : "datarec_check.maxpat",
+					"numinlets" : 5,
+					"numoutlets" : 0,
+					"offset" : [ 0.0, 0.0 ],
+					"patching_rect" : [ 25.400009274482727, 1694.0, 314.600000023841858, 191.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 292.112433411197799, 89.45001631975174, 199.600000023841858, 191.0 ],
+					"viewvisibility" : 1
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-25",
 					"maxclass" : "newobj",
@@ -316,7 +337,7 @@
 					"presentation" : 1,
 					"presentation_linecount" : 5,
 					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-15520-participant-1.txt\""
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-142845-participant-1.txt\""
 				}
 
 			}
@@ -2848,28 +2869,6 @@
 			}
 , 			{
 				"box" : 				{
-					"bgmode" : 0,
-					"border" : 0,
-					"clickthrough" : 0,
-					"enablehscroll" : 0,
-					"enablevscroll" : 0,
-					"id" : "obj-36",
-					"jspainterfile" : "Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/datarec_check.maxpat",
-					"lockeddragscroll" : 0,
-					"maxclass" : "bpatcher",
-					"name" : "datarec.maxpat",
-					"numinlets" : 5,
-					"numoutlets" : 0,
-					"offset" : [ 0.0, 0.0 ],
-					"patching_rect" : [ 35.000009417533875, 1686.666729509830475, 298.0, 204.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 299.000009417533875, 90.166650056838989, 298.0, 204.0 ],
-					"viewvisibility" : 1
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-34",
 					"maxclass" : "comment",
 					"numinlets" : 1,
@@ -2889,7 +2888,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-24-15520-participant-1.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-26-142845-participant-1.mid\""
 				}
 
 			}
@@ -2950,7 +2949,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-24-15520-participant-1.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-142845-participant-1.txt\""
 				}
 
 			}
@@ -3440,7 +3439,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 3 ],
+					"destination" : [ "obj-28", 3 ],
 					"source" : [ "obj-109", 0 ]
 				}
 
@@ -3526,7 +3525,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 2 ],
+					"destination" : [ "obj-28", 2 ],
 					"order" : 1,
 					"source" : [ "obj-119", 0 ]
 				}
@@ -4076,15 +4075,15 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-307", 0 ],
-					"source" : [ "obj-243", 0 ]
+					"destination" : [ "obj-28", 0 ],
+					"source" : [ "obj-243", 3 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 0 ],
-					"source" : [ "obj-243", 3 ]
+					"destination" : [ "obj-307", 0 ],
+					"source" : [ "obj-243", 0 ]
 				}
 
 			}
@@ -4281,15 +4280,15 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-310", 0 ],
-					"source" : [ "obj-266", 0 ]
+					"destination" : [ "obj-28", 1 ],
+					"source" : [ "obj-266", 4 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 1 ],
-					"source" : [ "obj-266", 4 ]
+					"destination" : [ "obj-310", 0 ],
+					"source" : [ "obj-266", 0 ]
 				}
 
 			}
@@ -4986,7 +4985,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 4 ],
+					"destination" : [ "obj-28", 4 ],
 					"order" : 1,
 					"source" : [ "obj-86", 0 ]
 				}
@@ -5108,17 +5107,17 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "datarec.maxpat",
-				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
 				"name" : "black.png",
 				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment/stimuli",
 				"patcherrelativepath" : "./stimuli",
 				"type" : "PNG",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "datarec_check.maxpat",
+				"bootpath" : "~/Google Drive/Project/adaptation-v1.0/experiment",
+				"patcherrelativepath" : ".",
+				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
