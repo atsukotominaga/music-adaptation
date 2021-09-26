@@ -274,7 +274,7 @@
 					"patching_rect" : [ 1540.999992370605469, 345.416657745838165, 50.0, 22.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 214.112433411197799, 186.399996280670166, 70.0, 22.0 ],
-					"text" : "pre",
+					"text" : "0",
 					"textjustification" : 1
 				}
 
@@ -365,7 +365,7 @@
 					"presentation" : 1,
 					"presentation_linecount" : 4,
 					"presentation_rect" : [ 37.612433411197799, 236.449988663196564, 246.5, 62.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/pre-2021-09-26-201546-1-1.txt\""
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/0-2021-09-26-203151-0-1.txt\""
 				}
 
 			}
@@ -1464,7 +1464,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 2035.0, 56.266657471656799, 61.0, 22.0 ],
-					"text" : "delay 100"
+					"text" : "delay 500"
 				}
 
 			}
@@ -2916,7 +2916,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/pre-09-2021-26-201546-1-1.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/0-09-2021-26-203151-0-1.mid\""
 				}
 
 			}
@@ -2977,7 +2977,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/pre-2021-09-26-201546-1-1.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/0-2021-09-26-203151-0-1.txt\""
 				}
 
 			}
