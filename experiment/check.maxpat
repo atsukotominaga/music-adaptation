@@ -11,7 +11,7 @@
 ,
 		"classnamespace" : "box",
 		"rect" : [ 34.0, 79.0, 978.0, 937.0 ],
-		"bglocked" : 0,
+		"bglocked" : 1,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
 		"default_fontface" : 0,
@@ -80,7 +80,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1661.999992370605469, 345.416657745838165, 133.166668057441711, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 43.612433411197799, 206.399996280670166, 162.0, 20.0 ],
+					"presentation_rect" : [ 37.612433411197799, 186.399996280670166, 162.0, 20.0 ],
 					"text" : "Pre or post check",
 					"textcolor" : [ 0.396078431372549, 0.396078431372549, 0.396078431372549, 1.0 ]
 				}
@@ -245,8 +245,8 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1540.999992370605469, 345.416657745838165, 50.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 220.112433411197799, 206.399996280670166, 70.0, 22.0 ],
-					"text" : "0",
+					"presentation_rect" : [ 214.112433411197799, 186.399996280670166, 70.0, 22.0 ],
+					"text" : "pre",
 					"textjustification" : 1
 				}
 
@@ -336,8 +336,8 @@
 					"patching_rect" : [ 478.0, 489.116655051708221, 133.166668057441711, 102.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 5,
-					"presentation_rect" : [ 43.612433411197799, 256.449988663196564, 246.5, 76.0 ],
-					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-142845-participant-1.txt\""
+					"presentation_rect" : [ 37.612433411197799, 236.449988663196564, 246.5, 76.0 ],
+					"text" : "\"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-18027-participant-1.txt\""
 				}
 
 			}
@@ -350,7 +350,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 477.999992370605469, 461.800006449222565, 133.166668057441711, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 43.612433411197799, 230.399996280670166, 162.0, 20.0 ],
+					"presentation_rect" : [ 37.612433411197799, 210.399996280670166, 162.0, 20.0 ],
 					"text" : "Current data filename:",
 					"textcolor" : [ 0.396078431372549, 0.396078431372549, 0.396078431372549, 1.0 ]
 				}
@@ -405,15 +405,15 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-342",
-					"linecount" : 5,
+					"linecount" : 8,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 2804.833347141742706, 303.449972093105316, 150.0, 74.0 ],
+					"patching_rect" : [ 2804.833347141742706, 303.449972093105316, 150.0, 114.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 3,
-					"presentation_rect" : [ 43.612433411197799, 337.449988663196564, 246.5, 47.0 ],
-					"text" : "Data files are exported for each trial.\nAt the end of the experiment, there should be 16 files.",
+					"presentation_linecount" : 5,
+					"presentation_rect" : [ 37.612433411197799, 318.449988663196564, 246.5, 74.0 ],
+					"text" : "Data files are exported for each trial.\nAt the end of the experiment, there should be 16 files.\nData filenames are updated after you press\n\"Start trial\" button.",
 					"textcolor" : [ 0.396078431372549, 0.396078431372549, 0.396078431372549, 1.0 ]
 				}
 
@@ -428,7 +428,7 @@
 					"patching_rect" : [ 2804.833347141742706, 385.666659951210022, 150.0, 60.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 1093.499972224235535, 569.616655170917511, 285.666696429252625, 33.0 ],
+					"presentation_rect" : [ 1093.499972224235535, 591.616655170917511, 285.666696429252625, 33.0 ],
 					"text" : "Reset a trial number and data (the same when you close and open this patcher again)",
 					"textcolor" : [ 0.301960784313725, 0.301960784313725, 0.301960784313725, 1.0 ]
 				}
@@ -437,15 +437,15 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-340",
-					"linecount" : 5,
+					"linecount" : 7,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 2804.833347141742706, 218.666659951210022, 151.0, 74.0 ],
+					"patching_rect" : [ 2804.833347141742706, 218.666659951210022, 151.0, 100.0 ],
 					"presentation" : 1,
-					"presentation_linecount" : 3,
-					"presentation_rect" : [ 1093.499972224235535, 518.616655170917511, 286.0, 47.0 ],
-					"text" : "If you want to reset a trial number (e.g., when Max crashed and you need to start the experiment in the middle",
+					"presentation_linecount" : 4,
+					"presentation_rect" : [ 1093.499972224235535, 520.44268821360447, 286.0, 60.0 ],
+					"text" : "If you want to reset a trial number (e.g., when Max crashed and you need to start the experiment in the middle. Type the trial number you want to begin from.",
 					"textcolor" : [ 0.301960784313725, 0.301960784313725, 0.301960784313725, 1.0 ]
 				}
 
@@ -2463,7 +2463,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 945.266645967960358, 968.499982833862305, 85.0, 35.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 799.468075207121274, 569.616655170917511, 288.0, 35.0 ],
+					"presentation_rect" : [ 799.468075207121274, 591.616655170917511, 288.0, 35.0 ],
 					"text" : "clearall",
 					"textcolor" : [ 0.988903880119324, 0.400471746921539, 0.399960249662399, 1.0 ],
 					"textjustification" : 1
@@ -2606,7 +2606,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 34.166665434837341, 211.483327031135559, 172.399998426437378, 33.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 43.612433411197799, 167.45001631975174, 162.5, 33.0 ],
+					"presentation_rect" : [ 37.612433411197799, 147.45001631975174, 162.5, 33.0 ],
 					"text" : "Trial number:",
 					"textcolor" : [ 0.396078431372549, 0.396078431372549, 0.396078431372549, 1.0 ]
 				}
@@ -2634,7 +2634,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 34.166665434837341, 125.149991989135742, 172.399998426437378, 33.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 43.612433411197799, 123.949988782405853, 163.0, 33.0 ],
+					"presentation_rect" : [ 37.612433411197799, 103.949988782405853, 163.0, 33.0 ],
 					"text" : "Participant ID:",
 					"textcolor" : [ 0.396078431372549, 0.396078431372549, 0.396078431372549, 1.0 ]
 				}
@@ -2675,7 +2675,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 217.566660583019257, 211.483327031135559, 64.0, 35.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 220.112433411197799, 167.45001631975174, 70.0, 35.0 ]
+					"presentation_rect" : [ 214.112433411197799, 147.45001631975174, 70.0, 35.0 ]
 				}
 
 			}
@@ -2772,7 +2772,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 691.600016295909882, 968.499982833862305, 195.0, 35.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 799.468075207121274, 524.616655170917511, 288.0, 35.0 ],
+					"presentation_rect" : [ 799.468075207121274, 534.616655170917511, 288.0, 35.0 ],
 					"text" : "reset trial number",
 					"textcolor" : [ 0.988903880119324, 0.400471746921539, 0.399960249662399, 1.0 ],
 					"textjustification" : 1
@@ -2828,7 +2828,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 217.566660583019257, 125.149991989135742, 64.0, 35.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 220.112433411197799, 123.949988782405853, 70.0, 35.0 ]
+					"presentation_rect" : [ 214.112433411197799, 103.949988782405853, 70.0, 35.0 ]
 				}
 
 			}
@@ -2888,7 +2888,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1196.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-26-142845-participant-1.mid\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/midi/prepost-09-2021-26-18027-participant-1.mid\""
 				}
 
 			}
@@ -2949,7 +2949,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 627.999992370605469, 532.116655051708221, 542.0, 35.0 ],
-					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-142845-participant-1.txt\""
+					"text" : "write \"Macintosh HD:/Users/atsukotominaga/Google Drive/Project/adaptation-v1.0/experiment/data/prepost-2021-09-26-18027-participant-1.txt\""
 				}
 
 			}

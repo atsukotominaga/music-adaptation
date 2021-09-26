@@ -13,7 +13,7 @@ span{
 <title>Instruction</title>
 
 # Instruction
-Author: Atsuko Tominaga - 24/09/2021 (adaptation-v1.0)
+Author: Atsuko Tominaga - 26/09/2021 (adaptation-v1.0)
 
 # Equipments
 1. MacBook Pro (Music Lab)
@@ -61,10 +61,9 @@ Audio interface (Focusrite)
 Note: Start from 1 (not 01) to 20, 30 etc..
 
 2. Open the “display.maxpat”**. Move the window of the “display.maxpat” to the right (on the screen in front of the piano”) and press F for a fullscreen mode. <span>If there is a toolbar surrounding the display, get rid of it by pressing command+8 (not F8)</span>.
-3. Move the window of the “display.maxpat” to the right (on the screen in front of the piano”) and press F for a fullscreen mode. <span>If there is a toolbar surrounding the display, get rid of it by pressing command+8 (not F8)</span>.
-4. Check whether the piano sounds come from the headphone.
-5. If the sound of the metronome and the piano does not come from the computer speaker, go to **System Preference -> Sound -> Output -> select “Scarllet 6i6 USB”**.
-6. If you cannot still solve the problem above, please quit Max and relaunch it again.
+3. Check whether the piano sounds come from the headphone.
+4. If the sound of the metronome and the piano does not come from the computer speaker, go to **System Preference -> Sound -> Output -> select “Scarllet 6i6 USB”**.
+5. If you cannot still solve the problem above, please quit Max and relaunch it again.
 
 ### Pre/post-check Patch (check.maxpat)
 
@@ -176,8 +175,13 @@ adaptation-year-month-day-time-participantID-block-stimuli.txt/mid
   - adaptation-2021-09-21-10275-1-8-3.txt
   - pre-2021-09-21-12394-1-8-3.txt
 
-2. Quit Max.
-3. Turn off the piano, the audio interface and the screen in front of the piano.
+At the end of the experiment, there should be at least:
+  - 16 files starting with "adaptation"
+  - 2 files starting with "pre"
+  - 2 files starting with "post"
+
+1. Quit Max.
+2. Turn off the piano, the audio interface and the screen in front of the piano.
 
 # Notes
 - If participants ask whether they can use different fingerings, please let them know that they can play as they like.
