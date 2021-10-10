@@ -8,7 +8,7 @@ This repo contains scripts and materials for the experiment investigating whethe
 Open Science Framework: TBC
 
 # experiment
-- Environment: Mac OS X 10.15.6, Max MSP 8.1.11
+- Environment: Mac OS X 10.15.7, Max MSP 8.1.11
 
 ## prerequisite
 - Install the Shell package (https://github.com/jeremybernstein/shell/releases) into the package folder of Max 8.
@@ -19,9 +19,12 @@ Open Science Framework: TBC
 
 # analysis
 TBC
+
 # material
 ## instruction
-TBC
+- `instruction.md`: instruction sheet for an experimenter >> output: html file, pdf file
+- `image`: figures used in the instruction sheet and the experiment
+- `psd files`: images used for instructions >> output: png files
 
 ## sheetmusic
 Sheet music for 4 types of expressions
