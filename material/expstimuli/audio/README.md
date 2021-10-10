@@ -51,15 +51,22 @@ Corresponding sheet music: stim_n
 None of them is implemented (both articulation and dynamics missing).
 
 ### Tempo (from IOIs)
-First, we created baseline performances for the tempo. 3 performances out of 31 performances were randomly selected from the dataset and interonset intervals (IOIs) were averaged across the 3 performances. Due to the size of the dataset (i.e., only 31 performances), some performances were used twice.
+First, we created baseline performances for tempo. 3 performances out of 31 performances were randomly selected from the dataset and interonset intervals (IOIs) were averaged across the 3 performances. Due to the size of the dataset (i.e., only 31 performances), some performances were used twice.
 
-We confirmed that the identical performance was not selected within each random selection.
+We confirmed that the identical performance was not selected within each random selection (i.e., each selection (combination) consists of 3 different performances).
 
 ### Articulation (from durations)
-We used only Sub20 and 21 for the reason above. We followed exactly the same process as the tempo for duration values.
+We used only SubNr20 and 21 for the reason above. Since there were only 4 performances in total (2 from SubNr20 and 2 from SubNr 21), we used each value 4 times.
 
 ### Dynamics (from velocity profiles)
-We followed exactly the same process as the tempo for velocity values.
+We followed exactly the same process as tempo for velocity values.
+
+We created 16 different base-line instances (performances). Each instance has unique values for tempo and velocity.
+
+Articulation values were coming from 4 performances and each performance was used 4 times. The order of each performance was randomised.
+
+> There were performance_1 x 4, performance_2 x 4, performance_3 x 4, performance_4 x 4.
+> We randomly ordered 16 performances for each instance (e.g., articulation values for instance 1 was from performance_2, articulation values for instance 2 was from performance_3 etc.)
 
 ## 2, 3. Intermediate (articulation/dynamics)
 Corresponding sheet music: stim_a/stim_d
@@ -68,11 +75,11 @@ Corresponding sheet music: stim_a/stim_d
 We used exactly the same timestamps generated for low performances for both intermediate-articulation/dynamics.
 
 ### Articulation 
-We followed exactly the same averaging process for duration values as we did for the tempo in low performances for intermediate-articulation performances.  
+We followed exactly the same averaging process for duration values as we did for tempo in low performances for intermediate-articulation performances.  
 We used exactly the same velocity values generated for low performances.
 
 ### Dynamics
-We followed exactly the same averaging process for velocity values as we did for the tempo in low performances for intermediate-dynamics performances.  
+We followed exactly the same averaging process for velocity values as we did for tempo in low performances for intermediate-dynamics performances.  
 We used exactly the same duration values generated for low performances.
 
 ## 4. High
@@ -102,7 +109,7 @@ After generating stimuli (txt files), export them as mid files using mid_export.
 # selecting stimuli
 - `selected` folder
 
-Based on the results of the pilot rating (`../prerating/data/summary.Rmd`), we selected 4 stimuli for each type.
+Based on the results of the pilot rating (`../prerating/data/summary.Rmd`) where we asked 3 musicians to rate to what extent each expression was implemented, we selected 4 stimuli for each type.
 
 - `IOI`: 4 base tempi were randomly selected from the original 16 instances (see details: `IOI/ioi_onset.Rmd`)
 - `combine.R`: based on what were selected (`../prerating/data/selected_1612309984-030221.txt`), create 4 stimuli for eacy type.
@@ -113,7 +120,8 @@ Based on the results of the pilot rating (`../prerating/data/summary.Rmd`), we s
 For dyn_only and low stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and high stimuli and add that difference to all KOT values for dyn_only and low, so that the KOT values should shift closer to the grand mean of art_only and high stimuli.
 
 # Rename stimuli for the experiment
-- art_only_1 ~ art_only_4 -> 1 ~ 4
-- dyn_only_1 ~ dyn_only_4 -> 5 ~ 8
-- high_1 ~ high_4 -> 9 ~ 12
-- low_1 ~ low_4 -> 13 ~ 16
+- `../../experiment/recordings` folder
+  - art_only_1 ~ art_only_4 -> 1 ~ 4
+  - dyn_only_1 ~ dyn_only_4 -> 5 ~ 8
+  - high_1 ~ high_4 -> 9 ~ 12
+  - low_1 ~ low_4 -> 13 ~ 16
