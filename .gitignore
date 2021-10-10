@@ -3,7 +3,8 @@
 *html
 
 # analysis
-analysis
+analysis/filtered
+analysis/raw_data
 
 # experiment
 experiment/data
