@@ -1,0 +1,98 @@
+---
+title: "Preprocessing: filtering (experiment)"
+output: html_notebook
+---
+
+```{r setup, include = FALSE}
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("filtering.Rmd")
+
+# create a folder if not exists
+if (!file.exists(here("filtered"))){
+  dir.create(here("filtered"))
+}
+
+# read functions
+source(here("function.R"))
+
+# read a text file for ideal performance
+dt_ideal <- read.table(here("ideal.txt"))
+colnames(dt_ideal) <- "Pitch"
+dt_ideal$RowNr <- 1:nrow(dt_ideal)
+setcolorder(dt_ideal, c(2, 1))
+
+# create a list of data file names
+lf <- list.files(here("raw_data"), pattern = "txt")
+
+# create raw_data - merge all data files into one
+raw_data <- data.table()
+for (i in 1:length(lf)){
+  data_i <- fread(file.path(here("raw_data"), lf[i]), header = F, sep = " ", dec = ".")
+  raw_data <- rbind(raw_data, data_i)
+}
+
+# add column namesls
+colnames(raw_data) <- c("NoteNr", "TimeStamp", "Pitch", "Velocity", "Key_OnOff", "Device", "SubNr", "TrialNr", "Stimuli", "Session")
+
+# clean raw_data
+raw_data$NoteNr <- as.numeric(gsub(",", "", raw_data$NoteNr))
+raw_data$Session <- gsub(";", "", raw_data$Session)
+
+# sort by SubNr, TrialNr
+raw_data <- raw_data[order(raw_data$SubNr, raw_data$TrialNr),]
+
+# raw_data without metronome
+dt_all <- raw_data[Pitch != 31 & Pitch != 34]
+
+# onset and offset for experimental session
+dt_onset <- dt_all[Key_OnOff == 1 & Session == "experiment"]
+dt_offset <- dt_all[Key_OnOff == 0 & Session == "experiment"]
+```
+
+# Onset
+## Detect erroneous trials
+```{r, echo = FALSE}
+dt_error_onset <- checker(dt_onset, dt_ideal)
+
+# mark imperfect performances
+dt_onset$Error <- 0
+for (error in 1:nrow(dt_error_onset)){
+  dt_onset[SubNr == dt_error_onset$SubNr[error] & TrialNr == dt_error_onset$TrialNr[error]]$Error <- 1
+}
+
+dt_correct_onset_1 <- dt_onset[Error == 0]
+dt_correct_onset_1$RowNr <- rep(1:72, nrow(dt_correct_onset_1)/72)
+setcolorder(dt_correct_onset_1, c(12, 1:11))
+
+# export csv
+fwrite(dt_correct_onset_1, file = here("filtered", "dt_correct_onset_1.txt"))
+
+# print the result
+dt_error_onset
+```
+
+# Offset
+
+## Detect erroneous trials
+```{r, echo = FALSE}
+dt_error_offset <- checker(dt_offset, dt_ideal)
+
+# mark imperfect performances
+dt_offset$Error <- 0
+for (error in 1:nrow(dt_error_offset)){
+  dt_offset[SubNr == dt_error_offset$SubNr[error] & TrialNr == dt_error_offset$TrialNr[error]]$Error <- 1
+}
+
+dt_correct_offset_1 <- dt_offset[Error == 0]
+dt_correct_offset_1$RowNr <- rep(1:72, nrow(dt_correct_offset_1)/72)
+setcolorder(dt_correct_offset_1, c(12, 1:11))
+
+# export csv
+fwrite(dt_correct_offset_1, file = here("filtered", "dt_correct_offset_1.txt"))
+
+# print the result
+dt_error_offset
+```
+
+# Checking
