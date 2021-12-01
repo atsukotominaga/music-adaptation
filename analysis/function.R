@@ -10,7 +10,7 @@ theme_set(theme_classic())
 # data: data of the current trial
 # ideal: dt_ideal
 checker <- function(data, ideal){
-  dt_errors <- data.table() # return data of erroneous trials - SubNr/BlockNr/TrialNr/Reason
+  dt_errors <- data.table() # return data of erroneous trials - SubNr/TrialNr/Reason
   for (subject in unique(data$SubNr)){
     for (trial in c(1:16)){
       current <- data[SubNr == subject & TrialNr == trial]
@@ -30,7 +30,7 @@ checker <- function(data, ideal){
           }
         }
       } else if (nrow(current) == 0){ # current data empty
-        dt_errors <- rbind(dt_errors, data.table(subject, block, trial, paste("Missing Trial")))
+        dt_errors <- rbind(dt_errors, data.table(subject, trial, paste("Missing Trial")))
       }
     }
   }
@@ -48,7 +48,7 @@ edit <- function(data, ideal){
   data$Diff <- "NA"
   data[Pitch != Ideal]$Diff <- "DIFFERENT"
   # sort the order of columns
-  setcolorder(data, c("RowNr", "NoteNr", "TimeStamp", "Pitch", "Ideal", "Diff", "Velocity", "Key_OnOff", "Device", "SubNr", "BlockNr", "TrialNr", "Skill", "Condition", "Image", "Error"))
+  setcolorder(data, c("RowNr", "NoteNr", "TimeStamp", "Pitch", "Ideal", "Diff", "Velocity", "Key_OnOff", "Device", "SubNr", "TrialNr", "Stimuli", "Session", "Error"))
   graph <- ggplot() +
     geom_line(data = data, aes(x = RowNr, y = Pitch), colour = "#F8766D") +
     geom_line(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
@@ -56,7 +56,7 @@ edit <- function(data, ideal){
     geom_point(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
     scale_x_continuous("RowNr", data$RowNr) +
     coord_fixed(ratio = 1/4) +
-    labs(title = sprintf("SubNr: %s, BlockNr: %s, TrialNr: %s", unique(data$SubNr), unique(data$BlockNr), unique(data$TrialNr)), y = "Pitch")
+    labs(title = sprintf("SubNr: %s, TrialNr: %s", unique(data$SubNr), unique(data$TrialNr)), y = "Pitch")
   print(graph)
   corrected <- editData(data, viewer = "pane")
   return(data.table(corrected)) # convert to data.table

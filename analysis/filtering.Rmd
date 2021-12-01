@@ -52,7 +52,7 @@ dt_offset <- dt_all[Key_OnOff == 0 & Session == "experiment"]
 
 # Onset
 ## Detect erroneous trials
-```{r, echo = FALSE}
+```{r onset, echo = FALSE}
 dt_error_onset <- checker(dt_onset, dt_ideal)
 
 # mark imperfect performances
@@ -75,7 +75,7 @@ dt_error_onset
 # Offset
 
 ## Detect erroneous trials
-```{r, echo = FALSE}
+```{r offset, echo = FALSE}
 dt_error_offset <- checker(dt_offset, dt_ideal)
 
 # mark imperfect performances
