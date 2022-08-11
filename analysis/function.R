@@ -49,16 +49,7 @@ edit <- function(data, ideal){
   data[Pitch != Ideal]$Diff <- "DIFFERENT"
   # sort the order of columns
   setcolorder(data, c("RowNr", "NoteNr", "TimeStamp", "Pitch", "Ideal", "Diff", "Velocity", "Key_OnOff", "Device", "SubNr", "TrialNr", "Stimuli", "Session", "Error"))
-  graph <- ggplot() +
-    geom_line(data = data, aes(x = RowNr, y = Pitch), colour = "#F8766D") +
-    geom_line(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
-    geom_point(data = data, aes(x = RowNr, y = Pitch), colour = "#F8766D") +
-    geom_point(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
-    scale_x_continuous("RowNr", data$RowNr) +
-    coord_fixed(ratio = 1/4) +
-    labs(title = sprintf("SubNr: %s, TrialNr: %s", unique(data$SubNr), unique(data$TrialNr)), y = "Pitch")
-  print(graph)
-  corrected <- editData(data, viewer = "pane")
+  corrected <- editData(data)
   return(data.table(corrected)) # convert to data.table
 }
 

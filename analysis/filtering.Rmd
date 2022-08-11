@@ -1,9 +1,12 @@
 ---
-title: "Preprocessing: filtering (experiment)"
+title: "Preprocessing: filtering"
 output: html_notebook
 ---
 
 ```{r setup, include = FALSE}
+# set chunk option
+knitr::opts_chunk$set(echo = FALSE)
+
 # set working directory
 if (!require("here")) {install.packages("here"); require("here")}
 here::i_am("filtering.Rmd")
@@ -50,9 +53,11 @@ dt_onset <- dt_all[Key_OnOff == 1 & Session == "experiment"]
 dt_offset <- dt_all[Key_OnOff == 0 & Session == "experiment"]
 ```
 
-# Onset
-## Detect erroneous trials
-```{r onset, echo = FALSE}
+# Detect erroneous trials
+
+1) Onset
+
+```{r onset}
 dt_error_onset <- checker(dt_onset, dt_ideal)
 
 # mark imperfect performances
@@ -72,9 +77,8 @@ fwrite(dt_correct_onset_1, file = here("filtered", "dt_correct_onset_1.txt"))
 dt_error_onset
 ```
 
-# Offset
+2) Offset
 
-## Detect erroneous trials
 ```{r offset, echo = FALSE}
 dt_error_offset <- checker(dt_offset, dt_ideal)
 
@@ -95,4 +99,75 @@ fwrite(dt_correct_offset_1, file = here("filtered", "dt_correct_offset_1.txt"))
 dt_error_offset
 ```
 
-# Checking
+# Manual pitch removal
+
+## Extra notes
+1) Onset
+
+```{r extra, include = FALSE}
+dt_error_onset$CorrectionNr <- NA
+
+error_extra_onset <- dt_error_onset[Reason == "Extra Notes"]
+dt_correct_onset_2 <- data.table()
+for (row in 1:nrow(error_extra_onset)){
+  current <- dt_onset[SubNr == error_extra_onset$SubNr[row] & TrialNr == error_extra_onset$TrialNr[row]]
+  decision = 2 
+  correction = 0 # # of correction for reporting stats
+  while (decision == 2){
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- First check -----")
+    current <- edit(current, dt_ideal)
+    print("----- Correction check -----")
+    edit(current, dt_ideal)
+    decision <- menu(c("y", "n", "other"), title = "Save the current data? (to continue, enter 'n')")
+    if (decision == 1){
+      correction = correction + 1
+      error_extra_onset$CorrectionNr[row] <- correction
+      dt_correct_onset_2 <- rbind(dt_correct_onset_2, current[, -c(5:6)])
+    } else if (decision == 3){
+      error_extra_onset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    } else if (decision == 2){
+      correction = correction + 1
+      print("----- Continue correction -----")
+    }
+  }
+}
+
+# export csv
+fwrite(dt_correct_onset_2, file = here("filtered", "dt_correct_onset_2.txt"))
+```
+
+2) Offset
+
+```{r extra, include = FALSE}
+dt_error_offset$CorrectionNr <- NA
+
+error_extra_offset <- dt_error_offset[Reason == "Extra Notes"]
+dt_correct_offset_2 <- data.table()
+for (row in 1:nrow(error_extra_offset)){
+  current <- dt_offset[SubNr == error_extra_offset$SubNr[row] & TrialNr == error_extra_offset$TrialNr[row]]
+  decision = 2 
+  correction = 0 # # of correction for reporting stats
+  while (decision == 2){
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- First check -----")
+    current <- edit(current, dt_ideal)
+    print("----- Correction check -----")
+    edit(current, dt_ideal)
+    decision <- menu(c("y", "n", "other"), title = "Save the current data? (to continue, enter 'n')")
+    if (decision == 1){
+      correction = correction + 1
+      error_extra_offset$CorrectionNr[row] <- correction
+      dt_correct_offset_2 <- rbind(dt_correct_offset_2, current[, -c(5:6)])
+    } else if (decision == 3){
+      error_extra_offset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    } else if (decision == 2){
+      correction = correction + 1
+      print("----- Continue correction -----")
+    }
+  }
+}
+
+# export csv
+fwrite(dt_correct_offset_2, file = here("filtered", "dt_correct_offset_2.txt"))
+```
