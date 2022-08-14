@@ -104,7 +104,7 @@ dt_error_offset
 ## Extra notes
 1) Onset
 
-```{r extra, include = FALSE}
+```{r extra-onset, include = FALSE, eval = FALSE}
 dt_error_onset$CorrectionNr <- NA
 
 error_extra_onset <- dt_error_onset[Reason == "Extra Notes"]
@@ -135,11 +135,17 @@ for (row in 1:nrow(error_extra_onset)){
 
 # export csv
 fwrite(dt_correct_onset_2, file = here("filtered", "dt_correct_onset_2.txt"))
+fwrite(error_extra_onset, file = here("filtered", "error_extra_onset.txt"))
+```
+
+```{r}
+error_extra_onset <- fread(here("filtered/error_extra_onset.txt"))
+error_extra_onset
 ```
 
 2) Offset
 
-```{r extra, include = FALSE}
+```{r extra-offset, include = FALSE, eval = FALSE}
 dt_error_offset$CorrectionNr <- NA
 
 error_extra_offset <- dt_error_offset[Reason == "Extra Notes"]
@@ -170,4 +176,85 @@ for (row in 1:nrow(error_extra_offset)){
 
 # export csv
 fwrite(dt_correct_offset_2, file = here("filtered", "dt_correct_offset_2.txt"))
+fwrite(error_extra_offset, file = here("filtered", "error_extra_offset.txt"))
+```
+
+```{r}
+error_extra_offset <- fread(here("filtered/error_extra_offset.txt"))
+error_extra_offset
+```
+
+## Missing notes
+1) Onset
+
+```{r missing-onset, include = FALSE, eval = FALSE}
+error_missing_onset <- dt_error_onset[Reason == "Missing Notes"]
+
+dt_correct_onset_3 <- data.table()
+for (row in 1:nrow(error_missing_onset)){
+  current <- dt_onset[SubNr == error_missing_onset$SubNr[row] & TrialNr == error_missing_onset$TrialNr[row]]
+  diff <- abs(nrow(dt_ideal) - nrow(current))
+  if (diff < 5){
+    # insert NA row
+    current <- insert_na(current, dt_ideal)
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- Correction check -----")
+    current <- edit(current, dt_ideal)
+    decision <- menu(c("y", "other"), title = "Save the current data?")
+    if (decision == 1){
+      error_missing_onset$CorrectionNr[row] <- diff
+      dt_correct_onset_3 <- rbind(dt_correct_onset_3, current[, -c(5:6)])
+    } else if (decision == 2){
+      error_missing_onset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    }
+  } else {
+    error_missing_onset$CorrectionNr[row] <- "Check individually"
+  }
+}
+
+# export csv
+fwrite(dt_correct_onset_3, file = here("filtered", "dt_correct_onset_3.txt"))
+fwrite(error_missing_onset, file = here("filtered", "error_missing_onset.txt"))
+```
+
+```{r}
+error_missing_onset <- fread(here("filtered/error_missing_onset.txt"))
+error_missing_onset
+```
+
+2) Offset
+
+```{r missing-offset, include = FALSE}
+error_missing_offset <- dt_error_offset[Reason == "Missing Notes"]
+
+dt_correct_offset_3 <- data.table()
+for (row in 1:nrow(error_missing_offset)){
+  current <- dt_offset[SubNr == error_missing_offset$SubNr[row] & TrialNr == error_missing_offset$TrialNr[row]]
+  diff <- abs(nrow(dt_ideal) - nrow(current))
+  if (diff < 5){
+    # insert NA row
+    current <- insert_na(current, dt_ideal)
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- Correction check -----")
+    current <- edit(current, dt_ideal)
+    decision <- menu(c("y", "other"), title = "Save the current data?")
+    if (decision == 1){
+      error_missing_offset$CorrectionNr[row] <- diff
+      dt_correct_offset_3 <- rbind(dt_correct_offset_3, current[, -c(5:6)])
+    } else if (decision == 2){
+      error_missing_offset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    }
+  } else {
+    error_missing_offset$CorrectionNr[row] <- "Check individually"
+  }
+}
+
+# export csv
+fwrite(dt_correct_offset_3, file = here("filtered", "dt_correct_offset_3.txt"))
+fwrite(error_missing_offset, file = here("filtered", "error_missing_offset.txt"))
+```
+
+```{r}
+error_missing_offset <- fread(here("filtered/error_missing_offset.txt"))
+error_missing_offset
 ```
