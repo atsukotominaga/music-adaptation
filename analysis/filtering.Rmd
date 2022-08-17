@@ -75,6 +75,9 @@ fwrite(dt_correct_onset_1, file = here("filtered", "dt_correct_onset_1.txt"))
 
 # print the result
 dt_error_onset
+
+# add CorrectionNr column
+dt_error_onset$CorrectionNr <- NA
 ```
 
 2) Offset
@@ -97,6 +100,9 @@ fwrite(dt_correct_offset_1, file = here("filtered", "dt_correct_offset_1.txt"))
 
 # print the result
 dt_error_offset
+
+# add CorrectionNr column
+dt_error_offset$CorrectionNr <- NA
 ```
 
 # Manual pitch removal
@@ -105,8 +111,6 @@ dt_error_offset
 1) Onset
 
 ```{r extra-onset, include = FALSE, eval = FALSE}
-dt_error_onset$CorrectionNr <- NA
-
 error_extra_onset <- dt_error_onset[Reason == "Extra Notes"]
 dt_correct_onset_2 <- data.table()
 for (row in 1:nrow(error_extra_onset)){
@@ -146,8 +150,6 @@ error_extra_onset
 2) Offset
 
 ```{r extra-offset, include = FALSE, eval = FALSE}
-dt_error_offset$CorrectionNr <- NA
-
 error_extra_offset <- dt_error_offset[Reason == "Extra Notes"]
 dt_correct_offset_2 <- data.table()
 for (row in 1:nrow(error_extra_offset)){
@@ -224,7 +226,7 @@ error_missing_onset
 
 2) Offset
 
-```{r missing-offset, include = FALSE}
+```{r missing-offset, include = FALSE, eval = FALSE}
 error_missing_offset <- dt_error_offset[Reason == "Missing Notes"]
 
 dt_correct_offset_3 <- data.table()
@@ -257,4 +259,85 @@ fwrite(error_missing_offset, file = here("filtered", "error_missing_offset.txt")
 ```{r}
 error_missing_offset <- fread(here("filtered/error_missing_offset.txt"))
 error_missing_offset
+```
+
+## Substituted notes
+1) Onset
+
+```{r sub-onset, include = FALSE, eval = FALSE}
+error_sub_onset <- dt_error_onset[startsWith(Reason, "Substituted")]
+
+dt_correct_onset_4 <- data.table()
+for (row in 1:nrow(error_sub_onset)){
+  current <- dt_onset[SubNr == error_sub_onset$SubNr[row] & TrialNr == error_sub_onset$TrialNr[row]]
+  decision = 2 
+  correction = 0 # # of correction for reporting stats
+  while (decision == 2){
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- First check -----")
+    current <- edit(current, dt_ideal)
+    print("----- Correction check -----")
+    edit(current, dt_ideal)
+    decision <- menu(c("y", "n", "other"), title = "Save the current data? (to continue, enter 'n')")
+    if (decision == 1){
+      correction = correction + 1
+      error_sub_onset$CorrectionNr[row] <- correction
+      dt_correct_onset_4 <- rbind(dt_correct_onset_4, current[, -c(5:6)])
+    } else if (decision == 3) {
+      error_sub_onset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    } else if (decision == 2){
+      correction = correction + 1
+      print("----- Continue correction -----")
+    }
+  }
+}
+
+# export csv
+fwrite(dt_correct_onset_4, file = here("filtered", "dt_correct_onset_4.txt"))
+fwrite(error_sub_onset, file = here("filtered", "error_sub_onset.txt"))
+```
+
+```{r}
+error_sub_onset <- fread(here("filtered/error_sub_onset.txt"))
+error_sub_onset
+```
+
+2) Offset
+
+```{r sub-offset, include = FALSE, eval = FALSE}
+error_sub_offset <- dt_error_offset[startsWith(Reason, "Substituted")]
+
+dt_correct_offset_4 <- data.table()
+for (row in 1:nrow(error_sub_offset)){
+  current <- dt_offset[SubNr == error_sub_offset$SubNr[row] & TrialNr == error_sub_offset$TrialNr[row]]
+  decision = 2 
+  correction = 0 # # of correction for reporting stats
+  while (decision == 2){
+    print(sprintf("SubNr: %s, TrialNr: %s", unique(current$SubNr), unique(current$TrialNr)))
+    print("----- First check -----")
+    current <- edit(current, dt_ideal)
+    print("----- Correction check -----")
+    edit(current, dt_ideal)
+    decision <- menu(c("y", "n", "other"), title = "Save the current data? (to continue, enter 'n')")
+    if (decision == 1){
+      correction = correction + 1
+      error_sub_offset$CorrectionNr[row] <- correction
+      dt_correct_offset_4 <- rbind(dt_correct_offset_4, current[, -c(5:6)])
+    } else if (decision == 3) {
+      error_sub_offset$CorrectionNr[row] <- readline(prompt = "Reason?: ")
+    } else if (decision == 2){
+      correction = correction + 1
+      print("----- Continue correction -----")
+    }
+  }
+}
+
+# export csv
+fwrite(dt_correct_offset_4, file = here("filtered", "dt_correct_offset_4.txt"))
+fwrite(error_sub_offset, file = here("filtered", "error_sub_offset.txt"))
+```
+
+```{r}
+error_sub_offset <- fread(here("filtered/error_sub_offset.txt"))
+error_sub_offset
 ```

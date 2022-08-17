@@ -1,5 +1,6 @@
 # install and load required packages
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+if (!require("tibble")) {install.packages("tibble"); require("tibble")}
 if (!require("editData")) {install.packages("editData"); require("editData")}
 if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 
@@ -60,7 +61,7 @@ insert_na <- function(data, ideal){
   # insert NA row
   while (nrow(data) < nrow(ideal)){
     for (note in 1:nrow(data)){
-      if (note != 66){
+      if (note != 71){
         if (data$Pitch[note] != ideal$Pitch[note]){
           data <- add_row(data, .before = note)
           data[note] <- data[note-1]
@@ -69,20 +70,20 @@ insert_na <- function(data, ideal){
           data$Pitch[note] <- ideal$Pitch[note]
           break
         }
-      } else if (note == 66){
+      } else if (note == 71){
         if (data$Pitch[note] != ideal$Pitch[note]){
           data <- add_row(data, .after = note)
           data[note+1] <- data[note]
-          # NA66
+          # NA71
           data$TimeStamp[note] <- NA
           data$Velocity[note] <- NA
           data$Pitch[note] <- ideal$Pitch[note]
-          # NA67
+          # NA72
           data$TimeStamp[note+1] <- NA
           data$Velocity[note+1] <- NA
           data$Pitch[note+1] <- ideal$Pitch[note+1]
           break
-        } else if (data$Pitch[note] == ideal$Pitch[note]){
+        } else if (data$Pitch[note] == ideal$Pitch[note]){ # if the very last note is missing
           data <- add_row(data, .after = note)
           data[note+1] <- data[note]
           data$TimeStamp[note+1] <- NA
