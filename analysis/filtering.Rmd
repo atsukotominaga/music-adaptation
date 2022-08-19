@@ -54,6 +54,7 @@ dt_offset <- dt_all[Key_OnOff == 0 & Session == "experiment"]
 ```
 
 # Detect erroneous trials
+Firstly, separate non-erroneous performances from erroneous performances.
 
 1) Onset
 
@@ -106,6 +107,11 @@ dt_error_offset$CorrectionNr <- NA
 ```
 
 # Manual pitch removal
+Second, manually correct some pitch errors if the performance has only one type of the following errors:
+
+- Extra notes
+- Missing notes
+- Substituted notes
 
 ## Extra notes
 1) Onset
@@ -340,4 +346,72 @@ fwrite(error_sub_offset, file = here("filtered", "error_sub_offset.txt"))
 ```{r}
 error_sub_offset <- fread(here("filtered/error_sub_offset.txt"))
 error_sub_offset
+```
+
+# Individual investigation
+If the performance has complicated pitch errors, investigate individually.
+
+1) Onset
+
+```{r}
+# combine error
+error_onset <- rbind(error_extra_onset, error_missing_onset, error_sub_onset)
+
+error_ind_onset <- error_onset[startsWith(CorrectionNr, "Check")]
+error_ind_onset
+```
+
+- SubNr: 12, TrialNr: 13
+
+```{r}
+current_1 <- dt_onset[SubNr == error_ind_onset$SubNr[1] & TrialNr == error_ind_onset$TrialNr[1]]
+current_1$RowNr <- c(1:nrow(current_1))
+current_1$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_1) - nrow(dt_ideal))))
+graph(current_1)
+
+# remove the first error
+current_1 <- edit(current_1, dt_ideal)
+graph(current_1)
+
+# corrected the second error (substituted note)
+current_1 <- edit(current_1, dt_ideal)
+graph(current_1)
+
+error_ind_onset$CorrectionNr[1] <- 2
+```
+
+- SubNr: 10, TrialNr: 10
+
+```{r}
+current_2 <- dt_onset[SubNr == error_ind_onset$SubNr[2] & TrialNr == error_ind_onset$TrialNr[2]]
+current_2 <- insert_na(current_2, dt_ideal)
+current_2$RowNr <- c(1:nrow(current_2))
+current_2$Ideal <- dt_ideal$Pitch
+graph(current_2)
+
+# insert one skipped note
+current_2 <- edit(current_2, dt_ideal)
+graph(current_2)
+
+# remove an extra note
+current_2 <- edit(current_2, dt_ideal)
+graph(current_2)
+
+error_ind_onset$CorrectionNr[2] <- 2
+```
+
+- SubNr
+
+```{r}
+
+```
+
+2) Offset
+
+```{r}
+# combine error
+error_offset <- rbind(error_extra_offset, error_missing_offset, error_sub_offset)
+
+error_ind_offset <- error_offset[startsWith(CorrectionNr, "Check")]
+error_ind_offset
 ```

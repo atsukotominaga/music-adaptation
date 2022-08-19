@@ -96,3 +96,17 @@ insert_na <- function(data, ideal){
   }
   return(data)
 }
+
+# make and print a graph
+graph <- function(data){
+  graph <- ggplot() +
+    geom_line(data = data, aes(x = RowNr, y = Pitch), colour = "#F8766D") +
+    geom_line(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
+    geom_point(data = data, aes(x = RowNr, y = Pitch), colour = "#F8766D") +
+    geom_point(data = data, aes(x = RowNr, y = Ideal), colour = "#00BFC4") +
+    scale_x_continuous("RowNr", current_1$RowNr) +
+    coord_fixed(ratio = 1/4) +
+    labs(title = sprintf("SubNr: %s, TrialNr: %s", unique(data$SubNr), unique(data$TrialNr)), y = "Pitch")
+  print(graph)
+}
+  
