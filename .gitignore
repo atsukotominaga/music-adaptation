@@ -4,6 +4,7 @@
 
 # analysis
 analysis/filtered
+analysis/trimmed
 analysis/raw_data
 
 # experiment
