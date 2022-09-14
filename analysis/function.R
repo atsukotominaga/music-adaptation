@@ -35,8 +35,12 @@ checker <- function(data, ideal){
       }
     }
   }
-  colnames(dt_errors) <- c("SubNr", "TrialNr", "Reason")
-  return(dt_errors)
+  if (nrow(dt_errors) != 0){
+    colnames(dt_errors) <- c("SubNr", "TrialNr", "Reason")
+    return(dt_errors)
+  } else if (nrow(dt_errors) == 0){
+    return("No errors!")
+  }
 }
 
 ### edit data
