@@ -1,0 +1,132 @@
+---
+title: "Preprocessing: trimming"
+output: html_notebook
+---
+
+```{r setup, include = FALSE}
+# set chunk option
+knitr::opts_chunk$set(echo = FALSE)
+
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("trimming.Rmd")
+
+# packages
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
+if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
+
+# create a folder if not exists
+if (!file.exists(here("trimmed"))){
+  dir.create(here("trimmed"))
+}
+
+# read txt files
+dt_onset <- fread(here("filtered", "dt_correct_onset.txt"))
+dt_offset <- fread(here("filtered", "dt_correct_offset.txt"))
+
+# sort data
+setorder(dt_onset, cols = "SubNr", "TrialNr", "RowNr")
+setorder(dt_offset, cols = "SubNr", "TrialNr", "RowNr")
+```
+
+```{r, include = FALSE}
+# define subcomponents
+# for intervals
+ls_legato <- list(c(1:4), c(9:16), c(21:24), c(40:46))
+ls_staccato <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
+
+# for each note (velocity)
+ls_legato2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
+ls_staccato2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
+
+# define Component Change (LtoS, FtoP)
+change_1 <- c(5, 17, 47)
+# define Component Change (StoL, PtoF)
+change_2 <- c(8, 20, 39)
+```
+
+# IOIs
+```{r, include = FALSE}
+# calculate IOIs
+dt_ioi <- dt_onset
+dt_ioi$IOI <- diff(c(0, dt_ioi$TimeStamp))
+
+# remove the first note
+dt_ioi <- dt_ioi[RowNr != 1]
+
+# assign Interval
+dt_ioi$Interval <- rep(1:71, nrow(dt_ioi)/71)
+
+# assign Articulation/Dynamics
+dt_ioi$Articulation <- "NA"
+dt_ioi$Dynamics <- "NA"
+# Legato/Forte
+for (phrase in 1:length(ls_legato)){
+  for (note in 1:length(ls_legato[[phrase]])){
+    dt_ioi[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
+    dt_ioi[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+  }
+}
+# Staccato/Piano
+for (phrase in 1:length(ls_staccato)){
+  for (note in 1:length(ls_staccato[[phrase]])){
+    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
+    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+  }
+}
+
+# assign Subcomponent Change
+for (number in change_1){
+  dt_ioi[Interval == number]$Articulation <- "LtoS"
+  dt_ioi[ Interval == number]$Dynamics <- "FtoP"
+}
+for (number in change_2){
+  dt_ioi[Interval == number]$Articulation <- "StoL"
+  dt_ioi[Interval == number]$Dynamics <- "PtoF"
+}
+```
+
+## Histogram
+### Before removing outliers
+```{r}
+dt_ioi_subset_all <- dt_ioi[Articulation != "NA" & !is.na(IOI)]
+
+gghistogram(dt_ioi_subset_all, x = "IOI", color = "Articulation", bins = 150)
+```
+
+### After removing outliers
+Remove outliers, which are outside of +/- 3SD separately for whether responses on boundary (transition points between Legato/Forte and Staccato/Piano) because IOIs are likely to be slower in such boundaries.
+
+```{r}
+ioi_summary <- dt_ioi_subset_all[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr)]
+
+# exclude tempo deviated participants
+ioi_summary$Include <- "No"
+ioi_summary[Mean < mean(ioi_summary$Mean)+3*sd(ioi_summary$Mean) & Mean > mean(ioi_summary$Mean)-3*sd(ioi_summary$Mean)]$Include <- "Yes"
+
+# evaluate if it's on boundary
+dt_ioi_subset_all$Boundary <- "No"
+dt_ioi_subset_all[Articulation == "LtoS" | Articulation == "StoL"]$Boundary <- "Yes"
+
+# exclude ioi > +- 3SD (separately for each Boundary)
+ioi_boundary <- dt_ioi_subset_all[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = Boundary]
+
+dt_ioi_trimmed <- data.table()
+for (boundary in unique(ioi_boundary$Boundary)){
+  upper_ioi <- ioi_boundary[Boundary == boundary]$Mean+3*ioi_boundary[Boundary == boundary]$SD
+  lower_ioi <- ioi_boundary[Boundary == boundary]$Mean-3*ioi_boundary[Boundary == boundary]$SD
+  dt_current <- dt_ioi_subset_all[Boundary == boundary & IOI < upper_ioi & IOI > lower_ioi]
+  dt_ioi_trimmed <- rbind(dt_ioi_trimmed, dt_current)
+}
+
+gghistogram(dt_ioi_trimmed, color = "Articulation", x = "IOI", bins = 150)
+```
+
+Remove `r nrow(dt_ioi_subset_all)-nrow(dt_ioi_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_ioi_subset_all)-nrow(dt_ioi_trimmed))/nrow(dt_ioi_subset_all))` % of total responses
+
+# KOT
+
+# KV
+
+# KV Difference
