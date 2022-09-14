@@ -188,7 +188,7 @@ fwrite(error_extra_offset, file = here("filtered", "error_extra_offset.txt"))
 ```
 
 ```{r}
-error_extra_offset <- fread(here("filtered/error_extra_offset.txt"))
+error_extra_offset <- fread(here("filtered", "error_extra_offset.txt"))
 error_extra_offset
 ```
 
@@ -226,7 +226,7 @@ fwrite(error_missing_onset, file = here("filtered", "error_missing_onset.txt"))
 ```
 
 ```{r}
-error_missing_onset <- fread(here("filtered/error_missing_onset.txt"))
+error_missing_onset <- fread(here("filtered", "error_missing_onset.txt"))
 error_missing_onset
 ```
 
@@ -263,7 +263,7 @@ fwrite(error_missing_offset, file = here("filtered", "error_missing_offset.txt")
 ```
 
 ```{r}
-error_missing_offset <- fread(here("filtered/error_missing_offset.txt"))
+error_missing_offset <- fread(here("filtered", "error_missing_offset.txt"))
 error_missing_offset
 ```
 
@@ -304,7 +304,7 @@ fwrite(error_sub_onset, file = here("filtered", "error_sub_onset.txt"))
 ```
 
 ```{r}
-error_sub_onset <- fread(here("filtered/error_sub_onset.txt"))
+error_sub_onset <- fread(here("filtered", "error_sub_onset.txt"))
 error_sub_onset
 ```
 
@@ -344,7 +344,7 @@ fwrite(error_sub_offset, file = here("filtered", "error_sub_offset.txt"))
 ```
 
 ```{r}
-error_sub_offset <- fread(here("filtered/error_sub_offset.txt"))
+error_sub_offset <- fread(here("filtered", "error_sub_offset.txt"))
 error_sub_offset
 ```
 
@@ -353,17 +353,16 @@ If the performance has complicated pitch errors, investigate individually.
 
 1) Onset
 
-```{r}
+```{r, include = FALSE}
 # combine error
 error_onset <- rbind(error_extra_onset, error_missing_onset, error_sub_onset)
 
 error_ind_onset <- error_onset[startsWith(CorrectionNr, "Check")]
-error_ind_onset
 ```
 
-1) SubNr: 12, TrialNr: 13
+- SubNr: 12, TrialNr: 13
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval = FALSE}
 current_1 <- dt_onset[SubNr == error_ind_onset$SubNr[1] & TrialNr == error_ind_onset$TrialNr[1]]
 current_1$RowNr <- c(1:nrow(current_1))
 current_1$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_1) - nrow(dt_ideal))))
@@ -381,22 +380,24 @@ graph(current_1)
 error_ind_onset$CorrectionNr[1] <- 2
 ```
 
-2) SubNr: 10, TrialNr: 10
+- SubNr: 10, TrialNr: 10
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval = FALSE}
 current_2 <- dt_onset[SubNr == error_ind_onset$SubNr[2] & TrialNr == error_ind_onset$TrialNr[2]]
+
+# insert one note
 current_2 <- insert_na(current_2, dt_ideal)
 current_2$RowNr <- c(1:nrow(current_2))
 current_2$Ideal <- dt_ideal$Pitch
 graph(current_2)
 
-# insert one skipped note
+# insert one note
 current_2 <- edit(current_2, dt_ideal)
-current_2$Ideal <- dt_ideal$Pitch
 current_2$RowNr <- 1:nrow(current_2)
+current_2$Ideal <- cc(dt_ideal$Pitch, rep(NA, abs(nrow(current_2) - nrow(dt_ideal))))
 graph(current_2)
 
-# remove an extra note
+# remove one extra note
 current_2 <- edit(current_2, dt_ideal)
 current_2$Ideal <- dt_ideal$Pitch
 graph(current_2)
@@ -404,20 +405,561 @@ graph(current_2)
 error_ind_onset$CorrectionNr[2] <- 3
 ```
 
-3) SubNr
+- SubNr: 6, TrialNr: 2
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval = FALSE}
 current_3 <- dt_onset[SubNr == error_ind_onset$SubNr[3] & TrialNr == error_ind_onset$TrialNr[3]]
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch
+graph(current_3)
 
+# remove the first error
+current_3 <- edit(current_3, dt_ideal)
 
+# insert one note
+current_3 <- insert_na(current_3, dt_ideal)
+current_3$Ideal <- dt_ideal$Pitch
+graph(current_3)
+
+error_ind_onset$CorrectionNr[3] <- 2
+```
+
+- SubNr: 6, TrialNr: 12
+
+```{r, include = FALSE, eval = FALSE}
+current_4 <- dt_onset[SubNr == error_ind_onset$SubNr[4] & TrialNr == error_ind_onset$TrialNr[4]]
+current_4$RowNr <- c(1:nrow(current_4))
+current_4$Ideal <- dt_ideal$Pitch
+graph(current_4)
+
+# insert one skipped note
+current_4 <- edit(current_4, dt_ideal)
+current_4$RowNr <- 1:nrow(current_4)
+current_4$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_4) - nrow(dt_ideal))))
+graph(current_4)
+
+# remove one extra note
+current_4 <- edit(current_4, dt_ideal)
+current_4$RowNr <- c(1:nrow(current_4))
+current_4$Ideal <- dt_ideal$Pitch
+graph(current_4)
+
+error_ind_onset$CorrectionNr[4] <- 2
+```
+
+- SubNr: 8, TrialNr: 6
+
+```{r, include = FALSE, eval = FALSE}
+current_5 <- dt_onset[SubNr == error_ind_onset$SubNr[5] & TrialNr == error_ind_onset$TrialNr[5]]
+current_5$RowNr <- c(1:nrow(current_5))
+current_5$Ideal <- dt_ideal$Pitch
+graph(current_5)
+
+# remove one wrong note
+current_5 <- edit(current_5, dt_ideal)
+
+# insert one note
+current_5 <- insert_na(current_5, dt_ideal)
+current_5$RowNr <- c(1:nrow(current_5))
+current_5$Ideal <- dt_ideal$Pitch
+graph(current_5)
+
+error_ind_onset$CorrectionNr[5] <- 2
+```
+
+- SubNr: 8, TrialNr: 10
+
+```{r, include = FALSE, eval = FALSE}
+current_6 <- dt_onset[SubNr == error_ind_onset$SubNr[6] & TrialNr == error_ind_onset$TrialNr[6]]
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- dt_ideal$Pitch
+graph(current_6)
+
+# remove one extra note
+current_6 <- edit(current_6, dt_ideal)
+
+# insert one note
+current_6 <- insert_na(current_6, dt_ideal)
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- dt_ideal$Pitch
+graph(current_6)
+
+error_ind_onset$CorrectionNr[6] <- 2
+```
+
+- SubNr: 13, TrialNr: 1
+
+```{r, include = FALSE, eval = FALSE}
+current_7 <- dt_onset[SubNr == error_ind_onset$SubNr[7] & TrialNr == error_ind_onset$TrialNr[7]]
+current_7$RowNr <- c(1:nrow(current_7))
+current_7$Ideal <- dt_ideal$Pitch
+graph(current_7)
+
+# insert one note
+current_7 <- edit(current_7, dt_ideal)
+current_7$RowNr <- 1:nrow(current_7)
+current_7$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_7) - nrow(dt_ideal))))
+graph(current_7)
+
+# remove one note
+current_7 <- edit(current_7, dt_ideal)
+current_7$RowNr <- c(1:nrow(current_7))
+current_7$Ideal <- dt_ideal$Pitch
+graph(current_7)
+
+error_ind_onset$CorrectionNr[7] <- 2
+```
+
+```{r, include = FALSE, eval = FALSE}
+dt_correct_onset_5 <- rbind(current_1, current_2, current_3, current_4, current_5, current_6, current_7)
+dt_correct_onset_5 <- dt_correct_onset_5[, -c(5:6)]
+
+# export csv
+fwrite(dt_correct_onset_5, file = here("filtered", "dt_correct_onset_5.txt"))
+fwrite(error_ind_onset, file = here("filtered", "error_ind_onset.txt"))
+```
+
+```{r}
+error_ind_onset <- fread(here("filtered", "error_ind_onset.txt"))
+error_ind_onset
 ```
 
 2) Offset
 
-```{r, include = FALSE}
+```{r}
 # combine error
 error_offset <- rbind(error_extra_offset, error_missing_offset, error_sub_offset)
 
 error_ind_offset <- error_offset[startsWith(CorrectionNr, "Check")]
+```
+
+- SubNr: 12, TrialNr: 13
+
+```{r, include = FALSE, eval = FALSE}
+current_1 <- dt_onset[SubNr == error_ind_offset$SubNr[1] & TrialNr == error_ind_offset$TrialNr[1]]
+current_1$RowNr <- c(1:nrow(current_1))
+current_1$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_1) - nrow(dt_ideal))))
+graph(current_1)
+
+# remove one note
+current_1 <- edit(current_1, dt_ideal)
+current_1$Ideal <- dt_ideal$Pitch
+graph(current_1)
+
+# corrected the second error (substituted note)
+current_1 <- edit(current_1, dt_ideal)
+graph(current_1)
+
+error_ind_offset$CorrectionNr[1] <- 2
+```
+
+- SubNr: 17, TrialNr: 7
+
+```{r, include = FALSE, eval = FALSE}
+current_2 <- dt_offset[SubNr == error_ind_offset$SubNr[2] & TrialNr == error_ind_offset$TrialNr[2]]
+current_2$RowNr <- c(1:nrow(current_2))
+current_2$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_2) - nrow(dt_ideal))))
+graph(current_2)
+
+# correct two notes
+current_2 <- edit(current_2, dt_ideal)
+graph(current_2)
+
+# remove one note
+current_2 <- edit(current_2, dt_ideal)
+current_2$Ideal <- dt_ideal$Pitch
+graph(current_2)
+
+error_ind_offset$CorrectionNr[2] <- 3
+```
+
+- SubNr: 4, TrialNr: 4
+
+```{r, include = FALSE, eval = FALSE}
+current_3 <- dt_offset[SubNr == error_ind_offset$SubNr[3] & TrialNr == error_ind_offset$TrialNr[3]]
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch[-c(71, 72)]
+graph(current_3)
+
+# correct two notes
+current_3 <- edit(current_3, dt_ideal[-c(71, 72),])
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch[-c(71, 72)]
+graph(current_3)
+
+# insert one notes
+current_3 <- edit(current_3, dt_ideal[-c(71, 72),])
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_3)
+
+# correct two notes
+current_3 <- edit(current_3, dt_ideal[-c(72),])
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_3)
+
+# insert one note
+current_3 <- insert_na(current_3, dt_ideal)
+current_3$RowNr <- c(1:nrow(current_3))
+current_3$Ideal <- dt_ideal$Pitch
+graph(current_3)
+
+error_ind_offset$CorrectionNr[3] <- 6
+```
+
+- SubNr: 4, TrialNr: 4
+
+```{r, include = FALSE, eval = FALSE}
+current_4 <- dt_offset[SubNr == error_ind_offset$SubNr[4] & TrialNr == error_ind_offset$TrialNr[4]]
+current_4$RowNr <- c(1:nrow(current_4))
+current_4$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_4)
+
+# correct two notes
+current_4 <- edit(current_4, dt_ideal[-c(72),])
+current_4$RowNr <- c(1:nrow(current_4))
+current_4$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_4)
+
+# insert one note
+current_4 <- insert_na(current_4, dt_ideal)
+current_4$RowNr <- c(1:nrow(current_4))
+current_4$Ideal <- dt_ideal$Pitch
+graph(current_4)
+
+error_ind_offset$CorrectionNr[4] <- 3
+```
+
+- SubNr: 7, TrialNr: 11
+
+```{r, include = FALSE, eval = FALSE}
+current_5 <- dt_offset[SubNr == error_ind_offset$SubNr[5] & TrialNr == error_ind_offset$TrialNr[5]]
+current_5$RowNr <- c(1:nrow(current_5))
+current_5$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_5)
+
+# correct two notes
+current_5 <- edit(current_5, dt_ideal[-c(72),])
+current_5$RowNr <- c(1:nrow(current_5))
+current_5$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_5)
+
+# insert one note
+current_5 <- insert_na(current_5, dt_ideal)
+current_5$RowNr <- c(1:nrow(current_5))
+current_5$Ideal <- dt_ideal$Pitch
+graph(current_5)
+
+error_ind_offset$CorrectionNr[5] <- 3
+```
+
+- SubNr: 10, TrialNr: 10
+
+```{r, include = FALSE, eval = FALSE}
+current_6 <- dt_offset[SubNr == error_ind_offset$SubNr[6] & TrialNr == error_ind_offset$TrialNr[6]]
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_6)
+
+# insert one note
+current_6 <- insert_na(current_6, dt_ideal)
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- dt_ideal$Pitch
+graph(current_6)
+
+# insert one note
+current_6 <- edit(current_6, dt_ideal)
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_6) - nrow(dt_ideal))))
+graph(current_6)
+
+# remove one note
+current_6 <- edit(current_6, dt_ideal)
+current_6$RowNr <- c(1:nrow(current_6))
+current_6$Ideal <- dt_ideal$Pitch
+graph(current_6)
+
+error_ind_offset$CorrectionNr[6] <- 3
+```
+
+- SubNr: 17, TrialNr: 1
+
+```{r, include = FALSE, eval = FALSE}
+current_7 <- dt_offset[SubNr == error_ind_offset$SubNr[7] & TrialNr == error_ind_offset$TrialNr[7]]
+current_7$RowNr <- c(1:nrow(current_7))
+current_7$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_7)
+
+# insert one note
+current_7 <- insert_na(current_7, dt_ideal)
+current_7$RowNr <- c(1:nrow(current_7))
+current_7$Ideal <- dt_ideal$Pitch
+graph(current_7)
+
+# correct four notes
+current_7 <- edit(current_7, dt_ideal)
+current_7$RowNr <- c(1:nrow(current_7))
+current_7$Ideal <- dt_ideal$Pitch
+graph(current_7)
+
+error_ind_offset$CorrectionNr[7] <- 5
+```
+
+- SubNr: 17, TrialNr: 6
+
+```{r, include = FALSE, eval = FALSE}
+current_8 <- dt_offset[SubNr == error_ind_offset$SubNr[8] & TrialNr == error_ind_offset$TrialNr[8]]
+current_8$RowNr <- c(1:nrow(current_8))
+current_8$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_8)
+
+# correct two notes
+current_8 <- edit(current_8, dt_ideal[-c(72),])
+current_8$RowNr <- c(1:nrow(current_8))
+current_8$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_8)
+
+# insert one note
+current_8 <- insert_na(current_8, dt_ideal)
+current_8$RowNr <- c(1:nrow(current_8))
+current_8$Ideal <- dt_ideal$Pitch
+graph(current_8)
+
+error_ind_offset$CorrectionNr[8] <- 3
+```
+
+- SubNr: 17, TrialNr: 14
+
+```{r, include = FALSE, eval = FALSE}
+current_9 <- dt_offset[SubNr == error_ind_offset$SubNr[9] & TrialNr == error_ind_offset$TrialNr[9]]
+current_9$RowNr <- c(1:nrow(current_9))
+current_9$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_9)
+
+# correct two notes
+current_9 <- edit(current_9, dt_ideal[-c(72),])
+current_9$RowNr <- c(1:nrow(current_9))
+current_9$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_9)
+
+# insert one note
+current_9 <- insert_na(current_9, dt_ideal)
+current_9$RowNr <- c(1:nrow(current_9))
+current_9$Ideal <- dt_ideal$Pitch
+graph(current_9)
+
+error_ind_offset$CorrectionNr[9] <- 3
+```
+
+- SubNr: 20, TrialNr: 1
+
+```{r, include = FALSE, eval = FALSE}
+current_10 <- dt_offset[SubNr == error_ind_offset$SubNr[10] & TrialNr == error_ind_offset$TrialNr[10]]
+current_10$RowNr <- c(1:nrow(current_10))
+current_10$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_10)
+
+# correct two notes
+current_10 <- edit(current_10, dt_ideal[-c(72),])
+current_10$RowNr <- c(1:nrow(current_10))
+current_10$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_10)
+
+# insert one note
+current_10 <- insert_na(current_10, dt_ideal)
+current_10$RowNr <- c(1:nrow(current_10))
+current_10$Ideal <- dt_ideal$Pitch
+graph(current_10)
+
+error_ind_offset$CorrectionNr[10] <- 3
+```
+
+- SubNr: 6, TrialNr: 2
+
+```{r, include = FALSE, eval = FALSE}
+current_11 <- dt_offset[SubNr == error_ind_offset$SubNr[11] & TrialNr == error_ind_offset$TrialNr[11]]
+current_11$RowNr <- c(1:nrow(current_11))
+current_11$Ideal <- dt_ideal$Pitch
+graph(current_11)
+
+# remove one note
+current_11 <- edit(current_11, dt_ideal)
+current_11$RowNr <- c(1:nrow(current_11))
+current_11$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_11)
+
+# insert one note
+current_11 <- insert_na(current_11, dt_ideal)
+current_11$RowNr <- c(1:nrow(current_11))
+current_11$Ideal <- dt_ideal$Pitch
+graph(current_11)
+
+error_ind_offset$CorrectionNr[11] <- 2
+```
+
+- SubNr: 6, TrialNr: 12
+
+```{r, include = FALSE, eval = FALSE}
+current_12 <- dt_offset[SubNr == error_ind_offset$SubNr[12] & TrialNr == error_ind_offset$TrialNr[12]]
+current_12$RowNr <- c(1:nrow(current_12))
+current_12$Ideal <- dt_ideal$Pitch
+graph(current_12)
+
+# insert one note
+current_12 <- edit(current_12, dt_ideal)
+current_12$RowNr <- c(1:nrow(current_12))
+current_12$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_12) - nrow(dt_ideal))))
+graph(current_12)
+
+# remove one note
+current_12 <- edit(current_12, dt_ideal)
+current_12$RowNr <- c(1:nrow(current_12))
+current_12$Ideal <- dt_ideal$Pitch
+graph(current_12)
+
+error_ind_offset$CorrectionNr[12] <- 2
+```
+
+- SubNr: 8, TrialNr: 6
+
+```{r, include = FALSE, eval = FALSE}
+current_13 <- dt_offset[SubNr == error_ind_offset$SubNr[13] & TrialNr == error_ind_offset$TrialNr[13]]
+current_13$RowNr <- c(1:nrow(current_13))
+current_13$Ideal <- dt_ideal$Pitch
+graph(current_13)
+
+# remove one note
+current_13 <- edit(current_13, dt_ideal)
+current_13$RowNr <- c(1:nrow(current_13))
+current_13$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_13)
+
+# insert one note
+current_13 <- insert_na(current_13, dt_ideal)
+current_13$RowNr <- c(1:nrow(current_13))
+current_13$Ideal <- dt_ideal$Pitch
+graph(current_13)
+
+error_ind_offset$CorrectionNr[13] <- 2
+```
+
+- SubNr: 8, TrialNr: 10
+
+```{r, include = FALSE, eval = FALSE}
+current_14 <- dt_offset[SubNr == error_ind_offset$SubNr[14] & TrialNr == error_ind_offset$TrialNr[14]]
+current_14$RowNr <- c(1:nrow(current_14))
+current_14$Ideal <- dt_ideal$Pitch
+graph(current_14)
+
+# remove one note
+current_14 <- edit(current_14, dt_ideal)
+current_14$RowNr <- c(1:nrow(current_14))
+current_14$Ideal <- dt_ideal$Pitch[-c(72)]
+graph(current_14)
+
+# insert one note
+current_14 <- insert_na(current_14, dt_ideal)
+current_14$RowNr <- c(1:nrow(current_14))
+current_14$Ideal <- dt_ideal$Pitch
+graph(current_14)
+
+error_ind_offset$CorrectionNr[14] <- 2
+```
+
+- SubNr: 13, TrialNr: 1
+
+```{r, include = FALSE, eval = FALSE}
+current_15 <- dt_offset[SubNr == error_ind_offset$SubNr[15] & TrialNr == error_ind_offset$TrialNr[15]]
+current_15$RowNr <- c(1:nrow(current_15))
+current_15$Ideal <- dt_ideal$Pitch
+graph(current_15)
+
+# insert one note
+current_15 <- edit(current_15, dt_ideal)
+current_15$RowNr <- c(1:nrow(current_15))
+current_15$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_15) - nrow(dt_ideal))))
+graph(current_15)
+
+# remove one note
+current_15 <- edit(current_15, dt_ideal)
+current_15$RowNr <- c(1:nrow(current_15))
+current_15$Ideal <- dt_ideal$Pitch
+graph(current_15)
+
+error_ind_offset$CorrectionNr[15] <- 2
+```
+
+```{r, include = FALSE, eval = FALSE}
+dt_correct_offset_5 <- rbind(current_1, current_2, current_3, current_4, current_5, current_6, current_7, current_8, current_9, current_10, current_11, current_12, current_13, current_14, current_15)
+dt_correct_offset_5 <- dt_correct_offset_5[, -c(5:6)]
+
+# export csv
+fwrite(dt_correct_offset_5, file = here("filtered", "dt_correct_offset_5.txt"))
+fwrite(error_ind_offset, file = here("filtered", "error_ind_offset.txt"))
+```
+
+```{r}
+error_ind_offset <- fread(here("filtered", "error_ind_offset.txt"))
 error_ind_offset
+```
+
+```{r, include = FALSE, eval = FALSE}
+dt_correct_onset_1 <- fread(here("filtered", "dt_correct_onset_1.txt"))
+dt_correct_onset_2 <- fread(here("filtered", "dt_correct_onset_2.txt"))
+dt_correct_onset_3 <- fread(here("filtered", "dt_correct_onset_3.txt"))
+dt_correct_onset_4 <- fread(here("filtered", "dt_correct_onset_4.txt"))
+dt_correct_onset_5 <- fread(here("filtered", "dt_correct_onset_5.txt"))
+
+# combine all
+dt_correct_onset <- rbind(dt_correct_onset_1, dt_correct_onset_2, dt_correct_onset_3, dt_correct_onset_4, dt_correct_onset_5)
+
+# export csv
+fwrite(dt_correct_onset, file = here("filtered", "dt_correct_onset.txt"))
+
+dt_correct_offset_1 <- fread(here("filtered", "dt_correct_offset_1.txt"))
+dt_correct_offset_2 <- fread(here("filtered", "dt_correct_offset_2.txt"))
+dt_correct_offset_3 <- fread(here("filtered", "dt_correct_offset_3.txt"))
+dt_correct_offset_4 <- fread(here("filtered", "dt_correct_offset_4.txt"))
+dt_correct_offset_5 <- fread(here("filtered", "dt_correct_offset_5.txt"))
+
+# combine all
+dt_correct_offset <- rbind(dt_correct_offset_1, dt_correct_offset_2, dt_correct_offset_3, dt_correct_offset_4, dt_correct_offset_5)
+
+# export csv
+fwrite(dt_correct_offset, file = here("filtered", "dt_correct_offset.txt"))
+```
+
+# Checking
+Check whether data look okay.
+
+```{r, include = FALSE}
+rm(list=ls(all=T)) # clear all
+
+# set working directory
+if (!require("here")) {install.packages("here"); require("here")}
+here::i_am("filtering.Rmd")
+
+# read functions
+source(here("function.R"))
+
+# read a text file for ideal performance
+dt_ideal <- read.table(here("ideal.txt"))
+colnames(dt_ideal) <- "Pitch"
+dt_ideal$RowNr <- 1:nrow(dt_ideal)
+setcolorder(dt_ideal, c(2, 1))
+
+# read txt files
+dt_correct_onset <- fread(here("filtered", "dt_correct_onset.txt"))
+dt_correct_offset <- fread(here("filtered", "dt_correct_offset.txt"))
+```
+
+1) Onset
+```{r}
+print(checker(dt_correct_onset, dt_ideal))
+```
+
+2) Offset
+```{r}
+print(checker(dt_correct_offset, dt_ideal))
 ```
