@@ -361,9 +361,9 @@ error_ind_onset <- error_onset[startsWith(CorrectionNr, "Check")]
 error_ind_onset
 ```
 
-- SubNr: 12, TrialNr: 13
+1) SubNr: 12, TrialNr: 13
 
-```{r}
+```{r, include = FALSE}
 current_1 <- dt_onset[SubNr == error_ind_onset$SubNr[1] & TrialNr == error_ind_onset$TrialNr[1]]
 current_1$RowNr <- c(1:nrow(current_1))
 current_1$Ideal <- c(dt_ideal$Pitch, rep(NA, abs(nrow(current_1) - nrow(dt_ideal))))
@@ -371,6 +371,7 @@ graph(current_1)
 
 # remove the first error
 current_1 <- edit(current_1, dt_ideal)
+current_1$Ideal <- dt_ideal$Pitch
 graph(current_1)
 
 # corrected the second error (substituted note)
@@ -380,9 +381,9 @@ graph(current_1)
 error_ind_onset$CorrectionNr[1] <- 2
 ```
 
-- SubNr: 10, TrialNr: 10
+2) SubNr: 10, TrialNr: 10
 
-```{r}
+```{r, include = FALSE}
 current_2 <- dt_onset[SubNr == error_ind_onset$SubNr[2] & TrialNr == error_ind_onset$TrialNr[2]]
 current_2 <- insert_na(current_2, dt_ideal)
 current_2$RowNr <- c(1:nrow(current_2))
@@ -391,24 +392,29 @@ graph(current_2)
 
 # insert one skipped note
 current_2 <- edit(current_2, dt_ideal)
+current_2$Ideal <- dt_ideal$Pitch
+current_2$RowNr <- 1:nrow(current_2)
 graph(current_2)
 
 # remove an extra note
 current_2 <- edit(current_2, dt_ideal)
+current_2$Ideal <- dt_ideal$Pitch
 graph(current_2)
 
-error_ind_onset$CorrectionNr[2] <- 2
+error_ind_onset$CorrectionNr[2] <- 3
 ```
 
-- SubNr
+3) SubNr
 
-```{r}
+```{r, include = FALSE}
+current_3 <- dt_onset[SubNr == error_ind_onset$SubNr[3] & TrialNr == error_ind_onset$TrialNr[3]]
+
 
 ```
 
 2) Offset
 
-```{r}
+```{r, include = FALSE}
 # combine error
 error_offset <- rbind(error_extra_offset, error_missing_offset, error_sub_offset)
 
