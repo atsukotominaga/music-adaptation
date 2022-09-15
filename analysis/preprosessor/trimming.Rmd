@@ -130,10 +130,11 @@ fwrite(dt_ioi_trimmed, file = here("trimmed", "dt_ioi_trimmed.txt"), row.names =
 ```
 
 # KOT
-```{r}
+
+```{r, include = FALSE}
 dt_kot <- dt_onset
 
-# Offset 1 - Onset 2
+# calculate KOT (Offset 1 - Onset 2)
 dt_kot$KOT <- NA
 for (row in 1:nrow(dt_kot)){
   if (row < nrow(dt_kot)){
@@ -199,11 +200,130 @@ for (subcomponent in unique(dt_kot_subset$Articulation)){
 gghistogram(dt_kot_trimmed, x = "KOT", color = "Articulation", bins = 150)
 ```
 
+Remove `r nrow(dt_kot_subset)-nrow(dt_kot_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_kot_subset)-nrow(dt_kot_trimmed))/nrow(dt_kot_subset))` % of total responses
+
 ```{r, include = FALSE}
 fwrite(dt_kot_trimmed, file = here("trimmed", "dt_kot_trimmed.txt"), row.names = F)
 ```
 
 # KV
+```{r, include = FALSE}
+# calculate Diff (acceleration - velocity difference between notes)
+dt_vel <- dt_onset
+dt_vel$Diff <- diff(c(0, dt_vel$Velocity))
 
+# remove the first note
+dt_vel_diff <- dt_vel[RowNr != 1]
+dt_vel$Diff <- NULL # remove Diff from dt_vel
+
+# assign Subcomponents
+# for each note
+dt_vel$Articulation <- "NA"
+dt_vel$Dynamics <- "NA"
+# Legato/Forte
+for (phrase in 1:length(ls_legato2)){
+  for (note in 1:length(ls_legato2[[phrase]])){
+    dt_vel[RowNr == ls_legato2[[phrase]][note]]$Articulation <- "Legato"
+    dt_vel[RowNr  == ls_legato2[[phrase]][note]]$Dynamics <- "Forte"
+  }
+}
+# Staccato/Piano
+for (phrase in 1:length(ls_staccato2)){
+  for (note in 1:length(ls_staccato2[[phrase]])){
+    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Articulation <- "Staccato"
+    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Dynamics <- "Piano"
+  }
+}
+```
+
+## Histogram
+### Before removing outliers
+```{r}
+dt_vel_subset <- dt_vel[Articulation != "NA" & !is.na(Velocity)]
+
+gghistogram(dt_vel_subset, x = "Velocity", color = "Articulation", bins = 150)
+```
+
+### After removing outliers
+```{r}
+vel_subcomponent <- dt_vel_subset[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = Articulation]
+dt_vel_trimmed <- data.table()
+for (subcomponent in unique(dt_vel_subset$Articulation)){
+  upper <- vel_subcomponent[Articulation == subcomponent]$Mean+3*vel_subcomponent[Articulation == subcomponent]$SD
+  lower <- vel_subcomponent[Articulation == subcomponent]$Mean-3*vel_subcomponent[Articulation == subcomponent]$SD
+  dt_current <- dt_vel_subset[Articulation == subcomponent & Velocity < upper & Velocity > lower]
+  dt_vel_trimmed <- rbind(dt_vel_trimmed, dt_current)
+}
+
+gghistogram(dt_vel_trimmed, x = "Velocity", color = "Articulation", bins = 150)
+```
+
+Remove `r nrow(dt_vel_subset)-nrow(dt_vel_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_vel_subset)-nrow(dt_vel_trimmed))/nrow(dt_vel_subset))` % of total responses
+
+```{r, include = FALSE}
+fwrite(dt_vel_trimmed, file = here("trimmed", "dt_vel_trimmed.txt"), row.names = F)
+```
 
 # KV Difference
+```{r, include = FALSE}
+# assign Interval
+dt_vel_diff$Interval <- rep(1:71, nrow(dt_vel_diff)/71)
+
+# assign Subcomponents
+# for intervals
+dt_vel_diff$Articulation <- "NA"
+dt_vel_diff$Dynamics <- "NA"
+# Legato/Forte
+for (phrase in 1:length(ls_legato)){
+  for (note in 1:length(ls_legato[[phrase]])){
+    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
+    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+  }
+}
+# Staccato/Piano
+for (phrase in 1:length(ls_staccato)){
+  for (note in 1:length(ls_staccato[[phrase]])){
+    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
+    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+  }
+}
+
+# assign Subcomponent Change
+for (number in change_1){
+  dt_vel_diff[Interval == number]$Articulation <- "LtoS"
+  dt_vel_diff[ Interval == number]$Dynamics <- "FtoP"
+}
+for (number in change_2){
+  dt_vel_diff[Interval == number]$Articulation <- "StoL"
+  dt_vel_diff[Interval == number]$Dynamics <- "PtoF"
+}
+
+```
+
+## Histogram
+### Before removing outliers
+```{r}
+dt_vel_diff_subset <- dt_vel_diff[Articulation != "NA" & !is.na(Diff)]
+
+gghistogram(dt_vel_diff_subset, x = "Diff", color = "Articulation", bins = 150)
+```
+
+### After removing outliers
+```{r}
+vel_diff_subcomponent <- dt_vel_diff_subset[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = Articulation]
+dt_vel_diff_trimmed <- data.table()
+for (subcomponent in unique(dt_vel_diff_subset$Articulation)){
+  upper <- vel_diff_subcomponent[Articulation == subcomponent]$Mean+3*vel_diff_subcomponent[Articulation == subcomponent]$SD
+  lower <- vel_diff_subcomponent[Articulation == subcomponent]$Mean-3*vel_diff_subcomponent[Articulation == subcomponent]$SD
+  dt_current <- dt_vel_diff_subset[Articulation == subcomponent & Diff < upper & Diff > lower]
+  dt_vel_diff_trimmed <- rbind(dt_vel_diff_trimmed, dt_current)
+}
+
+gghistogram(dt_vel_diff_trimmed, x = "Diff", color = "Articulation", bins = 150)
+```
+
+Remove `r nrow(dt_vel_diff_subset)-nrow(dt_vel_diff_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_vel_diff_subset)-nrow(dt_vel_diff_trimmed))/nrow(dt_vel_diff_subset))` % of total responses
+
+```{r, include = FALSE}
+fwrite(dt_vel_diff_trimmed, file = here("trimmed", "dt_vel_diff_trimmed.txt"), row.names = F)
+```
