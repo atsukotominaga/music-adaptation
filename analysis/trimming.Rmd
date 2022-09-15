@@ -32,7 +32,7 @@ setorder(dt_offset, cols = "SubNr", "TrialNr", "RowNr")
 
 ```{r, include = FALSE}
 # define subcomponents
-# for intervals
+# for intervals (Legato/Forte, Staccato/Piano)
 ls_legato <- list(c(1:4), c(9:16), c(21:24), c(40:46))
 ls_staccato <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(58:64))
 
@@ -40,9 +40,9 @@ ls_staccato <- list(c(6:7), c(18:19), c(29:31), c(36:38), c(48:50), c(53:55), c(
 ls_legato2 <- list(c(1:5), c(9:17), c(21:26), c(40:47))
 ls_staccato2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(58:65))
 
-# define Component Change (LtoS, FtoP)
+# define subcomponent change (LtoS, FtoP)
 change_1 <- c(5, 17, 47)
-# define Component Change (StoL, PtoF)
+# define subcomponent change (StoL, PtoF)
 change_2 <- c(8, 20, 39)
 ```
 
@@ -90,43 +90,120 @@ for (number in change_2){
 ## Histogram
 ### Before removing outliers
 ```{r}
-dt_ioi_subset_all <- dt_ioi[Articulation != "NA" & !is.na(IOI)]
+dt_ioi_subset <- dt_ioi[Articulation != "NA" & !is.na(IOI)]
 
-gghistogram(dt_ioi_subset_all, x = "IOI", color = "Articulation", bins = 150)
+gghistogram(dt_ioi_subset, x = "IOI", color = "Articulation", bins = 150)
 ```
 
 ### After removing outliers
-Remove outliers, which are outside of +/- 3SD separately for whether responses on boundary (transition points between Legato/Forte and Staccato/Piano) because IOIs are likely to be slower in such boundaries.
+Remove outliers, which are outside of +/- 3SD separately depending on whether responses are on boundaries (transition points between Legato/Forte and Staccato/Piano) because IOIs are likely to be slower in the transition points.
 
 ```{r}
-ioi_summary <- dt_ioi_subset_all[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr)]
+ioi_summary <- dt_ioi_subset[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr)]
 
 # exclude tempo deviated participants
 ioi_summary$Include <- "No"
 ioi_summary[Mean < mean(ioi_summary$Mean)+3*sd(ioi_summary$Mean) & Mean > mean(ioi_summary$Mean)-3*sd(ioi_summary$Mean)]$Include <- "Yes"
 
 # evaluate if it's on boundary
-dt_ioi_subset_all$Boundary <- "No"
-dt_ioi_subset_all[Articulation == "LtoS" | Articulation == "StoL"]$Boundary <- "Yes"
+dt_ioi_subset$Boundary <- "No"
+dt_ioi_subset[Articulation == "LtoS" | Articulation == "StoL"]$Boundary <- "Yes"
 
 # exclude ioi > +- 3SD (separately for each Boundary)
-ioi_boundary <- dt_ioi_subset_all[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = Boundary]
+ioi_boundary <- dt_ioi_subset[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = Boundary]
 
 dt_ioi_trimmed <- data.table()
 for (boundary in unique(ioi_boundary$Boundary)){
   upper_ioi <- ioi_boundary[Boundary == boundary]$Mean+3*ioi_boundary[Boundary == boundary]$SD
   lower_ioi <- ioi_boundary[Boundary == boundary]$Mean-3*ioi_boundary[Boundary == boundary]$SD
-  dt_current <- dt_ioi_subset_all[Boundary == boundary & IOI < upper_ioi & IOI > lower_ioi]
+  dt_current <- dt_ioi_subset[Boundary == boundary & IOI < upper_ioi & IOI > lower_ioi]
   dt_ioi_trimmed <- rbind(dt_ioi_trimmed, dt_current)
 }
 
 gghistogram(dt_ioi_trimmed, color = "Articulation", x = "IOI", bins = 150)
 ```
 
-Remove `r nrow(dt_ioi_subset_all)-nrow(dt_ioi_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_ioi_subset_all)-nrow(dt_ioi_trimmed))/nrow(dt_ioi_subset_all))` % of total responses
+Remove `r nrow(dt_ioi_subset)-nrow(dt_ioi_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_ioi_subset)-nrow(dt_ioi_trimmed))/nrow(dt_ioi_subset))` % of total responses
+
+```{r, include = FALSE}
+fwrite(dt_ioi_trimmed, file = here("trimmed", "dt_ioi_trimmed.txt"), row.names = F)
+```
 
 # KOT
+```{r}
+dt_kot <- dt_onset
+
+# Offset 1 - Onset 2
+dt_kot$KOT <- NA
+for (row in 1:nrow(dt_kot)){
+  if (row < nrow(dt_kot)){
+    dt_kot$KOT[row+1] <- dt_offset$TimeStamp[row] - dt_onset$TimeStamp[row+1] # offset(n) - onset(n+1)
+  }
+}
+
+# remove the first note
+dt_kot <- dt_kot[RowNr != 1]
+
+# assign a sequence number for each tone
+dt_kot$Interval <- rep(1:71, nrow(dt_kot)/71)
+
+# assign Articulation/Dynamics
+dt_kot$Articulation <- "NA"
+dt_kot$Dynamics <- "NA"
+# Legato/Forte
+for (phrase in 1:length(ls_legato)){
+  for (note in 1:length(ls_legato[[phrase]])){
+    dt_kot[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
+    dt_kot[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+  }
+}
+# Staccato/Piano
+for (phrase in 1:length(ls_staccato)){
+  for (note in 1:length(ls_staccato[[phrase]])){
+    dt_kot[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
+    dt_kot[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+  }
+}
+
+# assign Subcomponent Change
+for (number in change_1){
+  dt_kot[Interval == number]$Articulation <- "LtoS"
+  dt_kot[ Interval == number]$Dynamics <- "FtoP"
+}
+for (number in change_2){
+  dt_kot[Interval == number]$Articulation <- "StoL"
+  dt_kot[Interval == number]$Dynamics <- "PtoF"
+}
+```
+
+## Histogram
+### Before removing outliers
+
+```{r}
+dt_kot_subset <- dt_kot[Articulation != "NA" & !is.na(KOT)]
+
+gghistogram(dt_kot_subset, x = "KOT", color = "Articulation", bins = 150)
+```
+
+### After removing outliers
+```{r}
+kot_subcomponent <- dt_kot_subset[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = Articulation]
+dt_kot_trimmed <- data.table()
+for (subcomponent in unique(dt_kot_subset$Articulation)){
+  upper <- kot_subcomponent[Articulation == subcomponent]$Mean+3*kot_subcomponent[Articulation == subcomponent]$SD
+  lower <- kot_subcomponent[Articulation == subcomponent]$Mean-3*kot_subcomponent[Articulation == subcomponent]$SD
+  dt_current <- dt_kot_subset[Articulation == subcomponent & KOT < upper & KOT > lower]
+  dt_kot_trimmed <- rbind(dt_kot_trimmed, dt_current)
+}
+
+gghistogram(dt_kot_trimmed, x = "KOT", color = "Articulation", bins = 150)
+```
+
+```{r, include = FALSE}
+fwrite(dt_kot_trimmed, file = here("trimmed", "dt_kot_trimmed.txt"), row.names = F)
+```
 
 # KV
+
 
 # KV Difference
