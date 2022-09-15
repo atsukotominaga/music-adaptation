@@ -13,7 +13,6 @@ here::i_am("trimming.Rmd")
 
 # packages
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
-if (!require("ggplot2")) {install.packages("ggplot2"); require("ggplot2")}
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 
 # create a folder if not exists
