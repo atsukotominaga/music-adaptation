@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = FALSE)
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+# stats
+if (!require("afex")) {install.packages("afex"); require("afex")}
 # plot
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 ```
@@ -142,10 +144,21 @@ ggboxplot(ioi, "Articulation2", "Mean", color = "Dynamics2", add = "jitter", xla
 
 ## 3. Sequence plots
 
-```{r seq-ioi, fig.width = 12, fig.height = 2.4}
+```{r seq-ioi, fig.width = 7, fig.height = 2}
 ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Articulation, Dynamics, Interval)]
 
 ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "IOIs (ms)", title = "IOI") + scale_x_continuous(breaks = seq(1,71,1))
+```
+
+## 4. Stats
+
+```{r}
+aov_ez(
+  data = ioi,
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
 ```
 
 
@@ -188,10 +201,34 @@ ggboxplot(kot[Articulation == "Staccato"], "Articulation2", "Mean", color = "Dyn
 
 ## 3. Sequence plots
 
-```{r seq-kot, fig.width = 12, fig.height = 2.4}
+```{r seq-kot, fig.width = 7, fig.height = 2}
 kot_seq <- dt_kot[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, Category, Articulation, Dynamics, Interval)]
 
 ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "KOT (ms)", title = "KOT") + scale_x_continuous(breaks = seq(1,71,1))
+```
+
+## 4. Stats
+
+1) Legato
+
+```{r}
+aov_ez(
+  data = kot[Articulation == "Legato"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
+```
+
+2) Staccato
+
+```{r}
+aov_ez(
+  data = kot[Articulation == "Staccato"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
 ```
 
 # Dynamics
@@ -233,10 +270,34 @@ ggboxplot(vel[Dynamics == "Piano"], "Dynamics2", "Mean", color = "Articulation2"
 
 ## 3. Sequence plots
 
-```{r seq-vel, fig.width = 12, fig.height = 2.4}
+```{r seq-vel, fig.width = 7, fig.height = 2}
 vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, Articulation, Dynamics, RowNr)]
 
 ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Note Nr", ylab = "Velocity (0-127)", title = "Velocity") + scale_x_continuous(breaks = seq(1,71,1))
+```
+
+## 4. Stats
+
+1) Forte
+
+```{r}
+aov_ez(
+  data = vel[Dynamics == "Forte"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
+```
+
+2) Piano
+
+```{r}
+aov_ez(
+  data = vel[Dynamics == "Piano"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
 ```
 
 # Dynamics Difference
@@ -277,8 +338,32 @@ ggboxplot(vel_diff[Dynamics == "PtoF"], "Dynamics2", "Mean", color = "Articulati
 
 ## 3. Sequence plots
 
-```{r seq-vel-diff, fig.width = 12, fig.height = 2.4}
+```{r seq-vel-diff, fig.width = 7, fig.height = 2}
 vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Articulation, Dynamics, Interval)]
 
 ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "Difference", title = "Velocity Difference") + scale_x_continuous(breaks = seq(1,71,1))
+```
+
+## 4. Stats
+
+1) FtoP
+
+```{r}
+aov_ez(
+  data = vel_diff[Dynamics == "FtoP"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
+```
+
+2) PtoF
+
+```{r}
+aov_ez(
+  data = vel_diff[Dynamics == "PtoF"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation2", "Dynamics2")
+)
 ```
