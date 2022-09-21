@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: inline
 ---
 
-Description: This is a summary of primary analysis.
+Description: This is a summary of analysis comparing between baseline and test performance.
 
 - Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
 
