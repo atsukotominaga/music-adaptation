@@ -1,0 +1,17 @@
+SubNr,TrialNr,Reason,CorrectionNr
+4,1,Missing Notes,1
+5,1,Missing Notes,2
+5,2,Missing Notes,3
+6,1,Missing Notes,1
+8,1,Missing Notes,1
+9,1,Missing Notes,1
+10,1,Missing Notes,2
+11,2,Missing Notes,1
+12,1,Missing Notes,1
+13,1,Missing Notes,1
+16,1,Missing Notes,1
+18,1,Missing Notes,1
+18,2,Missing Notes,1
+20,1,Missing Notes,Check individually
+21,1,Missing Notes,1
+21,2,Missing Notes,2
