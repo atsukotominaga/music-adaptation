@@ -41,71 +41,71 @@ dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
 
 # assign stimuli categories
 dt_ioi$Stimuli <- as.numeric(gsub(".mid", "", dt_ioi$Stimuli))
-dt_ioi$Articulation2 <- "NA"
-dt_ioi$Dynamics2 <- "NA"
+dt_ioi$Articulation <- "NA"
+dt_ioi$Dynamics <- "NA"
 dt_ioi$Category <- "NA"
-dt_ioi[Stimuli < 5]$Articulation2 <- "Present"
-dt_ioi[Stimuli < 5]$Dynamics2 <- "Absent"
+dt_ioi[Stimuli < 5]$Articulation <- "Present"
+dt_ioi[Stimuli < 5]$Dynamics <- "Absent"
 dt_ioi[Stimuli < 5]$Category <- "art_only"
-dt_ioi[Stimuli > 4 & Stimuli < 9]$Articulation2 <- "Absent"
-dt_ioi[Stimuli > 4 & Stimuli < 9]$Dynamics2 <- "Present"
+dt_ioi[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
+dt_ioi[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
 dt_ioi[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_ioi[Stimuli > 8 & Stimuli < 13]$Articulation2 <- "Present"
-dt_ioi[Stimuli > 8 & Stimuli < 13]$Dynamics2 <- "Present"
+dt_ioi[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
+dt_ioi[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
 dt_ioi[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_ioi[Stimuli > 12]$Articulation2 <- "Absent"
-dt_ioi[Stimuli > 12]$Dynamics2 <- "Absent"
+dt_ioi[Stimuli > 12]$Articulation <- "Absent"
+dt_ioi[Stimuli > 12]$Dynamics <- "Absent"
 dt_ioi[Stimuli > 12]$Category <- "none"
 
 dt_kot$Stimuli <- as.numeric(gsub(".mid", "", dt_kot$Stimuli))
-dt_kot$Articulation2 <- "NA"
-dt_kot$Dynamics2 <- "NA"
+dt_kot$Articulation <- "NA"
+dt_kot$Dynamics <- "NA"
 dt_kot$Category <- "NA"
-dt_kot[Stimuli < 5]$Articulation2 <- "Present"
-dt_kot[Stimuli < 5]$Dynamics2 <- "Absent"
+dt_kot[Stimuli < 5]$Articulation <- "Present"
+dt_kot[Stimuli < 5]$Dynamics <- "Absent"
 dt_kot[Stimuli < 5]$Category <- "art_only"
-dt_kot[Stimuli > 4 & Stimuli < 9]$Articulation2 <- "Absent"
-dt_kot[Stimuli > 4 & Stimuli < 9]$Dynamics2 <- "Present"
+dt_kot[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
+dt_kot[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
 dt_kot[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_kot[Stimuli > 8 & Stimuli < 13]$Articulation2 <- "Present"
-dt_kot[Stimuli > 8 & Stimuli < 13]$Dynamics2 <- "Present"
+dt_kot[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
+dt_kot[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
 dt_kot[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_kot[Stimuli > 12]$Articulation2 <- "Absent"
-dt_kot[Stimuli > 12]$Dynamics2 <- "Absent"
+dt_kot[Stimuli > 12]$Articulation <- "Absent"
+dt_kot[Stimuli > 12]$Dynamics <- "Absent"
 dt_kot[Stimuli > 12]$Category <- "none"
 
 dt_vel$Stimuli <- as.numeric(gsub(".mid", "", dt_vel$Stimuli))
-dt_vel$Articulation2 <- "NA"
-dt_vel$Dynamics2 <- "NA"
+dt_vel$Articulation <- "NA"
+dt_vel$Dynamics <- "NA"
 dt_vel$Category <- "NA"
-dt_vel[Stimuli < 5]$Articulation2 <- "Present"
-dt_vel[Stimuli < 5]$Dynamics2 <- "Absent"
+dt_vel[Stimuli < 5]$Articulation <- "Present"
+dt_vel[Stimuli < 5]$Dynamics <- "Absent"
 dt_vel[Stimuli < 5]$Category <- "art_only"
-dt_vel[Stimuli > 4 & Stimuli < 9]$Articulation2 <- "Absent"
-dt_vel[Stimuli > 4 & Stimuli < 9]$Dynamics2 <- "Present"
+dt_vel[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
+dt_vel[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
 dt_vel[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_vel[Stimuli > 8 & Stimuli < 13]$Articulation2 <- "Present"
-dt_vel[Stimuli > 8 & Stimuli < 13]$Dynamics2 <- "Present"
+dt_vel[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
+dt_vel[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
 dt_vel[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_vel[Stimuli > 12]$Articulation2 <- "Absent"
-dt_vel[Stimuli > 12]$Dynamics2 <- "Absent"
+dt_vel[Stimuli > 12]$Articulation <- "Absent"
+dt_vel[Stimuli > 12]$Dynamics <- "Absent"
 dt_vel[Stimuli > 12]$Category <- "none"
 
 dt_vel_diff$Stimuli <- as.numeric(gsub(".mid", "", dt_vel_diff$Stimuli))
-dt_vel_diff$Articulation2 <- "NA"
-dt_vel_diff$Dynamics2 <- "NA"
+dt_vel_diff$Articulation <- "NA"
+dt_vel_diff$Dynamics <- "NA"
 dt_vel_diff$Category <- "NA"
-dt_vel_diff[Stimuli < 5]$Articulation2 <- "Present"
-dt_vel_diff[Stimuli < 5]$Dynamics2 <- "Absent"
+dt_vel_diff[Stimuli < 5]$Articulation <- "Present"
+dt_vel_diff[Stimuli < 5]$Dynamics <- "Absent"
 dt_vel_diff[Stimuli < 5]$Category <- "art_only"
-dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Articulation2 <- "Absent"
-dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Dynamics2 <- "Present"
+dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
+dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
 dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Articulation2 <- "Present"
-dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Dynamics2 <- "Present"
+dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
+dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
 dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_vel_diff[Stimuli > 12]$Articulation2 <- "Absent"
-dt_vel_diff[Stimuli > 12]$Dynamics2 <- "Absent"
+dt_vel_diff[Stimuli > 12]$Articulation <- "Absent"
+dt_vel_diff[Stimuli > 12]$Dynamics <- "Absent"
 dt_vel_diff[Stimuli > 12]$Category <- "none"
 ```
 
@@ -114,24 +114,25 @@ dt_vel_diff[Stimuli > 12]$Category <- "none"
 
 ```{r ioi}
 # for each individual
-ioi_trial <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, TrialNr, Stimuli, Articulation2, Dynamics2)]
+ioi_trial <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category)]
 
-ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation2, Dynamics2)]
+ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category)]
+setorder(ioi, "SubNr", "Articulation", "Dynamics", "Category")
 ioi
 ```
 
 ### Plot
 #### Boxplot
 
-```{r ioi-plot, fig.width = 4.5}
-ggboxplot(ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Stimuli, Articulation2, Dynamics2)], "Articulation2", "Mean", color = "Dynamics2", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
+```{r ioi-plot, fig.width = 6}
+ggboxplot(ioi_trial, "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 ```
 
 ## 2. All - group
 
 ```{r ioi-all}
 # group mean
-ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation2, Dynamics2)]
+ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics)]
 ioi_all
 ```
 
@@ -139,13 +140,13 @@ ioi_all
 #### Box plot
 
 ```{r ioi-all-plot}
-ggboxplot(ioi, "Articulation2", "Mean", color = "Dynamics2", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
+ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 ```
 
 ## 3. Sequence plots
 
 ```{r seq-ioi, fig.width = 7, fig.height = 2}
-ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Articulation, Dynamics, Interval)]
+ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Interval)]
 
 ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "IOIs (ms)", title = "IOI") + scale_x_continuous(breaks = seq(1,71,1))
 ```
@@ -157,7 +158,7 @@ aov_ez(
   data = ioi,
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -167,26 +168,27 @@ aov_ez(
 
 ```{r kot, echo = FALSE}
 # for each individual
-kot_trial <- dt_kot[Articulation == "Legato" | Articulation == "Staccato", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, TrialNr, Stimuli, Articulation2, Dynamics2, Articulation)]
+kot_trial <- dt_kot[Subcomponent1 == "Legato" | Subcomponent1 == "Staccato", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent1)]
 
-kot <- kot_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation2, Dynamics2, Articulation)]
+kot <- kot_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent1)]
+setorder(kot, "SubNr", "Subcomponent1", "Articulation", "Dynamics", "Category")
 kot
 ```
 
 ### Plot
 #### Boxplot
 
-```{r kot-plot,  echo = FALSE, fig.width = 4.5}
-ggboxplot(kot_trial[Articulation == "Legato"], "Articulation2", "Mean", color = "Dynamics2", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
+```{r kot-plot,  echo = FALSE, fig.width = 6}
+ggboxplot(kot_trial[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
-ggboxplot(kot_trial[Articulation == "Staccato"], "Articulation2", "Mean", color = "Dynamics2", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
+ggboxplot(kot_trial[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 ```
 
 ## 2. All - group
 
 ```{r kot-all, echo = FALSE}
 # group mean
-kot_all <- kot[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation2, Dynamics2, Articulation)]
+kot_all <- kot[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent1)]
 kot_all
 ```
 
@@ -194,9 +196,9 @@ kot_all
 #### Boxplot
 
 ```{r kot-all-plot, echo = FALSE}
-ggboxplot(kot[Articulation == "Legato"], "Articulation2", "Mean", color = "Dynamics2", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
+ggboxplot(kot[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
-ggboxplot(kot[Articulation == "Staccato"], "Articulation2", "Mean", color = "Dynamics2", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
+ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 ```
 
 ## 3. Sequence plots
@@ -213,10 +215,10 @@ ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position
 
 ```{r}
 aov_ez(
-  data = kot[Articulation == "Legato"],
+  data = kot[Subcomponent1 == "Legato"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -224,10 +226,10 @@ aov_ez(
 
 ```{r}
 aov_ez(
-  data = kot[Articulation == "Staccato"],
+  data = kot[Subcomponent1 == "Staccato"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -236,26 +238,27 @@ aov_ez(
 
 ```{r vel, echo = FALSE}
 # for each individual
-vel_trial <- dt_vel[Dynamics != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr, Stimuli, Articulation2, Dynamics2, Dynamics)]
+vel_trial <- dt_vel[Dynamics != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent2)]
 
-vel <- vel_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation2, Dynamics2, Dynamics)]
+vel <- vel_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
+setorder(vel, "SubNr", "Subcomponent2", "Dynamics", "Articulation", "Category")
 vel
 ```
 
 ### Plot
 #### Boxplot
 
-```{r vel-plot, echo = FALSE, fig.width = 4.5}
-ggboxplot(vel_trial[Dynamics == "Forte"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Forte)")
+```{r vel-plot, echo = FALSE, fig.width = 6}
+ggboxplot(vel_trial[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Forte)")
 
-ggboxplot(vel_trial[Dynamics == "Piano"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Piano)")
+ggboxplot(vel_trial[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Piano)")
 ```
 
 ## 2. All - group
 
 ```{r vel-all, echo = FALSE}
 # group mean
-vel_all <- vel[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation2, Dynamics2, Dynamics)]
+vel_all <- vel[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_all
 ```
 
@@ -263,15 +266,15 @@ vel_all
 #### Boxplot
 
 ```{r vel-all-plot,  echo = FALSE}
-ggboxplot(vel[Dynamics == "Forte"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
+ggboxplot(vel[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
 
-ggboxplot(vel[Dynamics == "Piano"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
+ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
 ```
 
 ## 3. Sequence plots
 
 ```{r seq-vel, fig.width = 7, fig.height = 2}
-vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, Articulation, Dynamics, RowNr)]
+vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, RowNr)]
 
 ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Note Nr", ylab = "Velocity (0-127)", title = "Velocity") + scale_x_continuous(breaks = seq(1,71,1))
 ```
@@ -282,10 +285,10 @@ ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_do
 
 ```{r}
 aov_ez(
-  data = vel[Dynamics == "Forte"],
+  data = vel[Subcomponent2 == "Forte"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -293,10 +296,10 @@ aov_ez(
 
 ```{r}
 aov_ez(
-  data = vel[Dynamics == "Piano"],
+  data = vel[Subcomponent2 == "Piano"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -305,25 +308,26 @@ aov_ez(
 
 ```{r vel-diff, echo = FALSE}
 # for each individual
-vel_diff_trial <- dt_vel_diff[Dynamics == "FtoP" | Dynamics == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, TrialNr, Stimuli, Articulation2, Dynamics2, Dynamics)]
+vel_diff_trial <- dt_vel_diff[Subcomponent2 == "FtoP" | Subcomponent2 == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent2)]
 
-vel_diff <- vel_diff_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation2, Dynamics2, Dynamics)]
+vel_diff <- vel_diff_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
+setorder(vel_diff, "SubNr", "Subcomponent2", "Dynamics", "Articulation", "Category")
 vel_diff
 ```
 
 ### Plot
 #### Boxplot
 
-```{r vel-diff-plot, echo = FALSE, fig.width = 4.5}
-ggboxplot(vel_diff_trial[Dynamics == "FtoP"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (FtoP)")
+```{r vel-diff-plot, echo = FALSE, fig.width = 6}
+ggboxplot(vel_diff_trial[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (FtoP)")
 
-ggboxplot(vel_diff_trial[Dynamics == "PtoF"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (PtoF)")
+ggboxplot(vel_diff_trial[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (PtoF)")
 ```
 
 ## 2. All - group
 ```{r vel-diff-all, echo = FALSE}
 # group mean
-vel_diff_all <- vel_diff[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation2, Dynamics2, Dynamics)]
+vel_diff_all <- vel_diff[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_diff_all
 ```
 
@@ -331,15 +335,15 @@ vel_diff_all
 #### Boxplot
 
 ```{r vel-diff-all-plot,  echo = FALSE}
-ggboxplot(vel_diff[Dynamics == "FtoP"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
+ggboxplot(vel_diff[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
 
-ggboxplot(vel_diff[Dynamics == "PtoF"], "Dynamics2", "Mean", color = "Articulation2", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
+ggboxplot(vel_diff[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
 ```
 
 ## 3. Sequence plots
 
 ```{r seq-vel-diff, fig.width = 7, fig.height = 2}
-vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Articulation, Dynamics, Interval)]
+vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Interval)]
 
 ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "Difference", title = "Velocity Difference") + scale_x_continuous(breaks = seq(1,71,1))
 ```
@@ -350,10 +354,10 @@ ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = pos
 
 ```{r}
 aov_ez(
-  data = vel_diff[Dynamics == "FtoP"],
+  data = vel_diff[Subcomponent2 == "FtoP"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
 
@@ -361,9 +365,9 @@ aov_ez(
 
 ```{r}
 aov_ez(
-  data = vel_diff[Dynamics == "PtoF"],
+  data = vel_diff[Subcomponent2 == "PtoF"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Articulation2", "Dynamics2")
+  within = c("Articulation", "Dynamics")
 )
 ```
