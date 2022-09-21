@@ -58,40 +58,40 @@ dt_ioi <- dt_ioi[RowNr != 1]
 dt_ioi$Interval <- rep(1:71, nrow(dt_ioi)/71)
 
 # assign Articulation/Dynamics
-dt_ioi$Articulation <- "NA"
-dt_ioi$Dynamics <- "NA"
+dt_ioi$Subcomponent1 <- "NA"
+dt_ioi$Subcomponent2 <- "NA"
 # Legato/Forte
 for (phrase in 1:length(ls_legato)){
   for (note in 1:length(ls_legato[[phrase]])){
-    dt_ioi[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
-    dt_ioi[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+    dt_ioi[Interval == ls_legato[[phrase]][note]]$Subcomponent1 <- "Legato"
+    dt_ioi[Interval == ls_legato[[phrase]][note]]$Subcomponent2 <- "Forte"
   }
 }
 # Staccato/Piano
 for (phrase in 1:length(ls_staccato)){
   for (note in 1:length(ls_staccato[[phrase]])){
-    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
-    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Subcomponent1 <- "Staccato"
+    dt_ioi[Interval == ls_staccato[[phrase]][note]]$Subcomponent2 <- "Piano"
   }
 }
 
 # assign Subcomponent Change
 for (number in change_1){
-  dt_ioi[Interval == number]$Articulation <- "LtoS"
-  dt_ioi[ Interval == number]$Dynamics <- "FtoP"
+  dt_ioi[Interval == number]$Subcomponent1 <- "LtoS"
+  dt_ioi[ Interval == number]$Subcomponent2 <- "FtoP"
 }
 for (number in change_2){
-  dt_ioi[Interval == number]$Articulation <- "StoL"
-  dt_ioi[Interval == number]$Dynamics <- "PtoF"
+  dt_ioi[Interval == number]$Subcomponent1 <- "StoL"
+  dt_ioi[Interval == number]$Subcomponent2 <- "PtoF"
 }
 ```
 
 ## Histogram
 ### Before removing outliers
 ```{r}
-dt_ioi_subset <- dt_ioi[Articulation != "NA" & !is.na(IOI)]
+dt_ioi_subset <- dt_ioi[Subcomponent1 != "NA" & !is.na(IOI)]
 
-gghistogram(dt_ioi_subset, x = "IOI", color = "Articulation", bins = 150)
+gghistogram(dt_ioi_subset, x = "IOI", color = "Subcomponent1", bins = 150)
 ```
 
 ### After removing outliers
@@ -106,7 +106,7 @@ ioi_summary[Mean < mean(ioi_summary$Mean)+3*sd(ioi_summary$Mean) & Mean > mean(i
 
 # evaluate if it's on boundary
 dt_ioi_subset$Boundary <- "No"
-dt_ioi_subset[Articulation == "LtoS" | Articulation == "StoL"]$Boundary <- "Yes"
+dt_ioi_subset[Subcomponent1 == "LtoS" | Subcomponent1 == "StoL"]$Boundary <- "Yes"
 
 # exclude ioi > +- 3SD (separately for each Boundary)
 ioi_boundary <- dt_ioi_subset[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = Boundary]
@@ -119,7 +119,7 @@ for (boundary in unique(ioi_boundary$Boundary)){
   dt_ioi_trimmed <- rbind(dt_ioi_trimmed, dt_current)
 }
 
-gghistogram(dt_ioi_trimmed, color = "Articulation", x = "IOI", bins = 150)
+gghistogram(dt_ioi_trimmed, color = "Subcomponent1", x = "IOI", bins = 150)
 ```
 
 Remove `r nrow(dt_ioi_subset)-nrow(dt_ioi_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_ioi_subset)-nrow(dt_ioi_trimmed))/nrow(dt_ioi_subset))` % of total responses
@@ -129,7 +129,6 @@ fwrite(dt_ioi_trimmed, file = here("trimmed", "dt_ioi_trimmed.txt"), row.names =
 ```
 
 # KOT
-
 ```{r, include = FALSE}
 dt_kot <- dt_onset
 
@@ -148,31 +147,31 @@ dt_kot <- dt_kot[RowNr != 1]
 dt_kot$Interval <- rep(1:71, nrow(dt_kot)/71)
 
 # assign Articulation/Dynamics
-dt_kot$Articulation <- "NA"
-dt_kot$Dynamics <- "NA"
+dt_kot$Subcomponent1 <- "NA"
+dt_kot$Subcomponent2 <- "NA"
 # Legato/Forte
 for (phrase in 1:length(ls_legato)){
   for (note in 1:length(ls_legato[[phrase]])){
-    dt_kot[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
-    dt_kot[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+    dt_kot[Interval == ls_legato[[phrase]][note]]$Subcomponent1 <- "Legato"
+    dt_kot[Interval == ls_legato[[phrase]][note]]$Subcomponent2 <- "Forte"
   }
 }
 # Staccato/Piano
 for (phrase in 1:length(ls_staccato)){
   for (note in 1:length(ls_staccato[[phrase]])){
-    dt_kot[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
-    dt_kot[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+    dt_kot[Interval == ls_staccato[[phrase]][note]]$Subcomponent1 <- "Staccato"
+    dt_kot[Interval == ls_staccato[[phrase]][note]]$Subcomponent2 <- "Piano"
   }
 }
 
 # assign Subcomponent Change
 for (number in change_1){
-  dt_kot[Interval == number]$Articulation <- "LtoS"
-  dt_kot[ Interval == number]$Dynamics <- "FtoP"
+  dt_kot[Interval == number]$Subcomponent1 <- "LtoS"
+  dt_kot[ Interval == number]$Subcomponent2 <- "FtoP"
 }
 for (number in change_2){
-  dt_kot[Interval == number]$Articulation <- "StoL"
-  dt_kot[Interval == number]$Dynamics <- "PtoF"
+  dt_kot[Interval == number]$Subcomponent1 <- "StoL"
+  dt_kot[Interval == number]$Subcomponent2 <- "PtoF"
 }
 ```
 
@@ -180,23 +179,23 @@ for (number in change_2){
 ### Before removing outliers
 
 ```{r}
-dt_kot_subset <- dt_kot[Articulation != "NA" & !is.na(KOT)]
+dt_kot_subset <- dt_kot[Subcomponent1 != "NA" & !is.na(KOT)]
 
-gghistogram(dt_kot_subset, x = "KOT", color = "Articulation", bins = 150)
+gghistogram(dt_kot_subset, x = "KOT", color = "Subcomponent1", bins = 150)
 ```
 
 ### After removing outliers
 ```{r}
-kot_subcomponent <- dt_kot_subset[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = Articulation]
+kot_subcomponent <- dt_kot_subset[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = Subcomponent1]
 dt_kot_trimmed <- data.table()
-for (subcomponent in unique(dt_kot_subset$Articulation)){
-  upper <- kot_subcomponent[Articulation == subcomponent]$Mean+3*kot_subcomponent[Articulation == subcomponent]$SD
-  lower <- kot_subcomponent[Articulation == subcomponent]$Mean-3*kot_subcomponent[Articulation == subcomponent]$SD
-  dt_current <- dt_kot_subset[Articulation == subcomponent & KOT < upper & KOT > lower]
+for (subcomponent in unique(dt_kot_subset$Subcomponent1)){
+  upper <- kot_subcomponent[Subcomponent1 == subcomponent]$Mean+3*kot_subcomponent[Subcomponent1 == subcomponent]$SD
+  lower <- kot_subcomponent[Subcomponent1 == subcomponent]$Mean-3*kot_subcomponent[Subcomponent1 == subcomponent]$SD
+  dt_current <- dt_kot_subset[Subcomponent1 == subcomponent & KOT < upper & KOT > lower]
   dt_kot_trimmed <- rbind(dt_kot_trimmed, dt_current)
 }
 
-gghistogram(dt_kot_trimmed, x = "KOT", color = "Articulation", bins = 150)
+gghistogram(dt_kot_trimmed, x = "KOT", color = "Subcomponent1", bins = 150)
 ```
 
 Remove `r nrow(dt_kot_subset)-nrow(dt_kot_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_kot_subset)-nrow(dt_kot_trimmed))/nrow(dt_kot_subset))` % of total responses
@@ -217,20 +216,20 @@ dt_vel$Diff <- NULL # remove Diff from dt_vel
 
 # assign Subcomponents
 # for each note
-dt_vel$Articulation <- "NA"
-dt_vel$Dynamics <- "NA"
+dt_vel$Subcomponent1 <- "NA"
+dt_vel$Subcomponent2 <- "NA"
 # Legato/Forte
 for (phrase in 1:length(ls_legato2)){
   for (note in 1:length(ls_legato2[[phrase]])){
-    dt_vel[RowNr == ls_legato2[[phrase]][note]]$Articulation <- "Legato"
-    dt_vel[RowNr  == ls_legato2[[phrase]][note]]$Dynamics <- "Forte"
+    dt_vel[RowNr == ls_legato2[[phrase]][note]]$Subcomponent1 <- "Legato"
+    dt_vel[RowNr  == ls_legato2[[phrase]][note]]$Subcomponent2 <- "Forte"
   }
 }
 # Staccato/Piano
 for (phrase in 1:length(ls_staccato2)){
   for (note in 1:length(ls_staccato2[[phrase]])){
-    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Articulation <- "Staccato"
-    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Dynamics <- "Piano"
+    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Subcomponent1 <- "Staccato"
+    dt_vel[RowNr  == ls_staccato2[[phrase]][note]]$Subcomponent2 <- "Piano"
   }
 }
 ```
@@ -238,23 +237,23 @@ for (phrase in 1:length(ls_staccato2)){
 ## Histogram
 ### Before removing outliers
 ```{r}
-dt_vel_subset <- dt_vel[Articulation != "NA" & !is.na(Velocity)]
+dt_vel_subset <- dt_vel[Subcomponent2 != "NA" & !is.na(Velocity)]
 
-gghistogram(dt_vel_subset, x = "Velocity", color = "Articulation", bins = 150)
+gghistogram(dt_vel_subset, x = "Velocity", color = "Subcomponent2", bins = 150)
 ```
 
 ### After removing outliers
 ```{r}
-vel_subcomponent <- dt_vel_subset[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = Articulation]
+vel_subcomponent <- dt_vel_subset[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = Subcomponent2]
 dt_vel_trimmed <- data.table()
-for (subcomponent in unique(dt_vel_subset$Articulation)){
-  upper <- vel_subcomponent[Articulation == subcomponent]$Mean+3*vel_subcomponent[Articulation == subcomponent]$SD
-  lower <- vel_subcomponent[Articulation == subcomponent]$Mean-3*vel_subcomponent[Articulation == subcomponent]$SD
-  dt_current <- dt_vel_subset[Articulation == subcomponent & Velocity < upper & Velocity > lower]
+for (subcomponent in unique(dt_vel_subset$Subcomponent2)){
+  upper <- vel_subcomponent[Subcomponent2 == subcomponent]$Mean+3*vel_subcomponent[Subcomponent2 == subcomponent]$SD
+  lower <- vel_subcomponent[Subcomponent2 == subcomponent]$Mean-3*vel_subcomponent[Subcomponent2 == subcomponent]$SD
+  dt_current <- dt_vel_subset[Subcomponent2 == subcomponent & Velocity < upper & Velocity > lower]
   dt_vel_trimmed <- rbind(dt_vel_trimmed, dt_current)
 }
 
-gghistogram(dt_vel_trimmed, x = "Velocity", color = "Articulation", bins = 150)
+gghistogram(dt_vel_trimmed, x = "Velocity", color = "Subcomponent2", bins = 150)
 ```
 
 Remove `r nrow(dt_vel_subset)-nrow(dt_vel_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_vel_subset)-nrow(dt_vel_trimmed))/nrow(dt_vel_subset))` % of total responses
@@ -270,31 +269,31 @@ dt_vel_diff$Interval <- rep(1:71, nrow(dt_vel_diff)/71)
 
 # assign Subcomponents
 # for intervals
-dt_vel_diff$Articulation <- "NA"
-dt_vel_diff$Dynamics <- "NA"
+dt_vel_diff$Subcomponent1 <- "NA"
+dt_vel_diff$Subcomponent2 <- "NA"
 # Legato/Forte
 for (phrase in 1:length(ls_legato)){
   for (note in 1:length(ls_legato[[phrase]])){
-    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Articulation <- "Legato"
-    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Dynamics <- "Forte"
+    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Subcomponent1 <- "Legato"
+    dt_vel_diff[Interval == ls_legato[[phrase]][note]]$Subcomponent2 <- "Forte"
   }
 }
 # Staccato/Piano
 for (phrase in 1:length(ls_staccato)){
   for (note in 1:length(ls_staccato[[phrase]])){
-    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Articulation <- "Staccato"
-    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Dynamics <- "Piano"
+    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Subcomponent1 <- "Staccato"
+    dt_vel_diff[Interval == ls_staccato[[phrase]][note]]$Subcomponent2 <- "Piano"
   }
 }
 
 # assign Subcomponent Change
 for (number in change_1){
-  dt_vel_diff[Interval == number]$Articulation <- "LtoS"
-  dt_vel_diff[ Interval == number]$Dynamics <- "FtoP"
+  dt_vel_diff[Interval == number]$Subcomponent1 <- "LtoS"
+  dt_vel_diff[ Interval == number]$Subcomponent2 <- "FtoP"
 }
 for (number in change_2){
-  dt_vel_diff[Interval == number]$Articulation <- "StoL"
-  dt_vel_diff[Interval == number]$Dynamics <- "PtoF"
+  dt_vel_diff[Interval == number]$Subcomponent1 <- "StoL"
+  dt_vel_diff[Interval == number]$Subcomponent2 <- "PtoF"
 }
 
 ```
@@ -302,23 +301,23 @@ for (number in change_2){
 ## Histogram
 ### Before removing outliers
 ```{r}
-dt_vel_diff_subset <- dt_vel_diff[Articulation != "NA" & !is.na(Diff)]
+dt_vel_diff_subset <- dt_vel_diff[Subcomponent2 != "NA" & !is.na(Diff)]
 
-gghistogram(dt_vel_diff_subset, x = "Diff", color = "Articulation", bins = 150)
+gghistogram(dt_vel_diff_subset, x = "Diff", color = "Subcomponent2", bins = 150)
 ```
 
 ### After removing outliers
 ```{r}
-vel_diff_subcomponent <- dt_vel_diff_subset[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = Articulation]
+vel_diff_subcomponent <- dt_vel_diff_subset[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = Subcomponent2]
 dt_vel_diff_trimmed <- data.table()
-for (subcomponent in unique(dt_vel_diff_subset$Articulation)){
-  upper <- vel_diff_subcomponent[Articulation == subcomponent]$Mean+3*vel_diff_subcomponent[Articulation == subcomponent]$SD
-  lower <- vel_diff_subcomponent[Articulation == subcomponent]$Mean-3*vel_diff_subcomponent[Articulation == subcomponent]$SD
-  dt_current <- dt_vel_diff_subset[Articulation == subcomponent & Diff < upper & Diff > lower]
+for (subcomponent in unique(dt_vel_diff_subset$Subcomponent2)){
+  upper <- vel_diff_subcomponent[Subcomponent2 == subcomponent]$Mean+3*vel_diff_subcomponent[Subcomponent2 == subcomponent]$SD
+  lower <- vel_diff_subcomponent[Subcomponent2 == subcomponent]$Mean-3*vel_diff_subcomponent[Subcomponent2 == subcomponent]$SD
+  dt_current <- dt_vel_diff_subset[Subcomponent2 == subcomponent & Diff < upper & Diff > lower]
   dt_vel_diff_trimmed <- rbind(dt_vel_diff_trimmed, dt_current)
 }
 
-gghistogram(dt_vel_diff_trimmed, x = "Diff", color = "Articulation", bins = 150)
+gghistogram(dt_vel_diff_trimmed, x = "Diff", color = "Subcomponent2", bins = 150)
 ```
 
 Remove `r nrow(dt_vel_diff_subset)-nrow(dt_vel_diff_trimmed)` responses beyond +- 3SD / `r 100*((nrow(dt_vel_diff_subset)-nrow(dt_vel_diff_trimmed))/nrow(dt_vel_diff_subset))` % of total responses

@@ -1,4 +1,4 @@
-RowNr,NoteNr,TimeStamp,Pitch,Velocity,Key_OnOff,Device,SubNr,TrialNr,Stimuli,Session,Error,Articulation,Dynamics
+RowNr,NoteNr,TimeStamp,Pitch,Velocity,Key_OnOff,Device,SubNr,TrialNr,Stimuli,Session,Error,Subcomponent1,Subcomponent2
 1,17,7841,79,63,1,2,2,1,16.mid,experiment,0,Legato,Forte
 2,18,8112,78,76,1,2,2,1,16.mid,experiment,0,Legato,Forte
 3,20,8406,79,85,1,2,2,1,16.mid,experiment,0,Legato,Forte
