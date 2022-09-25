@@ -7,7 +7,7 @@ experiment/data
 experiment/midi
 
 # analysis
-analysis/preprocessor/raw_data/removed
+analysis/preprosessor/raw_data/removed
 
 # material
 material/prerating/feedback.md
