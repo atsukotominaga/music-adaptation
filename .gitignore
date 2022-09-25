@@ -10,6 +10,7 @@ experiment/midi
 analysis/preprosessor/raw_data/removed
 
 # material
+material/expstimuli/audio/original/averaging/low/old
 material/prerating/feedback.md
 
 # others
