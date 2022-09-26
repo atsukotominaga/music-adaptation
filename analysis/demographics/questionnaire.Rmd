@@ -1,0 +1,69 @@
+---
+title: 'Demographics'
+output:
+  html_notebook: default
+editor_options: 
+  chunk_output_type: inline
+---
+
+Description: This is a summary of demographic information
+
+```{r setup, include = FALSE}
+# packages
+# data manipulation
+if (!require("data.table")) {install.packages("data.table"); require("data.table")}
+```
+
+# Questionnaire
+
+```{r file, include = FALSE}
+filename_q = "./questionnaire.csv"
+```
+
+```{r extract, echo = FALSE}
+# read csv files
+dt <- fread(filename_q, header = T, sep = ",", dec = ".", na.string = "NA")
+dt <- dt[-c(1,2),] # exclude test/pilot data
+
+# change some colnames
+colnames(dt)[2] <- "SubNr"
+colnames(dt)[3] <- "Age"
+colnames(dt)[4] <- "Gender"
+colnames(dt)[7] <- "Handedness"
+colnames(dt)[15] <- "PianoTotalPractice"
+colnames(dt)[25] <- "TeachingPiano" # there are only people who have taught the piano
+colnames(dt)[27] <- "TeachingPianoYears"
+
+dt$TeachingPianoYears <- c(7, 1, 12, 5, 30, NA, 11, 2, 5, 3, 6, NA, 3, 6, 8, 9, 3, NA, 5, 3)
+
+# change some characteristics
+dt$Age <- as.numeric(dt$Age)
+dt$PianoTotalPractice <- as.numeric(dt$PianoTotalPractice)
+
+# exclude participants
+dt_included <- dt
+
+print(dt_included)
+```
+
+## Descriptive stats for included participants
+Note: A different questionnaire was used for only SubNr 21 and adjusted for necessary columns (but not others; see original csv for the precise information)
+
+- Number of included participants: `r nrow(dt_included)` (mean age: `r round(mean(dt_included$Age), 2)`, sd: `r round(sd(dt_included$Age), 2)`)
+- Male: `r nrow(dt_included[Gender == "Male"])` (mean age: `r round(mean(dt_included[Gender == "Male"]$Age), 2)`, sd: `r round(sd(dt_included[Gender == "Male"]$Age), 2)`)
+- Female: `r nrow(dt_included[Gender == "Female"])` (mean age: `r round(mean(dt_included[Gender == "Female"]$Age), 2)`, sd: `r round(sd(dt_included[Gender == "Female"]$Age), 2)`)
+- Average training years: `r round(mean(dt_included$PianoTotalPractice), 2)` years (sd: `r round(sd(dt_included$PianoTotalPractice), 2)`)
+- Handedness: Right (`r nrow(dt_included[Handedness == "Right"])`), Left (`r nrow(dt_included[Handedness == "Left"])`), Both (`r nrow(dt_included[Handedness == "Both"])`)
+- Teaching experience (piano): Yes (`r nrow(dt_included[TeachingPiano == "Yes"])`, mean years of teaching: `r round( mean(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)`, sd: `r round(sd(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)`), No (`r nrow(dt_included[TeachingPiano == "No"])`)
+
+## Some descriptive questions
+
+1. Have you noticed anything special regarding the tasks in the experiment? If any, please describe below.
+
+```{r 2, echo = FALSE}
+data.table("Answer" = dt_included$`Have you noticed anything special regarding the tasks in the experiment? If any, please describe below.`)
+```
+
+```{r export, include = FALSE}
+knitr::purl("questionnaire.Rmd")
+```
