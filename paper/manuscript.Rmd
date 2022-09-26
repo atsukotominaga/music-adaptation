@@ -6,23 +6,26 @@ author:
   - name          : "Atsuko Tominaga"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "my@email.com"
+    address       : "Quellenstraße 51, 1100 Vienna, Austria"
+    email         : "tominaga_atsuko@phd.ceu.edu"
     role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
       - "Conceptualization"
       - "Writing - Original Draft Preparation"
       - "Writing - Review & Editing"
-  - name          : "Ernst-August Doelle"
-    affiliation   : "1,2"
+  - name          : "Günther Knoblich"
+    affiliation   : "1"
+    role:
+      - "Writing - Review & Editing"
+      - "Supervision"
+  - name          : "Natalie Sebanz"
+    affiliation   : "1"
     role:
       - "Writing - Review & Editing"
       - "Supervision"
 
 affiliation:
   - id            : "1"
-    institution   : "Wilhelm-Wundt-University"
-  - id            : "2"
-    institution   : "Konstanz Business School"
+    institution   : "Department of Cognitive Science, Central European University"
 
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
@@ -77,15 +80,29 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 # Introduction
 
-# Methods
+## Methods
+
+<!-- ```{r methods, include = FALSE} -->
+<!-- source(here("analysis/demographics", "questionnaire.R"), chdir = TRUE) -->
+<!-- ``` -->
 
 ## Participants
 
-## Material
+20 participants were recruited who ---. Most participants were right-handed (left: ---). The mean age of the participants was --- (*SD* = ---). They had --- years of practice on average. All participants were recruited through an online participant platform (SONA system, https://www.sona-systems.com). The study (No. ---) was approved by the Psychological Research Ethics Board (PREBO) CEU PU in Austria.
+
+## Apparatus and stimuli
+
+The experiment was programmed in Max/MSP (---; https://cycling74.com/products/max) on a Mac Book Pro with Mac OS X Catalina 10.15.6. A weighted Yamaha MIDI digital piano was used to record participants' performance. All auditory feedback was given to participants through headphones (Audio-Technica ATH-M50X). Sheet music was displayed on a computer monitor in front of the participants.
+
+Clementi's Sonatina Op.36 (No.3) in C major was selected as a stimulus because it contains our targeted expressions (i.e., articulation and dynamics) because it is relatively simple in terms of motor skills. The first 12 measures of the original piece were used and modified so that the piece had an almost equal number of data points for each dependent variable. The modified piece consisted of a 12-measure isochronous melody notated in 4/4 meter to be played with the right hand only. Original sheet music was used for the purpose of practice (*Fig A*). Two expressive notations were added to the original sheet music for the experiment (*Fig B*). These excerpts were confirmed to be musically natural by a doctoral student in piano performance at Liszt Ferenc Academy of Music in Hungary. The fingering was also assigned and confirmed by the same doctoral student.
 
 ## Procedure
 
+Prior to the experiment, participants were required to memorise the piece so that they had enough time to practise and performed it without pitch errors while implementing notated expressions in the experiment.
+
 ## Data analysis
+
+In each performance (trial), the pitch, onset and offset time of each note, and key velocity profiles were obtained from MIDI data using Max/MSP patchers. We quantified performances in terms of tempo, 
 
 # Results
 
