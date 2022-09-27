@@ -24,10 +24,10 @@ if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 ```
 
 ```{r file, include = FALSE}
-data_ioi = "preprosessor/trimmed/dt_ioi_trimmed.txt"
-data_kot = "preprosessor/trimmed/dt_kot_trimmed.txt"
-data_vel = "preprosessor/trimmed/dt_vel_trimmed.txt"
-data_vel_diff = "preprosessor/trimmed/dt_vel_diff_trimmed.txt"
+data_ioi = "preprocessor/trimmed/dt_ioi_trimmed.txt"
+data_kot = "preprocessor/trimmed/dt_kot_trimmed.txt"
+data_vel = "preprocessor/trimmed/dt_vel_trimmed.txt"
+data_vel_diff = "preprocessor/trimmed/dt_vel_diff_trimmed.txt"
 ```
 
 ```{r prep, include = FALSE}

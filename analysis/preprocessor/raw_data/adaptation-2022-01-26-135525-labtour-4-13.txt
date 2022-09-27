@@ -1,0 +1,1 @@
+1, 192 31 60 0 0 0 4 13.mid experiment;2, 293 31 0 0 0 0 4 13.mid experiment;3, 793 31 60 0 0 0 4 13.mid experiment;4, 892 31 0 0 0 0 4 13.mid experiment;5, 1393 34 60 0 0 0 4 13.mid experiment;6, 1492 34 0 0 0 0 4 13.mid experiment;7, 1992 31 60 0 0 0 4 13.mid experiment;

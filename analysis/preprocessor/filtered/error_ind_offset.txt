@@ -1,0 +1,16 @@
+SubNr,TrialNr,Reason,CorrectionNr
+12,13,Extra Notes,2
+17,7,Extra Notes,3
+4,4,Missing Notes,6
+4,15,Missing Notes,3
+7,11,Missing Notes,3
+10,10,Missing Notes,3
+17,1,Missing Notes,5
+17,6,Missing Notes,3
+17,14,Missing Notes,3
+20,1,Missing Notes,3
+6,2,Substituted Notes - RowNr 9,2
+6,12,Substituted Notes - RowNr 8,2
+8,6,Substituted Notes - RowNr 47,2
+8,10,Substituted Notes - RowNr 4,2
+13,1,Substituted Notes - RowNr 8,2

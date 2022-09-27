@@ -1,4 +1,0 @@
-SubNr,TrialNr,Reason,CorrectionNr
-11,1,Extra Notes,4
-20,2,Extra Notes,4
-20,1,Missing Notes,Excluded

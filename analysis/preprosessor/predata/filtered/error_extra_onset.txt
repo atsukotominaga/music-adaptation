@@ -1,6 +1,0 @@
-SubNr,TrialNr,Reason,CorrectionNr
-6,2,Extra Notes,1
-7,2,Extra Notes,1
-9,2,Extra Notes,1
-11,1,Extra Notes,2
-20,2,Extra Notes,Check individually

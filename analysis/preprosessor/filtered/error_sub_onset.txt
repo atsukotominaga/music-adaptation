@@ -1,6 +1,0 @@
-SubNr,TrialNr,Reason,CorrectionNr
-6,2,Substituted Notes - RowNr 10,Check individually
-6,12,Substituted Notes - RowNr 8,Check individually
-8,6,Substituted Notes - RowNr 50,Check individually
-8,10,Substituted Notes - RowNr 5,Check individually
-13,1,Substituted Notes - RowNr 8,Check individually
