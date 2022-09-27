@@ -52,10 +52,10 @@ abstract: |
 keywords          : "keywords"
 wordcount         : "X"
 
-bibliography      : "r-references.bib"
+#bibliography      : ""
 
 floatsintext      : no
-linenumbers       : yes
+linenumbers       : no
 draft             : no
 mask              : no
 
@@ -79,26 +79,30 @@ if (!require("magick")) {install.packages("magick"): require("magick")}
 
 ```{r methods, include = FALSE}
 source(here("analysis/demographics", "questionnaire.R"), chdir = TRUE)
-source(here("analysis/demographics", "questionnaire.R"), chdir = TRUE)
+source(here("analysis/preprocessor", "filtering.R"), chdir = TRUE)
 ```
 
 ## Participants
 
-`r nrow(dt_included)` participants were recruited who already had a degree (above bachelor or equivalent) in piano performance/teaching or were studying advanced piano performance at a music school. Most participants were right-handed (left: `r nrow(dt_included[Handedness == "Left"])`, ambidextrous: `r nrow(dt_included[Handedness == "Both"])`). The mean age of the participants was `r round(mean(dt_included$Age), 2)` (*SD* = `r round(sd(dt_included$Age), 2)`). They had `r round(mean(dt_included$PianoTotalPractice), 2)` years of practice on average (*SD* = `r round(sd(dt_included$PianoTotalPractice), 2)`). `r nrow(dt_included[TeachingPiano == "Yes"])` participants had teaching experience in piano (*M* = `r round( mean(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)` years, *SD* = `r round(sd(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)`). All participants were recruited through an online participant platform (SONA system, https://www.sona-systems.com). The study (No. 2020_05) was approved by the Psychological Research Ethics Board (PREBO) CEU PU in Austria.
+We recruited `r nrow(dt_included)` participants who already had a degree (above bachelor or equivalent) in piano performance/teaching or were studying advanced piano performance at a music school. Most participants were right-handed (left: `r nrow(dt_included[Handedness == "Left"])`, ambidextrous: `r nrow(dt_included[Handedness == "Both"])`). The mean age of the participants was `r round(mean(dt_included$Age), 2)` (*SD* = `r round(sd(dt_included$Age), 2)`). They had `r round(mean(dt_included$PianoTotalPractice), 2)` years of practice on average (*SD* = `r round(sd(dt_included$PianoTotalPractice), 2)`). `r nrow(dt_included[TeachingPiano == "Yes"])` participants had teaching experience in piano (*M* = `r round( mean(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)` years, *SD* = `r round(sd(dt_included[TeachingPiano == "Yes"]$TeachingPianoYears), 2)`). All participants were recruited through an online participant platform (SONA system, https://www.sona-systems.com). The study (No. 2020_05) was approved by the Psychological Research Ethics Board (PREBO) CEU PU in Austria.
 
 ## Apparatus and stimuli
 
-The experiment was programmed in Max/MSP (8.1.11; https://cycling74.com/products/max) on a Mac Book Pro with Mac OS X Catalina 10.15.7. A weighted Yamaha MIDI digital piano was used to record participants' performance. All auditory feedback was given to participants through headphones (Audio-Technica ATH-M50X). Sheet music was displayed on a computer monitor in front of the participants.
+The experiment was programmed in Max/MSP (8.1.11; https://cycling74.com/products/max) on a Mac Book Pro with Mac OS X Catalina 10.15.7. A weighted Yamaha MIDI digital piano was used to record participants' performance. The pitch, onset and offset time of each note, and key velocity profiles were obtained from MIDI data using Max/MSP patchers. All auditory feedback was given to participants through headphones (Audio-Technica ATH-M50X). Sheet music was displayed on a computer monitor in front of the participants.
 
-Clementi's Sonatina Op.36 (No.3) in C major was selected as a stimulus because it contains our targeted expressions (i.e., articulation and dynamics) because it is relatively simple in terms of motor skills. The first 12 measures of the original piece were used and modified so that the piece had an almost equal number of data points for each dependent variable. The modified piece consisted of a 12-measure isochronous melody notated in 4/4 meter to be played with the right hand only. Original sheet music was used for the purpose of practice (*Fig A*). Two expressive notations were added to the original sheet music for the experiment (*Fig B*). These excerpts were confirmed to be musically natural by a doctoral student in piano performance at Liszt Ferenc Academy of Music in Hungary. The fingering was also assigned and confirmed by the same doctoral student.
+We made artificial recordings to manipulate the skill levels of imaginary students. We made four different types of stimuli. In Tominaga et al. (2022), participants were asked to perform the piece with either articulation or dynamics in two different conditions. In the teaching condition, participants were instructed to perform the piece with the designated expressive technique as if they were teaching it to students (e.g., in a lesson). In the performing condition, participants were instructed to perform the piece with the designated expressive technique as if they were performing it to an audience (e.g., in a concert).
+
+Clementi's Sonatina Op.36 (No.3) in C major was selected as a stimulus because it contains our targeted expressions (i.e., articulation and dynamics) and is relatively simple in terms of motor skills. The first 12 measures of the original piece were used and modified so that the piece had an almost equal number of data points for each dependent variable. The modified piece consisted of a 12-measure isochronous melody notated in 4/4 meter to be played with the right hand only. Original sheet music was used for the purpose of practice (*Fig A*). Two expressive notations were added to the original sheet music for the experiment (*Fig B*). These excerpts were confirmed to be musically natural by a doctoral student in piano performance at Liszt Ferenc Academy of Music in Hungary. The fingering was also assigned and confirmed by the same doctoral student.
 
 ## Procedure
 
-Prior to the experiment, participants were required to memorise the piece so that they had enough time to practise and performed it without pitch errors while implementing notated expressions in the experiment.
+Prior to the experiment, participants were required to memorise the piece so that they had enough time to practise and performed it without pitch errors while implementing notated expressions in the experiment. 
 
 ## Data analysis
 
-In each performance (trial), the pitch, onset and offset time of each note, and key velocity profiles were obtained from MIDI data using Max/MSP patchers. We quantified performances in terms of tempo, 
+The dependent variables were computed for data analysis.  Interonset intervals (IOIs) are the intervals between onsets of adjacent notes and provide a measure of tempo. Key-overlap time (KOT) is the difference between the offset time of the current tone (i.e., key release time) and the onset time of the ensuing tone and is a measure for the smoothness of musical sequences. A positive value indicates smooth legato styles due to overlap between the current and ensuing tone whereas a negative value indicates sharp staccato styles due to separation between the current and ensuing note. Tone intensity is assessed  by key velocity (KV) and measures the loudness of a musical note
+
+Data processing and statistical analysis were performed in R version 4.0.5. For statistical analysis, we included 8th notes with expressive notations only. Pitch errors were identified by comparing the sequence of  musical notes produced by a participant with the sequence of musical notes according to the sheet music. Pitch errors included either, extra, missing or substituted tones and were manually removed by using the *editData* R package. For note onsets,  `r round(nrow(dt_error_onset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_onset)/(20*16)*100, 2)` %, missing notes:`r round(nrow(error_missing_onset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_onset)/(20*16)*100, 2)` %). For note offsets,  `r round(nrow(dt_error_offset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_offset)/(20*16)*100, 2)` %, missing notes: `r round(nrow(error_missing_offset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_offset)/(20*16)*100, 2)` %). We found that some participants did not precisely follow the sheet music (e.g., they held some notes longer than notated), therefore the order of offsets did not correspond to that of onsets. We considered these as errors and removed the erroneous notes even if the order of onsets was correct. As a result, less than 1 % of total responses were corrected. After removing pitch errors, we removed outliers for IOIs, KOT, KV and KV Difference , defined as values more than 3 standard deviations from the mean of each dependent variable. For each dependent variable, this resulted in less than 2 % of overall responses being removed as outliers.
 
 # Results
 
