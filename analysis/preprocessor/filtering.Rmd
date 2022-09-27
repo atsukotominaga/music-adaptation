@@ -113,9 +113,9 @@ dt_error_offset$CorrectionNr <- NA
 # Manual pitch removal
 Second, manually correct some pitch errors if the performance has only one type of the following errors:
 
-- Extra notes
-- Missing notes
-- Substituted notes
+- Extra notes (Onset: `r round(nrow(error_extra_onset)/(20*16)*100, 2)` %, Offset: `r round(nrow(error_extra_offset)/(20*16)*100, 2)` %)
+- Missing notes (Onset:  `r round(nrow(error_missing_onset)/(20*16)*100, 2)` %, Offset: `r round(nrow(error_missing_offset)/(20*16)*100, 2)` %)
+- Substituted notes (Onset: `r round(nrow(error_sub_offset)/(20*16)*100, 2)` %, Offset: `r round(nrow(error_sub_offset)/(20*16)*100, 2)` %)
 
 ## Extra notes
 1) Onset
@@ -908,7 +908,7 @@ error_ind_offset <- fread(here("filtered", "error_ind_offset.txt"))
 error_ind_offset
 ```
 
-```{r, include = FALSE, eval = FALSE}
+```{r, include = FALSE}
 dt_correct_onset_1 <- fread(here("filtered", "dt_correct_onset_1.txt"))
 dt_correct_onset_2 <- fread(here("filtered", "dt_correct_onset_2.txt"))
 dt_correct_onset_3 <- fread(here("filtered", "dt_correct_onset_3.txt"))
@@ -967,6 +967,25 @@ fwrite(dt_correct_offset, file = here("filtered", "dt_correct_offset.txt"))
 <!-- ```{r, echo = FALSE} -->
 <!-- print(checker(dt_correct_offset, dt_ideal)) -->
 <!-- ``` -->
+
+# Corrected responses
+```{r, include = FALSE}
+extra_onset <- sum(as.numeric(error_extra_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+extra_offset <- sum(as.numeric(error_extra_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+missing_onset <- sum(as.numeric(error_missing_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+missing_offset <- sum(as.numeric(error_missing_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+sub_onset <- sum(as.numeric(error_sub_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+sub_offset <- sum(as.numeric(error_sub_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+mixed_onset <- sum(as.numeric(error_ind_onset$CorrectionNr))
+mixed_offset <- sum(as.numeric(error_ind_offset$CorrectionNr))
+```
+
+- Extra notes (Onset: `r extra_onset`, Offset: `r extra_offset`)
+- Missing notes (Onset: `r missing_onset`, Offset: `r missing_offset`)
+- Substituted notes (Onset: `r sub_onset`, Offset: `r sub_offset`)
+- Mixed (Onset: `r mixed_onset`, Offset: `r mixed_offset`)
+- Total (Onset: `r sum(extra_onset, missing_onset, sub_onset, mixed_onset)`, Offset: `r sum(extra_offset, missing_offset, sub_offset, mixed_offset)`)
+- In total, `r round(sum(extra_onset, missing_onset, sub_onset, mixed_onset)/nrow(dt_onset)*100, 2)` % for onsets and `r round(sum(extra_offset, missing_offset, sub_offset, mixed_offset)/nrow(dt_offset)*100, 2)` % for offsets are corrected.
 
 ```{r export, include = FALSE}
 knitr::purl("filtering.Rmd")

@@ -819,30 +819,41 @@ error_ind_offset <- fread(here("filtered", "error_ind_offset.txt"))
 error_ind_offset
 
 
-## ---- include = FALSE, eval = FALSE-------------------------------------------
-## dt_correct_onset_1 <- fread(here("filtered", "dt_correct_onset_1.txt"))
-## dt_correct_onset_2 <- fread(here("filtered", "dt_correct_onset_2.txt"))
-## dt_correct_onset_3 <- fread(here("filtered", "dt_correct_onset_3.txt"))
-## dt_correct_onset_4 <- fread(here("filtered", "dt_correct_onset_4.txt"))
-## dt_correct_onset_5 <- fread(here("filtered", "dt_correct_onset_5.txt"))
-## 
-## # combine all
-## dt_correct_onset <- rbind(dt_correct_onset_1, dt_correct_onset_2, dt_correct_onset_3, dt_correct_onset_4, dt_correct_onset_5)
-## 
-## # export csv
-## fwrite(dt_correct_onset, file = here("filtered", "dt_correct_onset.txt"))
-## 
-## dt_correct_offset_1 <- fread(here("filtered", "dt_correct_offset_1.txt"))
-## dt_correct_offset_2 <- fread(here("filtered", "dt_correct_offset_2.txt"))
-## dt_correct_offset_3 <- fread(here("filtered", "dt_correct_offset_3.txt"))
-## dt_correct_offset_4 <- fread(here("filtered", "dt_correct_offset_4.txt"))
-## dt_correct_offset_5 <- fread(here("filtered", "dt_correct_offset_5.txt"))
-## 
-## # combine all
-## dt_correct_offset <- rbind(dt_correct_offset_1, dt_correct_offset_2, dt_correct_offset_3, dt_correct_offset_4, dt_correct_offset_5)
-## 
-## # export csv
-## fwrite(dt_correct_offset, file = here("filtered", "dt_correct_offset.txt"))
+## ---- include = FALSE---------------------------------------------------------
+dt_correct_onset_1 <- fread(here("filtered", "dt_correct_onset_1.txt"))
+dt_correct_onset_2 <- fread(here("filtered", "dt_correct_onset_2.txt"))
+dt_correct_onset_3 <- fread(here("filtered", "dt_correct_onset_3.txt"))
+dt_correct_onset_4 <- fread(here("filtered", "dt_correct_onset_4.txt"))
+dt_correct_onset_5 <- fread(here("filtered", "dt_correct_onset_5.txt"))
+
+# combine all
+dt_correct_onset <- rbind(dt_correct_onset_1, dt_correct_onset_2, dt_correct_onset_3, dt_correct_onset_4, dt_correct_onset_5)
+
+# export csv
+fwrite(dt_correct_onset, file = here("filtered", "dt_correct_onset.txt"))
+
+dt_correct_offset_1 <- fread(here("filtered", "dt_correct_offset_1.txt"))
+dt_correct_offset_2 <- fread(here("filtered", "dt_correct_offset_2.txt"))
+dt_correct_offset_3 <- fread(here("filtered", "dt_correct_offset_3.txt"))
+dt_correct_offset_4 <- fread(here("filtered", "dt_correct_offset_4.txt"))
+dt_correct_offset_5 <- fread(here("filtered", "dt_correct_offset_5.txt"))
+
+# combine all
+dt_correct_offset <- rbind(dt_correct_offset_1, dt_correct_offset_2, dt_correct_offset_3, dt_correct_offset_4, dt_correct_offset_5)
+
+# export csv
+fwrite(dt_correct_offset, file = here("filtered", "dt_correct_offset.txt"))
+
+
+## ---- include = FALSE---------------------------------------------------------
+extra_onset <- sum(as.numeric(error_extra_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+extra_offset <- sum(as.numeric(error_extra_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+missing_onset <- sum(as.numeric(error_missing_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+missing_offset <- sum(as.numeric(error_missing_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+sub_onset <- sum(as.numeric(error_sub_onset[CorrectionNr != "Check individually"]$CorrectionNr))
+sub_offset <- sum(as.numeric(error_sub_offset[CorrectionNr != "Check individually"]$CorrectionNr))
+mixed_onset <- sum(as.numeric(error_ind_onset$CorrectionNr))
+mixed_offset <- sum(as.numeric(error_ind_offset$CorrectionNr))
 
 
 ## ----export, include = FALSE--------------------------------------------------
