@@ -28,113 +28,53 @@ data_ioi = "preprocessor/trimmed/dt_ioi_trimmed.txt"
 data_kot = "preprocessor/trimmed/dt_kot_trimmed.txt"
 data_vel = "preprocessor/trimmed/dt_vel_trimmed.txt"
 data_vel_diff = "preprocessor/trimmed/dt_vel_diff_trimmed.txt"
-data_baseline_ioi = "preprocessor/predata/trimmed/dt_ioi_trimmed.txt"
-data_baseline_kot = "preprocessor/predata/trimmed/dt_kot_trimmed.txt"
-data_baseline_vel = "preprocessor/predata/trimmed/dt_vel_trimmed.txt"
-data_baseline_vel_diff = "preprocessor/predata/trimmed/dt_vel_diff_trimmed.txt"
+data_bl_ioi = "preprocessor/predata/trimmed/dt_ioi_trimmed.txt"
+data_bl_kot = "preprocessor/predata/trimmed/dt_kot_trimmed.txt"
+data_bl_vel = "preprocessor/predata/trimmed/dt_vel_trimmed.txt"
+data_bl_vel_diff = "preprocessor/predata/trimmed/dt_vel_diff_trimmed.txt"
 ```
 
 ```{r prep, include = FALSE}
+# read data
 dt_ioi <- fread(data_ioi, header = T, sep = ",", dec = ".")
 dt_kot <- fread(data_kot, header = T, sep = ",", dec = ".")
 dt_vel <- fread(data_vel, header = T, sep = ",", dec = ".")
 dt_vel_diff <- fread(data_vel_diff, header = T, sep = ",", dec = ".")
 
-# SubNr as a factor
-dt_ioi$SubNr <- as.factor(dt_ioi$SubNr)
+dt1.list <- list(dt_ioi, dt_kot, dt_vel, dt_vel_diff) # make a list of data tables
 
-# assign stimuli categories
-dt_ioi$Stimuli <- as.numeric(gsub(".mid", "", dt_ioi$Stimuli))
-dt_ioi$Articulation <- "NA"
-dt_ioi$Dynamics <- "NA"
-dt_ioi$Category <- "NA"
-dt_ioi[Stimuli < 5]$Articulation <- "Present"
-dt_ioi[Stimuli < 5]$Dynamics <- "Absent"
-dt_ioi[Stimuli < 5]$Category <- "art_only"
-dt_ioi[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
-dt_ioi[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
-dt_ioi[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_ioi[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
-dt_ioi[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
-dt_ioi[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_ioi[Stimuli > 12]$Articulation <- "Absent"
-dt_ioi[Stimuli > 12]$Dynamics <- "Absent"
-dt_ioi[Stimuli > 12]$Category <- "none"
+# add labels to data tables
+label <- function(data){
+  data[, "SubNr" := as.factor(data$SubNr)]
+  data[, "Stimuli" := as.numeric(gsub(".mid", "", data$Stimuli))]
+  data[, c("Articulation", "Dynamics", "Category") := .("NA", "NA", "NA")]
+  data[Stimuli < 5, c("Articulation", "Dynamics", "Category") := .("Present", "Absent", "art_only")]
+  data[Stimuli > 4 & Stimuli < 9, c("Articulation", "Dynamics", "Category") := .("Absent", "Present", "dyn_only")]
+  data[Stimuli > 8 & Stimuli < 13, c("Articulation", "Dynamics", "Category") := .("Present", "Present", "both")]
+  data[Stimuli > 12, c("Articulation", "Dynamics", "Category") := .("Absent", "Absent", "none")]
+}
 
-dt_kot$Stimuli <- as.numeric(gsub(".mid", "", dt_kot$Stimuli))
-dt_kot$Articulation <- "NA"
-dt_kot$Dynamics <- "NA"
-dt_kot$Category <- "NA"
-dt_kot[Stimuli < 5]$Articulation <- "Present"
-dt_kot[Stimuli < 5]$Dynamics <- "Absent"
-dt_kot[Stimuli < 5]$Category <- "art_only"
-dt_kot[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
-dt_kot[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
-dt_kot[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_kot[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
-dt_kot[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
-dt_kot[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_kot[Stimuli > 12]$Articulation <- "Absent"
-dt_kot[Stimuli > 12]$Dynamics <- "Absent"
-dt_kot[Stimuli > 12]$Category <- "none"
+# perform the function above
+res <- lapply(dt1.list, label)
 
-dt_vel$Stimuli <- as.numeric(gsub(".mid", "", dt_vel$Stimuli))
-dt_vel$Articulation <- "NA"
-dt_vel$Dynamics <- "NA"
-dt_vel$Category <- "NA"
-dt_vel[Stimuli < 5]$Articulation <- "Present"
-dt_vel[Stimuli < 5]$Dynamics <- "Absent"
-dt_vel[Stimuli < 5]$Category <- "art_only"
-dt_vel[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
-dt_vel[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
-dt_vel[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_vel[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
-dt_vel[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
-dt_vel[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_vel[Stimuli > 12]$Articulation <- "Absent"
-dt_vel[Stimuli > 12]$Dynamics <- "Absent"
-dt_vel[Stimuli > 12]$Category <- "none"
+# read data (baseline performances)
+dt_bl_ioi <- fread(data_bl_ioi, header = T, sep = ",", dec = ".")
+dt_bl_kot <- fread(data_bl_kot, header = T, sep = ",", dec = ".")
+dt_bl_vel <- fread(data_bl_vel, header = T, sep = ",", dec = ".")
+dt_bl_vel_diff <- fread(data_bl_vel_diff, header = T, sep = ",", dec = ".")
 
-dt_vel_diff$Stimuli <- as.numeric(gsub(".mid", "", dt_vel_diff$Stimuli))
-dt_vel_diff$Articulation <- "NA"
-dt_vel_diff$Dynamics <- "NA"
-dt_vel_diff$Category <- "NA"
-dt_vel_diff[Stimuli < 5]$Articulation <- "Present"
-dt_vel_diff[Stimuli < 5]$Dynamics <- "Absent"
-dt_vel_diff[Stimuli < 5]$Category <- "art_only"
-dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Articulation <- "Absent"
-dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Dynamics <- "Present"
-dt_vel_diff[Stimuli > 4 & Stimuli < 9]$Category <- "dyn_only"
-dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Articulation <- "Present"
-dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Dynamics <- "Present"
-dt_vel_diff[Stimuli > 8 & Stimuli < 13]$Category <- "both"
-dt_vel_diff[Stimuli > 12]$Articulation <- "Absent"
-dt_vel_diff[Stimuli > 12]$Dynamics <- "Absent"
-dt_vel_diff[Stimuli > 12]$Category <- "none"
-```
+dt2.list <- list(dt_bl_ioi, dt_bl_kot, dt_bl_vel, dt_bl_vel_diff) # make a list of data tables (baseline performances)
 
-```{r, include = FALSE}
+# add labels to data tables
+label_bl <- function(data){
+  data[, "SubNr" := as.factor(data$SubNr)]
+  data[, c("Articulation", "Dynamics", "Category") := .("Baseline", "Baseline", "baseline")]
+}
+
+# perform the function above
+res_bl <- lapply(dt2.list, label)
+
 # combine data with baseline performance
-dt_bl_ioi <- fread(data_baseline_ioi, header = T, sep = ",", dec = ".")
-dt_bl_kot <- fread(data_baseline_kot, header = T, sep = ",", dec = ".")
-dt_bl_vel <- fread(data_baseline_vel, header = T, sep = ",", dec = ".")
-dt_bl_vel_diff <- fread(data_baseline_vel_diff, header = T, sep = ",", dec = ".")
-
-dt_bl_ioi$Articulation <- "Baseline"
-dt_bl_kot$Articulation <- "Baseline"
-dt_bl_vel$Articulation <- "Baseline"
-dt_bl_vel_diff$Articulation <- "Baseline"
-
-dt_bl_ioi$Dynamics <- "Baseline"
-dt_bl_kot$Dynamics <- "Baseline"
-dt_bl_vel$Dynamics <- "Baseline"
-dt_bl_vel_diff$Dynamics <- "Baseline"
-
-dt_bl_ioi$Category <- "baseline"
-dt_bl_kot$Category <- "baseline"
-dt_bl_vel$Category <- "baseline"
-dt_bl_vel_diff$Category <- "baseline"
-
 dt_ioi <- rbind(dt_ioi, dt_bl_ioi)
 dt_kot <- rbind(dt_kot, dt_bl_kot)
 dt_vel <- rbind(dt_vel, dt_bl_vel)
