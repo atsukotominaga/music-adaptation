@@ -72,7 +72,7 @@ label_bl <- function(data){
 }
 
 # perform the function above
-res_bl <- lapply(dt2.list, label)
+res_bl <- lapply(dt2.list, label_bl)
 
 # combine data with baseline performance
 dt_ioi <- rbind(dt_ioi, dt_bl_ioi)
@@ -85,6 +85,9 @@ dt_vel_diff <- rbind(dt_vel_diff, dt_bl_vel_diff)
 ## 1. Individual
 ```{r ioi}
 # for each individual
+dt_ioi$Articulation <- factor(dt_ioi$Articulation, c("Present", "Absent", "Baseline"))
+dt_ioi$Dynamics <- factor(dt_ioi$Dynamics, c("Present", "Absent", "Baseline"))
+
 ioi_trial <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category)]
 
 ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category)]
@@ -110,7 +113,11 @@ ioi_all
 #### Box plot
 
 ```{r ioi-all-plot}
-ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
+ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics))+ 
+  geom_boxplot(position = position_dodge2(preserve = "single")) +
+  geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
+  theme_pubr()
+#ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 ```
 
 ## 3. Sequence plots
@@ -125,19 +132,21 @@ ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position
 
 ```{r}
 aov_ez(
-  data = ioi,
+  data = ioi[Category != "baseline"],
   id = "SubNr",
   dv = "Mean",
-  within = c("Category")
+  within = c("Articulation", "Dynamics")
 )
 ```
-
 
 # Articulation
 ## 1. Individual
 
 ```{r kot, echo = FALSE}
 # for each individual
+dt_kot$Articulation <- factor(dt_kot$Articulation, c("Present", "Absent", "Baseline"))
+dt_kot$Dynamics <- factor(dt_kot$Dynamics, c("Present", "Absent", "Baseline"))
+
 kot_trial <- dt_kot[Subcomponent1 == "Legato" | Subcomponent1 == "Staccato", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent1)]
 
 kot <- kot_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent1)]
