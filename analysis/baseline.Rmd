@@ -1,5 +1,5 @@
 ---
-title: 'Comparison between baseline and test performance'
+title: 'Music adaptation: Analysis'
 output:
   html_notebook: default
 editor_options: 
@@ -19,6 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 # stats
 if (!require("afex")) {install.packages("afex"); require("afex")}
+if (!require("emmeans")) {install.packages("emmeans"); require("emmeans")}
 # plot
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 ```
@@ -88,9 +89,9 @@ dt_vel_diff <- rbind(dt_vel_diff, dt_bl_vel_diff)
 dt_ioi$Articulation <- factor(dt_ioi$Articulation, c("Present", "Absent", "Baseline"))
 dt_ioi$Dynamics <- factor(dt_ioi$Dynamics, c("Present", "Absent", "Baseline"))
 
-ioi_trial <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category)]
+ioi_trial <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI), CV = sd(IOI)/mean(IOI)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category)]
 
-ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category)]
+ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), CV = mean(CV)), by = .(SubNr, Articulation, Dynamics, Category)]
 setorder(ioi, "SubNr", "Articulation", "Dynamics", "Category")
 ioi
 ```
@@ -105,7 +106,7 @@ ggboxplot(ioi_trial, "Articulation", "Mean", color = "Dynamics", add = "jitter",
 
 ```{r ioi-all}
 # group mean
-ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category)]
+ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean), CV = mean(CV)), by = .(Articulation, Dynamics, Category)]
 ioi_all
 ```
 
@@ -115,7 +116,7 @@ ioi_all
 ```{r ioi-all-plot}
 ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics))+ 
   geom_boxplot(position = position_dodge2(preserve = "single")) +
-  geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
+  geom_point(position = position_dodge(0.75)) +
   theme_pubr()
 #ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 ```
@@ -130,12 +131,47 @@ ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position
 
 ## 4. Stats
 
+1) Articulation x Dynamics
+
 ```{r}
 aov_ez(
   data = ioi[Category != "baseline"],
   id = "SubNr",
   dv = "Mean",
   within = c("Articulation", "Dynamics")
+)
+```
+
+2) Category: All
+
+```{r}
+aov_ez(
+  data = ioi,
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+```
+
+3) Category: both vs. none vs. baseline
+
+```{r}
+aov_ez(
+  data = ioi[Category == "both" | Category == "none" | Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+```
+
+4) Variability
+
+```{r}
+aov_ez(
+  data = ioi,
+  id = "SubNr",
+  dv = "SD",
+  within = c("Category")
 )
 ```
 
@@ -150,7 +186,7 @@ dt_kot$Dynamics <- factor(dt_kot$Dynamics, c("Present", "Absent", "Baseline"))
 kot_trial <- dt_kot[Subcomponent1 == "Legato" | Subcomponent1 == "Staccato", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent1)]
 
 kot <- kot_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent1)]
-setorder(kot, "SubNr", "Articulation", "Dynamics", "Category")
+setorder(kot, "SubNr", "Subcomponent1", "Articulation", "Dynamics", "Category")
 kot
 ```
 
@@ -175,9 +211,21 @@ kot_all
 #### Boxplot
 
 ```{r kot-all-plot, echo = FALSE}
-ggboxplot(kot[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
+ggplot(kot[Subcomponent1 == "Legato"], aes(x = Articulation, y = Mean, color = Dynamics))+ 
+  geom_boxplot(position = position_dodge2(preserve = "single")) +
+  #geom_point(position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent1) +
+  theme_pubr()
 
-ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
+ggplot(kot[Subcomponent1 == "Staccato"], aes(x = Articulation, y = Mean, color = Dynamics))+ 
+  geom_boxplot(position = position_dodge2(preserve = "single")) +
+  #geom_point(position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent1) +
+  theme_pubr()
+
+#ggboxplot(kot[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
+
+#ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 ```
 
 ## 3. Sequence plots
@@ -189,34 +237,93 @@ ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position
 ```
 
 ## 4. Stats
+### Legato
 
-1) Legato
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = kot[Subcomponent1 == "Legato" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+2) Category: All
+
+```{r}
+leg_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+leg_ca_all_aov
+
+pairs(emmeans(leg_ca_all_aov, "Category"), adjust = "tukey")
 ```
 
-2) Staccato
+3) Category: both vs. dyn_only vs. baseline
+
+```{r}
+leg_ca_par_aov <- aov_ez(
+  data = kot[Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only" | Subcomponent1 == "Legato" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+leg_ca_par_aov
+
+pairs(emmeans(leg_ca_par_aov, "Category"), adjust = "tukey")
+```
+
+### Staccato
+
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = kot[Subcomponent1 == "Staccato" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+2) Category: All
+
+```{r}
+sta_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+sta_ca_all_aov
+
+pairs(emmeans(sta_ca_all_aov, "Category"), adjust = "tukey")
 ```
 
+3) Category: both vs. dyn_only vs. baseline
+
+```{r}
+sta_ca_par_aov <- aov_ez(
+  data = kot[Subcomponent1 == "Staccato" & Category == "both" | Subcomponent1 == "Staccato" & Category == "dyn_only" | Subcomponent1 == "Staccato" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+sta_ca_par_aov
+
+pairs(emmeans(sta_ca_par_aov, "Category"), adjust = "tukey")
+```
 # Dynamics
 ## 1. Individual
 
 ```{r vel, echo = FALSE}
 # for each individual
+dt_vel$Articulation <- factor(dt_vel$Articulation, c("Present", "Absent", "Baseline"))
+dt_vel$Dynamics <- factor(dt_vel$Dynamics, c("Present", "Absent", "Baseline"))
+
 vel_trial <- dt_vel[Subcomponent2 != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent2)]
 
 vel <- vel_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
@@ -245,9 +352,15 @@ vel_all
 #### Boxplot
 
 ```{r vel-all-plot,  echo = FALSE}
-ggboxplot(vel[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
+ggplot(vel, aes(x = Dynamics, y = Mean, color = Articulation))+ 
+  geom_boxplot(position = position_dodge2(preserve = "single")) +
+  geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent2) +
+  theme_pubr()
 
-ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
+#ggboxplot(vel[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
+
+#ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
 ```
 
 ## 3. Sequence plots
@@ -287,6 +400,9 @@ aov_ez(
 
 ```{r vel-diff, echo = FALSE}
 # for each individual
+dt_vel_diff$Articulation <- factor(dt_vel_diff$Articulation, c("Present", "Absent", "Baseline"))
+dt_vel_diff$Dynamics <- factor(dt_vel_diff$Dynamics, c("Present", "Absent", "Baseline"))
+
 vel_diff_trial <- dt_vel_diff[Subcomponent2 == "FtoP" | Subcomponent2 == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent2)]
 
 vel_diff <- vel_diff_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
@@ -314,9 +430,15 @@ vel_diff_all
 #### Boxplot
 
 ```{r vel-diff-all-plot,  echo = FALSE}
-ggboxplot(vel_diff[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
+ggplot(vel_diff, aes(x = Dynamics, y = Mean, color = Articulation))+ 
+  geom_boxplot(position = position_dodge2(preserve = "single")) +
+  geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent2) +
+  theme_pubr()
 
-ggboxplot(vel_diff[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
+#ggboxplot(vel_diff[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
+
+#ggboxplot(vel_diff[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
 ```
 
 ## 3. Sequence plots
