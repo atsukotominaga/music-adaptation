@@ -84,6 +84,7 @@ dt_vel_diff <- rbind(dt_vel_diff, dt_bl_vel_diff)
 
 # IOI 
 ## 1. Individual
+
 ```{r ioi}
 # for each individual
 dt_ioi$Articulation <- factor(dt_ioi$Articulation, c("Present", "Absent", "Baseline"))
@@ -145,23 +146,27 @@ aov_ez(
 2) Category: All
 
 ```{r}
-aov_ez(
+ioi_ca_all_aov <- aov_ez(
   data = ioi,
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+
+pairs(emmeans(ioi_ca_all_aov, "Category"), adjust = "tukey")
 ```
 
 3) Category: both vs. none vs. baseline
 
 ```{r}
-aov_ez(
+ioi_ca_par_aov <- aov_ez(
   data = ioi[Category == "both" | Category == "none" | Category == "baseline"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+
+pairs(emmeans(ioi_ca_par_aov, "Category"), adjust = "tukey")
 ```
 
 4) Variability
@@ -211,16 +216,10 @@ kot_all
 #### Boxplot
 
 ```{r kot-all-plot, echo = FALSE}
-ggplot(kot[Subcomponent1 == "Legato"], aes(x = Articulation, y = Mean, color = Dynamics))+ 
+ggplot(kot, aes(x = Articulation, y = Mean, color = Dynamics))+
   geom_boxplot(position = position_dodge2(preserve = "single")) +
-  #geom_point(position = position_dodge(0.75)) +
-  facet_grid( ~ Subcomponent1) +
-  theme_pubr()
-
-ggplot(kot[Subcomponent1 == "Staccato"], aes(x = Articulation, y = Mean, color = Dynamics))+ 
-  geom_boxplot(position = position_dodge2(preserve = "single")) +
-  #geom_point(position = position_dodge(0.75)) +
-  facet_grid( ~ Subcomponent1) +
+  geom_point(position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent1, labeller = as_labeller(c("Legato" = "Legato/Forte", "Staccato" = "Staccato/Piano"))) +
   theme_pubr()
 
 #ggboxplot(kot[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
@@ -289,6 +288,7 @@ aov_ez(
   within = c("Articulation", "Dynamics")
 )
 ```
+
 2) Category: All
 
 ```{r}
@@ -327,7 +327,7 @@ dt_vel$Dynamics <- factor(dt_vel$Dynamics, c("Present", "Absent", "Baseline"))
 vel_trial <- dt_vel[Subcomponent2 != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, TrialNr, Stimuli, Articulation, Dynamics, Category, Subcomponent2)]
 
 vel <- vel_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
-setorder(vel, "SubNr", "Dynamics", "Articulation", "Category")
+setorder(vel, "Subcomponent2", "SubNr", "Dynamics", "Articulation", "Category")
 vel
 ```
 
@@ -355,7 +355,7 @@ vel_all
 ggplot(vel, aes(x = Dynamics, y = Mean, color = Articulation))+ 
   geom_boxplot(position = position_dodge2(preserve = "single")) +
   geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
-  facet_grid( ~ Subcomponent2) +
+  facet_grid( ~ Subcomponent2, labeller = as_labeller(c("Forte" = "Forte/Legato", "Piano" = "Piano/Staccato"))) +
   theme_pubr()
 
 #ggboxplot(vel[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
@@ -372,27 +372,85 @@ ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_do
 ```
 
 ## 4. Stats
+### Forte
 
-1) Forte
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = vel[Subcomponent2 == "Forte" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+
+2) Category: All
+
+```{r}
+for_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+for_ca_all_aov
+
+pairs(emmeans(for_ca_all_aov, "Category"), adjust = "tukey")
 ```
 
-2) Piano
+3) Category: both vs. art_only vs. baseline
+
+```{r}
+for_ca_par_aov <- aov_ez(
+  data = vel[Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only" | Subcomponent2 == "Forte" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+for_ca_par_aov
+
+pairs(emmeans(for_ca_par_aov, "Category"), adjust = "tukey")
+```
+
+### Piano
+
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = vel[Subcomponent2 == "Piano" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+2) Category: All
+
+```{r}
+pia_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+pia_ca_all_aov
+
+pairs(emmeans(pia_ca_all_aov, "Category"), adjust = "tukey")
+```
+
+3) Category: both vs. art_only vs. baseline
+
+```{r}
+pia_ca_par_aov <- aov_ez(
+  data = vel[Subcomponent2 == "Piano" & Category == "both" | Subcomponent2 == "Piano" & Category == "art_only" | Subcomponent2 == "Piano" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+pia_ca_par_aov
+
+pairs(emmeans(pia_ca_par_aov, "Category"), adjust = "tukey")
 ```
 
 # Dynamics Difference
@@ -420,6 +478,7 @@ ggboxplot(vel_diff_trial[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "
 ```
 
 ## 2. All - group
+
 ```{r vel-diff-all, echo = FALSE}
 # group mean
 vel_diff_all <- vel_diff[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
@@ -432,8 +491,8 @@ vel_diff_all
 ```{r vel-diff-all-plot,  echo = FALSE}
 ggplot(vel_diff, aes(x = Dynamics, y = Mean, color = Articulation))+ 
   geom_boxplot(position = position_dodge2(preserve = "single")) +
-  geom_point(binaxis = "y", stackdir = "center", position = position_dodge(0.75)) +
-  facet_grid( ~ Subcomponent2) +
+  geom_point(position = position_dodge(0.75)) +
+  facet_grid( ~ Subcomponent2, labeller = as_labeller(c("FtoP" = "FtoP/PtoF", "PtoF" = "PtoF/StoL"))) +
   theme_pubr()
 
 #ggboxplot(vel_diff[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
@@ -450,25 +509,84 @@ ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = pos
 ```
 
 ## 4. Stats
+### FtoP
 
-1) FtoP
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = vel_diff[Subcomponent2 == "FtoP" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+
+2) Category: All
+
+```{r}
+ftop_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+ftop_ca_all_aov
+
+pairs(emmeans(ftop_ca_all_aov, "Category"), adjust = "tukey")
 ```
 
-2) PtoF
+3) Category: both vs. art_only vs. baseline
+
+```{r}
+ftop_ca_par_aov <- aov_ez(
+  data = vel_diff[Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+ftop_ca_par_aov
+
+pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
+```
+
+### PtoF
+
+1) Articulation x Dynamics
 
 ```{r}
 aov_ez(
+  data = vel_diff[Subcomponent2 == "PtoF" & Category != "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Articulation", "Dynamics")
+)
+```
+
+2) Category: All
+
+```{r}
+ptof_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
+ptof_ca_all_aov
+
+pairs(emmeans(ptof_ca_all_aov, "Category"), adjust = "tukey")
+```
+
+3) Category: both vs. art_only vs. baseline
+
+```{r}
+ftop_ca_par_aov <- aov_ez(
+  data = vel_diff[Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
+  id = "SubNr",
+  dv = "Mean",
+  within = c("Category")
+)
+ftop_ca_par_aov
+
+pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
 ```
