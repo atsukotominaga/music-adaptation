@@ -1,36 +1,4 @@
----
-title: 'Music adaptation: Analysis (only first instances)'
-output:
-  html_notebook: default
-editor_options: 
-  chunk_output_type: inline
----
-
-Description: This is a summary of analysis which only include the performance with the first instance of each student (category).
-
-- Last checked: `r format(Sys.Date(), "%d-%b-%Y")`
-
-## Experimental Design
-Note: Here, we only look at the first instance of each student (category).
-
-- Independent variables: Articulation (2 levels: Present or Absent) x Dynamics (2 levels: Present or Absent)
-- Dependent variables: Interonset intervals (IOIs), Key-overlap time (KOT), Key velocity (KV) and KV Difference
-
-1. Main predictions ([preregistration](https://osf.io/qbzwt))
- 
-- If students performed the piece without articulation (i.e., only dynamics is implemented in the recordings), participants should exaggerate articulation more (i.e., producing longer legato and shorter staccato).
-- If students performed the piece without dynamics (i.e., only articulation is implemented in the recordings), participants should exaggerate dynamics more (i.e., producing louder forte and softer piano).
-- If students performed the piece without articulation and dynamics (i.e., neither articulation nor dynamics is implemented in the recordings), participants should exaggerate both articulation and dynamics more.
-
-2. Excluded participants
-
-- NA
-
-3. Stats packages
-
-- [afex](https://github.com/singmann/afex) for ANOVAs
-
-```{r setup, include = FALSE}
+## ----setup, include = FALSE--------------------------------
 # set chunk option
 knitr::opts_chunk$set(echo = FALSE)
 
@@ -42,9 +10,9 @@ if (!require("afex")) {install.packages("afex"); require("afex")}
 if (!require("emmeans")) {install.packages("emmeans"); require("emmeans")}
 # plot
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
-```
 
-```{r file, include = FALSE}
+
+## ----file, include = FALSE---------------------------------
 data_ioi = "preprocessor/trimmed/dt_ioi_trimmed.txt"
 data_kot = "preprocessor/trimmed/dt_kot_trimmed.txt"
 data_vel = "preprocessor/trimmed/dt_vel_trimmed.txt"
@@ -53,9 +21,9 @@ data_bl_ioi = "preprocessor/predata/trimmed/dt_ioi_trimmed.txt"
 data_bl_kot = "preprocessor/predata/trimmed/dt_kot_trimmed.txt"
 data_bl_vel = "preprocessor/predata/trimmed/dt_vel_trimmed.txt"
 data_bl_vel_diff = "preprocessor/predata/trimmed/dt_vel_diff_trimmed.txt"
-```
 
-```{r prep, include = FALSE}
+
+## ----prep, include = FALSE---------------------------------
 # read data
 dt_ioi <- fread(data_ioi, header = T, sep = ",", dec = ".")
 dt_kot <- fread(data_kot, header = T, sep = ",", dec = ".")
@@ -100,11 +68,9 @@ dt_ioi <- rbind(dt_ioi, dt_bl_ioi)
 dt_kot <- rbind(dt_kot, dt_bl_kot)
 dt_vel <- rbind(dt_vel, dt_bl_vel)
 dt_vel_diff <- rbind(dt_vel_diff, dt_bl_vel_diff)
-```
 
-### TrialNr and Stimuli
 
-```{r}
+## ----------------------------------------------------------
 # select only performances for the first instance of each student (category)
 info <- dt_ioi[, .(N = .N), by = .(SubNr, TrialNr, Stimuli, Category)]
 info
@@ -131,12 +97,9 @@ dt_vel_first <- first(dt_vel, dt_vel_first)
 
 dt_vel_diff_first <- data.table()
 dt_vel_diff_first <- first(dt_vel_diff, dt_vel_diff_first)
-```
 
-# IOI 
-## 1. Individual
 
-```{r ioi}
+## ----ioi---------------------------------------------------
 # for each individual
 dt_ioi_first$Articulation <- factor(dt_ioi_first$Articulation, c("Present", "Absent", "Baseline"))
 dt_ioi_first$Dynamics <- factor(dt_ioi_first$Dynamics, c("Present", "Absent", "Baseline"))
@@ -146,48 +109,34 @@ ioi_trial <- dt_ioi_first[, .(N = .N, Mean = mean(IOI), SD = sd(IOI), CV = sd(IO
 ioi <- ioi_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), CV = mean(CV)), by = .(SubNr, Articulation, Dynamics, Category)]
 setorder(ioi, "SubNr", "Articulation", "Dynamics", "Category")
 ioi
-```
 
-### Plot
-#### Boxplot
 
-```{r ioi-plot, fig.width = 6}
+## ----ioi-plot, fig.width = 6-------------------------------
 ggboxplot(ioi_trial, "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
-```
 
-## 2. Group
 
-```{r ioi-all}
+## ----ioi-all-----------------------------------------------
 # group mean
 ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean), CV = mean(CV)), by = .(Articulation, Dynamics, Category)]
 ioi_all
-```
 
-### Plot
-#### Box plot
 
-```{r ioi-all-plot}
+## ----ioi-all-plot------------------------------------------
 ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") +
   theme_pubr()
  
 #ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
-```
 
-## 3. Sequence plots
 
-```{r seq-ioi, fig.width = 7, fig.height = 2}
+## ----seq-ioi, fig.width = 7, fig.height = 2----------------
 ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Interval)]
 
 ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "IOIs (ms)", title = "IOI") + scale_x_continuous(breaks = seq(1,71,1))
-```
 
-## 4. Stats
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 ioi_all_aov <- aov_ez(
   data = ioi[Category != "baseline"],
   id = "SubNr",
@@ -198,11 +147,9 @@ ioi_all_aov <- aov_ez(
 
 ioi_all_aov$anova_table
 pairs(emmeans(ioi_all_aov, ~Dynamics|Articulation), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 ioi_ca_all_aov <- aov_ez(
   data = ioi,
   id = "SubNr",
@@ -212,11 +159,9 @@ ioi_ca_all_aov <- aov_ez(
 
 ioi_ca_all_aov$anova_table
 pairs(emmeans(ioi_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. none vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 ioi_ca_par_aov <- aov_ez(
   data = ioi[Category == "both" | Category == "none" | Category == "baseline"],
   id = "SubNr",
@@ -226,25 +171,9 @@ ioi_ca_par_aov <- aov_ez(
 
 ioi_ca_par_aov$anova_table
 pairs(emmeans(ioi_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-<!-- 4) Variability -->
 
-<!-- ```{r} -->
-<!-- var_stats <- aov_ez( -->
-<!--   data = ioi, -->
-<!--   id = "SubNr", -->
-<!--   dv = "SD", -->
-<!--   within = c("Category") -->
-<!-- ) -->
-
-<!-- var_stats$anova_table -->
-<!-- ``` -->
-
-# Articulation
-## 1. Individual
-
-```{r kot, echo = FALSE}
+## ----kot, echo = FALSE-------------------------------------
 # for each individual
 dt_kot_first$Articulation <- factor(dt_kot_first$Articulation, c("Present", "Absent", "Baseline"))
 dt_kot_first$Dynamics <- factor(dt_kot_first$Dynamics, c("Present", "Absent", "Baseline"))
@@ -254,29 +183,21 @@ kot_trial <- dt_kot_first[Subcomponent1 == "Legato" | Subcomponent1 == "Staccato
 kot <- kot_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent1)]
 setorder(kot, "SubNr", "Subcomponent1", "Articulation", "Dynamics", "Category")
 kot
-```
 
-### Plot
-#### Boxplot
 
-```{r kot-plot,  echo = FALSE, fig.width = 6}
+## ----kot-plot,  echo = FALSE, fig.width = 6----------------
 ggboxplot(kot_trial[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
 ggboxplot(kot_trial[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
-```
 
-## 2. Group
 
-```{r kot-all, echo = FALSE}
+## ----kot-all, echo = FALSE---------------------------------
 # group mean
 kot_all <- kot[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent1)]
 kot_all
-```
 
-### Plot
-#### Boxplot
 
-```{r kot-all-plot, echo = FALSE}
+## ----kot-all-plot, echo = FALSE----------------------------
 ggplot(kot[Subcomponent1 == "Legato"], aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -292,22 +213,15 @@ ggplot(kot[Subcomponent1 == "Staccato"], aes(x = Articulation, y = Mean, color =
 #ggboxplot(kot[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
 #ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
-```
 
-## 3. Sequence plots
 
-```{r seq-kot, fig.width = 7, fig.height = 2}
+## ----seq-kot, fig.width = 7, fig.height = 2----------------
 kot_seq <- dt_kot[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, Category, Interval)]
 
 ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "KOT (ms)", title = "KOT") + scale_x_continuous(breaks = seq(1,71,1))
-```
 
-## 4. Stats
-### Legato
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 leg_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato" & Category != "baseline"],
   id = "SubNr",
@@ -317,11 +231,9 @@ leg_all_aov <- aov_ez(
 
 leg_all_aov$anova_table
 pairs(emmeans(leg_all_aov, ~Dynamics|Articulation), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 leg_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato"],
   id = "SubNr",
@@ -332,11 +244,9 @@ leg_ca_all_aov
 
 leg_ca_all_aov$anova_table
 pairs(emmeans(leg_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. dyn_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 leg_ca_par_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only" | Subcomponent1 == "Legato" & Category == "baseline"],
   id = "SubNr",
@@ -347,13 +257,9 @@ leg_ca_par_aov
 
 leg_ca_par_aov$anova_table
 pairs(emmeans(leg_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-### Staccato
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 sta_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato" & Category != "baseline"],
   id = "SubNr",
@@ -363,11 +269,9 @@ sta_all_aov <- aov_ez(
 
 sta_all_aov$anova_table
 pairs(emmeans(sta_all_aov, ~Dynamics|Articulation), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 sta_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato"],
   id = "SubNr",
@@ -377,11 +281,9 @@ sta_ca_all_aov <- aov_ez(
 
 sta_ca_all_aov$anova_table
 pairs(emmeans(sta_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. dyn_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 sta_ca_par_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato" & Category == "both" | Subcomponent1 == "Staccato" & Category == "dyn_only" | Subcomponent1 == "Staccato" & Category == "baseline"],
   id = "SubNr",
@@ -391,12 +293,9 @@ sta_ca_par_aov <- aov_ez(
 
 sta_ca_par_aov$anova_table
 pairs(emmeans(sta_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-# Dynamics
-## 1. Individual
 
-```{r vel, echo = FALSE}
+## ----vel, echo = FALSE-------------------------------------
 # for each individual
 dt_vel_first$Articulation <- factor(dt_vel_first$Articulation, c("Present", "Absent", "Baseline"))
 dt_vel_first$Dynamics <- factor(dt_vel_first$Dynamics, c("Present", "Absent", "Baseline"))
@@ -406,29 +305,21 @@ vel_trial <- dt_vel_first[Subcomponent2 != "NA", .(N = .N, Mean = mean(Velocity)
 vel <- vel_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
 setorder(vel, "Subcomponent2", "SubNr", "Dynamics", "Articulation", "Category")
 vel
-```
 
-### Plot
-#### Boxplot
 
-```{r vel-plot, echo = FALSE, fig.width = 6}
+## ----vel-plot, echo = FALSE, fig.width = 6-----------------
 ggboxplot(vel_trial[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Forte)")
 
 ggboxplot(vel_trial[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Piano)")
-```
 
-## 2. Group
 
-```{r vel-all, echo = FALSE}
+## ----vel-all, echo = FALSE---------------------------------
 # group mean
 vel_all <- vel[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_all
-```
 
-### Plot
-#### Boxplot
 
-```{r vel-all-plot,  echo = FALSE}
+## ----vel-all-plot,  echo = FALSE---------------------------
 ggplot(vel[Subcomponent2 == "Forte"], aes(x = Dynamics, y = Mean, color = Articulation))+ 
     geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -444,22 +335,15 @@ ggplot(vel[Subcomponent2 == "Piano"], aes(x = Dynamics, y = Mean, color = Articu
 #ggboxplot(vel[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Forte)")
 
 #ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
-```
 
-## 3. Sequence plots
 
-```{r seq-vel, fig.width = 7, fig.height = 2}
+## ----seq-vel, fig.width = 7, fig.height = 2----------------
 vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, RowNr)]
 
 ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Note Nr", ylab = "Key Velocity (0-127)", title = "KV") + scale_x_continuous(breaks = seq(1,72,1))
-```
 
-## 4. Stats
-### Forte
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 for_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte" & Category != "baseline"],
   id = "SubNr",
@@ -469,11 +353,9 @@ for_all_aov <- aov_ez(
 
 for_all_aov$anova_table
 pairs(emmeans(for_all_aov, ~Articulation|Dynamics), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 for_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte"],
   id = "SubNr",
@@ -483,11 +365,9 @@ for_ca_all_aov <- aov_ez(
 
 for_ca_all_aov$anova_table
 pairs(emmeans(for_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. art_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 for_ca_par_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only" | Subcomponent2 == "Forte" & Category == "baseline"],
   id = "SubNr",
@@ -497,13 +377,9 @@ for_ca_par_aov <- aov_ez(
 
 for_ca_par_aov$anova_table
 pairs(emmeans(for_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-### Piano
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 pia_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano" & Category != "baseline"],
   id = "SubNr",
@@ -513,11 +389,9 @@ pia_all_aov <- aov_ez(
 
 pia_all_aov$anova_table
 pairs(emmeans(pia_all_aov, ~Articulation|Dynamics), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 pia_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano"],
   id = "SubNr",
@@ -527,11 +401,9 @@ pia_ca_all_aov <- aov_ez(
 
 pia_ca_all_aov$anova_table
 pairs(emmeans(pia_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. art_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 pia_ca_par_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano" & Category == "both" | Subcomponent2 == "Piano" & Category == "art_only" | Subcomponent2 == "Piano" & Category == "baseline"],
   id = "SubNr",
@@ -541,12 +413,9 @@ pia_ca_par_aov <- aov_ez(
 
 pia_ca_par_aov$anova_table
 pairs(emmeans(pia_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-# Dynamics Difference
-## 1. Individual
 
-```{r vel-diff, echo = FALSE}
+## ----vel-diff, echo = FALSE--------------------------------
 # for each individual
 dt_vel_diff_first$Articulation <- factor(dt_vel_diff_first$Articulation, c("Present", "Absent", "Baseline"))
 dt_vel_diff_first$Dynamics <- factor(dt_vel_diff_first$Dynamics, c("Present", "Absent", "Baseline"))
@@ -556,29 +425,21 @@ vel_diff_trial <- dt_vel_diff_first[Subcomponent2 == "FtoP" | Subcomponent2 == "
 vel_diff <- vel_diff_trial[, .(N = .N, Mean = mean(Mean), SD = sd(Mean)), by = .(SubNr, Articulation, Dynamics, Category, Subcomponent2)]
 setorder(vel_diff, "SubNr", "Dynamics", "Articulation", "Category")
 vel_diff
-```
 
-### Plot
-#### Boxplot
 
-```{r vel-diff-plot, echo = FALSE, fig.width = 6}
+## ----vel-diff-plot, echo = FALSE, fig.width = 6------------
 ggboxplot(vel_diff_trial[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (FtoP)")
 
 ggboxplot(vel_diff_trial[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (PtoF)")
-```
 
-## 2. Group
 
-```{r vel-diff-all, echo = FALSE}
+## ----vel-diff-all, echo = FALSE----------------------------
 # group mean
 vel_diff_all <- vel_diff[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_diff_all
-```
 
-### Plot
-#### Boxplot
 
-```{r vel-diff-all-plot,  echo = FALSE}
+## ----vel-diff-all-plot,  echo = FALSE----------------------
 ggplot(vel_diff[Subcomponent2 == "FtoP"], aes(x = Dynamics, y = Mean, color = Articulation))+ 
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -594,22 +455,15 @@ ggplot(vel_diff[Subcomponent2 == "PtoF"], aes(x = Dynamics, y = Mean, color = Ar
 #ggboxplot(vel_diff[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (FtoP)")
 
 #ggboxplot(vel_diff[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
-```
 
-## 3. Sequence plots
 
-```{r seq-vel-diff, fig.width = 7, fig.height = 2}
+## ----seq-vel-diff, fig.width = 7, fig.height = 2-----------
 vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Interval)]
 
 ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "Difference", title = "Velocity Difference") + scale_x_continuous(breaks = seq(1,71,1))
-```
 
-## 4. Stats
-### FtoP
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 ftop_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP" & Category != "baseline"],
   id = "SubNr",
@@ -619,11 +473,9 @@ ftop_all_aov <- aov_ez(
 
 ftop_all_aov$anova_table
 pairs(emmeans(ftop_all_aov, ~Articulation|Dynamics), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 ftop_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP"],
   id = "SubNr",
@@ -633,11 +485,9 @@ ftop_ca_all_aov <- aov_ez(
 
 ftop_ca_all_aov$anova_table
 pairs(emmeans(ftop_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. art_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 ftop_ca_par_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
   id = "SubNr",
@@ -647,13 +497,9 @@ ftop_ca_par_aov <- aov_ez(
 
 ftop_ca_par_aov$anova_table
 pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-### PtoF
 
-1) Articulation x Dynamics
-
-```{r}
+## ----------------------------------------------------------
 ptof_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF" & Category != "baseline"],
   id = "SubNr",
@@ -663,11 +509,9 @@ ptof_all_aov <- aov_ez(
 
 ptof_all_aov$anova_table
 pairs(emmeans(ptof_all_aov, ~Articulation|Dynamics), adjust = "tukey")
-```
 
-2) Category: All
 
-```{r}
+## ----------------------------------------------------------
 ptof_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF"],
   id = "SubNr",
@@ -677,11 +521,9 @@ ptof_ca_all_aov <- aov_ez(
 
 ptof_ca_all_aov$anova_table
 pairs(emmeans(ptof_ca_all_aov, "Category"), adjust = "tukey")
-```
 
-3) Category: both vs. art_only vs. baseline
 
-```{r}
+## ----------------------------------------------------------
 ptof_ca_par_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF" & Category == "both" | Subcomponent2 == "PtoF" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
   id = "SubNr",
@@ -691,8 +533,8 @@ ptof_ca_par_aov <- aov_ez(
 
 ptof_ca_par_aov
 pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
-```
 
-```{r export, include = FALSE}
+
+## ----export, include = FALSE-------------------------------
 knitr::purl("onlyfirst.Rmd")
-```
+

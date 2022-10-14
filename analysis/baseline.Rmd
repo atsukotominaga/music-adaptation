@@ -660,3 +660,7 @@ ptof_ca_par_aov <- aov_ez(
 ptof_ca_par_aov
 pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
 ```
+
+```{r export, include = FALSE}
+knitr::purl("baseline.Rmd")
+```
