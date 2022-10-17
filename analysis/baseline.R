@@ -1,4 +1,4 @@
-## ----setup, include = FALSE-----------------------------------------------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 # set chunk option
 knitr::opts_chunk$set(echo = FALSE)
 
@@ -12,7 +12,7 @@ if (!require("emmeans")) {install.packages("emmeans"); require("emmeans")}
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 
 
-## ----file, include = FALSE------------------------------------------------------------------------------------
+## ----file, include = FALSE----------------------------------------------------
 data_ioi = "preprocessor/trimmed/dt_ioi_trimmed.txt"
 data_kot = "preprocessor/trimmed/dt_kot_trimmed.txt"
 data_vel = "preprocessor/trimmed/dt_vel_trimmed.txt"
@@ -23,7 +23,7 @@ data_bl_vel = "preprocessor/predata/trimmed/dt_vel_trimmed.txt"
 data_bl_vel_diff = "preprocessor/predata/trimmed/dt_vel_diff_trimmed.txt"
 
 
-## ----prep, include = FALSE------------------------------------------------------------------------------------
+## ----prep, include = FALSE----------------------------------------------------
 # read data
 dt_ioi <- fread(data_ioi, header = T, sep = ",", dec = ".")
 dt_kot <- fread(data_kot, header = T, sep = ",", dec = ".")
@@ -70,7 +70,7 @@ dt_vel <- rbind(dt_vel, dt_bl_vel)
 dt_vel_diff <- rbind(dt_vel_diff, dt_bl_vel_diff)
 
 
-## ----ioi------------------------------------------------------------------------------------------------------
+## ----ioi----------------------------------------------------------------------
 # for each individual
 dt_ioi$Articulation <- factor(dt_ioi$Articulation, c("Present", "Absent", "Baseline"))
 dt_ioi$Dynamics <- factor(dt_ioi$Dynamics, c("Present", "Absent", "Baseline"))
@@ -82,17 +82,17 @@ setorder(ioi, "SubNr", "Articulation", "Dynamics", "Category")
 ioi
 
 
-## ----ioi-plot, fig.width = 6----------------------------------------------------------------------------------
+## ----ioi-plot, fig.width = 6--------------------------------------------------
 ggboxplot(ioi_trial, "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 
 
-## ----ioi-all--------------------------------------------------------------------------------------------------
+## ----ioi-all------------------------------------------------------------------
 # group mean
 ioi_all <- ioi[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean), CV = mean(CV)), by = .(Articulation, Dynamics, Category)]
 ioi_all
 
 
-## ----ioi-all-plot---------------------------------------------------------------------------------------------
+## ----ioi-all-plot-------------------------------------------------------------
 ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") +
@@ -101,13 +101,13 @@ ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics)) +
 #ggboxplot(ioi, "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 
 
-## ----seq-ioi, fig.width = 7, fig.height = 2-------------------------------------------------------------------
+## ----seq-ioi, fig.width = 7, fig.height = 2-----------------------------------
 ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Interval)]
 
 ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "IOIs (ms)", title = "IOI") + scale_x_continuous(breaks = seq(1,71,1))
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ioi_all_aov <- aov_ez(
   data = ioi[Category != "baseline"],
   id = "SubNr",
@@ -120,7 +120,7 @@ ioi_all_aov$anova_table
 pairs(emmeans(ioi_all_aov, ~Dynamics|Articulation), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ioi_ca_all_aov <- aov_ez(
   data = ioi,
   id = "SubNr",
@@ -132,7 +132,7 @@ ioi_ca_all_aov$anova_table
 pairs(emmeans(ioi_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ioi_ca_par_aov <- aov_ez(
   data = ioi[Category == "both" | Category == "none" | Category == "baseline"],
   id = "SubNr",
@@ -144,7 +144,7 @@ ioi_ca_par_aov$anova_table
 pairs(emmeans(ioi_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 var_stats <- aov_ez(
   data = ioi,
   id = "SubNr",
@@ -155,7 +155,7 @@ var_stats <- aov_ez(
 var_stats$anova_table
 
 
-## ----kot, echo = FALSE----------------------------------------------------------------------------------------
+## ----kot, echo = FALSE--------------------------------------------------------
 # for each individual
 dt_kot$Articulation <- factor(dt_kot$Articulation, c("Present", "Absent", "Baseline"))
 dt_kot$Dynamics <- factor(dt_kot$Dynamics, c("Present", "Absent", "Baseline"))
@@ -167,19 +167,19 @@ setorder(kot, "SubNr", "Subcomponent1", "Articulation", "Dynamics", "Category")
 kot
 
 
-## ----kot-plot,  echo = FALSE, fig.width = 6-------------------------------------------------------------------
+## ----kot-plot,  echo = FALSE, fig.width = 6-----------------------------------
 ggboxplot(kot_trial[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
 ggboxplot(kot_trial[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 
 
-## ----kot-all, echo = FALSE------------------------------------------------------------------------------------
+## ----kot-all, echo = FALSE----------------------------------------------------
 # group mean
 kot_all <- kot[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent1)]
 kot_all
 
 
-## ----kot-all-plot, echo = FALSE-------------------------------------------------------------------------------
+## ----kot-all-plot, echo = FALSE-----------------------------------------------
 ggplot(kot[Subcomponent1 == "Legato"], aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -197,13 +197,13 @@ ggplot(kot[Subcomponent1 == "Staccato"], aes(x = Articulation, y = Mean, color =
 #ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 
 
-## ----seq-kot, fig.width = 7, fig.height = 2-------------------------------------------------------------------
+## ----seq-kot, fig.width = 7, fig.height = 2-----------------------------------
 kot_seq <- dt_kot[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, Category, Interval)]
 
 ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "KOT (ms)", title = "KOT") + scale_x_continuous(breaks = seq(1,71,1))
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 leg_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato" & Category != "baseline"],
   id = "SubNr",
@@ -215,7 +215,7 @@ leg_all_aov$anova_table
 pairs(emmeans(leg_all_aov, ~Dynamics|Articulation), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 leg_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato"],
   id = "SubNr",
@@ -228,7 +228,7 @@ leg_ca_all_aov$anova_table
 pairs(emmeans(leg_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 leg_ca_par_aov <- aov_ez(
   data = kot[Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only" | Subcomponent1 == "Legato" & Category == "baseline"],
   id = "SubNr",
@@ -241,7 +241,7 @@ leg_ca_par_aov$anova_table
 pairs(emmeans(leg_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sta_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato" & Category != "baseline"],
   id = "SubNr",
@@ -253,7 +253,7 @@ sta_all_aov$anova_table
 pairs(emmeans(sta_all_aov, ~Dynamics|Articulation), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sta_ca_all_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato"],
   id = "SubNr",
@@ -265,7 +265,7 @@ sta_ca_all_aov$anova_table
 pairs(emmeans(sta_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sta_ca_par_aov <- aov_ez(
   data = kot[Subcomponent1 == "Staccato" & Category == "both" | Subcomponent1 == "Staccato" & Category == "dyn_only" | Subcomponent1 == "Staccato" & Category == "baseline"],
   id = "SubNr",
@@ -277,7 +277,7 @@ sta_ca_par_aov$anova_table
 pairs(emmeans(sta_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## ----vel, echo = FALSE----------------------------------------------------------------------------------------
+## ----vel, echo = FALSE--------------------------------------------------------
 # for each individual
 dt_vel$Articulation <- factor(dt_vel$Articulation, c("Present", "Absent", "Baseline"))
 dt_vel$Dynamics <- factor(dt_vel$Dynamics, c("Present", "Absent", "Baseline"))
@@ -289,19 +289,19 @@ setorder(vel, "Subcomponent2", "SubNr", "Dynamics", "Articulation", "Category")
 vel
 
 
-## ----vel-plot, echo = FALSE, fig.width = 6--------------------------------------------------------------------
+## ----vel-plot, echo = FALSE, fig.width = 6------------------------------------
 ggboxplot(vel_trial[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Forte)")
 
 ggboxplot(vel_trial[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Piano)")
 
 
-## ----vel-all, echo = FALSE------------------------------------------------------------------------------------
+## ----vel-all, echo = FALSE----------------------------------------------------
 # group mean
 vel_all <- vel[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_all
 
 
-## ----vel-all-plot,  echo = FALSE------------------------------------------------------------------------------
+## ----vel-all-plot,  echo = FALSE----------------------------------------------
 ggplot(vel[Subcomponent2 == "Forte"], aes(x = Dynamics, y = Mean, color = Articulation))+ 
     geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -319,13 +319,13 @@ ggplot(vel[Subcomponent2 == "Piano"], aes(x = Dynamics, y = Mean, color = Articu
 #ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
 
 
-## ----seq-vel, fig.width = 7, fig.height = 2-------------------------------------------------------------------
+## ----seq-vel, fig.width = 7, fig.height = 2-----------------------------------
 vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, RowNr)]
 
 ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Note Nr", ylab = "Key Velocity (0-127)", title = "KV") + scale_x_continuous(breaks = seq(1,72,1))
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 for_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte" & Category != "baseline"],
   id = "SubNr",
@@ -337,7 +337,7 @@ for_all_aov$anova_table
 pairs(emmeans(for_all_aov, ~Articulation|Dynamics), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 for_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte"],
   id = "SubNr",
@@ -349,7 +349,7 @@ for_ca_all_aov$anova_table
 pairs(emmeans(for_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 for_ca_par_aov <- aov_ez(
   data = vel[Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only" | Subcomponent2 == "Forte" & Category == "baseline"],
   id = "SubNr",
@@ -361,7 +361,7 @@ for_ca_par_aov$anova_table
 pairs(emmeans(for_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 pia_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano" & Category != "baseline"],
   id = "SubNr",
@@ -373,7 +373,7 @@ pia_all_aov$anova_table
 pairs(emmeans(pia_all_aov, ~Articulation|Dynamics), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 pia_ca_all_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano"],
   id = "SubNr",
@@ -385,7 +385,7 @@ pia_ca_all_aov$anova_table
 pairs(emmeans(pia_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 pia_ca_par_aov <- aov_ez(
   data = vel[Subcomponent2 == "Piano" & Category == "both" | Subcomponent2 == "Piano" & Category == "art_only" | Subcomponent2 == "Piano" & Category == "baseline"],
   id = "SubNr",
@@ -397,7 +397,7 @@ pia_ca_par_aov$anova_table
 pairs(emmeans(pia_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## ----vel-diff, echo = FALSE-----------------------------------------------------------------------------------
+## ----vel-diff, echo = FALSE---------------------------------------------------
 # for each individual
 dt_vel_diff$Articulation <- factor(dt_vel_diff$Articulation, c("Present", "Absent", "Baseline"))
 dt_vel_diff$Dynamics <- factor(dt_vel_diff$Dynamics, c("Present", "Absent", "Baseline"))
@@ -409,19 +409,19 @@ setorder(vel_diff, "SubNr", "Dynamics", "Articulation", "Category")
 vel_diff
 
 
-## ----vel-diff-plot, echo = FALSE, fig.width = 6---------------------------------------------------------------
+## ----vel-diff-plot, echo = FALSE, fig.width = 6-------------------------------
 ggboxplot(vel_diff_trial[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (FtoP)")
 
 ggboxplot(vel_diff_trial[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (PtoF)")
 
 
-## ----vel-diff-all, echo = FALSE-------------------------------------------------------------------------------
+## ----vel-diff-all, echo = FALSE-----------------------------------------------
 # group mean
 vel_diff_all <- vel_diff[, .(N = .N, Mean = mean(Mean), SD = sd(Mean), SEM = sd(Mean)/sqrt(.N), Median = median(Mean), IQR = IQR(Mean)), by = .(Articulation, Dynamics, Category, Subcomponent2)]
 vel_diff_all
 
 
-## ----vel-diff-all-plot,  echo = FALSE-------------------------------------------------------------------------
+## ----vel-diff-all-plot,  echo = FALSE-----------------------------------------
 ggplot(vel_diff[Subcomponent2 == "FtoP"], aes(x = Dynamics, y = Mean, color = Articulation))+ 
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -439,13 +439,13 @@ ggplot(vel_diff[Subcomponent2 == "PtoF"], aes(x = Dynamics, y = Mean, color = Ar
 #ggboxplot(vel_diff[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV (PtoF)")
 
 
-## ----seq-vel-diff, fig.width = 7, fig.height = 2--------------------------------------------------------------
+## ----seq-vel-diff, fig.width = 7, fig.height = 2------------------------------
 vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Interval)]
 
 ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "Difference", title = "Velocity Difference") + scale_x_continuous(breaks = seq(1,71,1))
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ftop_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP" & Category != "baseline"],
   id = "SubNr",
@@ -457,7 +457,7 @@ ftop_all_aov$anova_table
 pairs(emmeans(ftop_all_aov, ~Articulation|Dynamics), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ftop_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP"],
   id = "SubNr",
@@ -469,7 +469,7 @@ ftop_ca_all_aov$anova_table
 pairs(emmeans(ftop_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ftop_ca_par_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
   id = "SubNr",
@@ -481,7 +481,7 @@ ftop_ca_par_aov$anova_table
 pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ptof_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF" & Category != "baseline"],
   id = "SubNr",
@@ -493,7 +493,7 @@ ptof_all_aov$anova_table
 pairs(emmeans(ptof_all_aov, ~Articulation|Dynamics), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ptof_ca_all_aov <- aov_ez(
   data = vel_diff[Subcomponent2 == "PtoF"],
   id = "SubNr",
@@ -505,14 +505,18 @@ ptof_ca_all_aov$anova_table
 pairs(emmeans(ptof_ca_all_aov, "Category"), adjust = "tukey")
 
 
-## -------------------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ptof_ca_par_aov <- aov_ez(
-  data = vel_diff[Subcomponent2 == "PtoF" & Category == "both" | Subcomponent2 == "PtoF" & Category == "art_only" | Subcomponent2 == "FtoP" & Category == "baseline"],
+  data = vel_diff[Subcomponent2 == "PtoF" & Category == "both" | Subcomponent2 == "PtoF" & Category == "art_only" | Subcomponent2 == "PtoF" & Category == "baseline"],
   id = "SubNr",
   dv = "Mean",
   within = c("Category")
 )
 
 ptof_ca_par_aov
-pairs(emmeans(ftop_ca_par_aov, "Category"), adjust = "tukey")
+pairs(emmeans(ptof_ca_par_aov, "Category"), adjust = "tukey")
+
+
+## ----export, include = FALSE--------------------------------------------------
+knitr::purl("baseline.Rmd")
 
