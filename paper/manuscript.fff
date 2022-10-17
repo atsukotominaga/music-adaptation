@@ -1,0 +1,45 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/stimli-1} \caption{\label{fig:stim}Sheet music. Articulation. For articulation notation, the curved line (slur) indicates legato and the dots indicate staccato. For dynamics notation, the symbol `f' denotes forte and the symbol `p' denotes piano. For data analysis, only the 8th notes were included.}\label{fig:stimli}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-1-1} \caption{\label{fig:ioi-1}IOIs (ms). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-1}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-kot-1-1} \caption{\label{fig:kot-1}KOT(ms) for each subcomponent; legato (left) and staccato (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-kot-1}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-1-1} \caption{\label{fig:vel-1}KV (0-127) for each subcomponent; forte (left) and piano (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-1}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-1-1} \caption{\label{fig:vel-diff-1}KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-1}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-2-1} \caption{\label{fig:ioi-2}Comaprison with the baseline performance in terms of IOIs (ms). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-2}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-kot-2-1} \caption{\label{fig:kot-2}Comaprison with the baseline performance in terms of KOT(ms) for each subcomponent; legato (left) and staccato (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-kot-2}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-2-1} \caption{\label{fig:vel-2}Comaprison with the baseline performance in terms of KV (0-127) for each subcomponent; forte (left) and piano (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-2}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-2-1} \caption{\label{fig:vel-diff-2}Comaprison with the baseline performance in terms of KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-2}
+\end{figure*}
