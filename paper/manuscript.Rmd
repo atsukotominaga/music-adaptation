@@ -8,46 +8,29 @@ author:
     corresponding : yes    # Define only one corresponding author
     address       : "Quellenstraße 51, 1100 Vienna, Austria"
     email         : "tominaga_atsuko@phd.ceu.edu"
-    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
-      - "Conceptualization"
-      - "Writing - Original Draft Preparation"
-      - "Writing - Review & Editing"
+    # role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+    #   - "Conceptualization"
+    #   - "Writing - Original Draft Preparation"
+    #   - "Writing - Review & Editing"
   - name          : "Günther Knoblich"
     affiliation   : "1"
-    role:
-      - "Writing - Review & Editing"
-      - "Supervision"
+    # role:
+    #   - "Writing - Review & Editing"
+    #   - "Supervision"
   - name          : "Natalie Sebanz"
     affiliation   : "1"
-    role:
-      - "Writing - Review & Editing"
-      - "Supervision"
+    # role:
+    #   - "Writing - Review & Editing"
+    #   - "Supervision"
 
 affiliation:
   - id            : "1"
     institution   : "Department of Cognitive Science, Central European University"
 
-authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-  Enter author note here.
+# authornote: |
 
 abstract: |
-  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
-  
-  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
-  
-  One sentence clearly stating the **general problem** being addressed by  this particular study.
-  
-  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
-  
-  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
-  
-  One or two sentences to put the results into a more **general context**.
-  
-  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
-  
-  <!-- https://tinyurl.com/ybremelq -->
+  AAA
   
 keywords          : "keywords"
 wordcount         : "X"
@@ -64,22 +47,23 @@ tablelist         : no
 footnotelist      : no
 
 classoption       : "man"
-output            : papaja::apa6_word
+output            : papaja::apa6_pdf
 ---
 
 ```{r set-up, include = FALSE}
 if (!require("papaja")) {install.packages("papaja"): require("papaja")}
 if (!require("here")) {install.packages("here"): require("here")}
 if (!require("magick")) {install.packages("magick"): require("magick")}
-library(ggsci)
+if (!require("ggsci")) {install.packages("ggsci"): require("ggsci")}
 ```
 
 # Introduction
 
 ## Methods
 
-```{r methods, include = FALSE}
-source(here("analysis/demographics", "questionnaire.R"), chdir = TRUE)
+```{r methods, include = FALSE} 
+here::i_am("README.md")
+source(here("analysis/demographics" , "questionnaire.R"), chdir = TRUE)
 source(here("analysis/preprocessor", "filtering.R"), chdir = TRUE)
 ```
 
@@ -124,12 +108,13 @@ We performed a 2 x 2 repeated-measures analysis of variance (ANOVA) with the fac
 All effects are reported as significant at *p* < .05. For KOT, KV and KV Difference, we performed two-way ANOVAs separately for each subcomponent (i.e., legato, staccato, forte, piano).
 
 ```{r results-1, include = FALSE}
+here::i_am("README.md")
 source(here("analysis", "baseline.R"), chdir = TRUE)
 ```
 
 ## IOIs
 
-Neither main effect of Articulation (*F*(`r ioi_all_aov$anova_table[1,1]`, `r ioi_all_aov$anova_table[1,2]`) = `r ioi_all_aov$anova_table[1,4]`, *p* = `r ioi_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ioi_all_aov$anova_table[2,1]`, `r ioi_all_aov$anova_table[2,2]`) = `r ioi_all_aov$anova_table[2,4]`, *p* = `r ioi_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ioi_all_aov$anova_table[3,1]`, `r ioi_all_aov$anova_table[3,2]`) = `r ioi_all_aov$anova_table[3,4]`, *p* = `r ioi_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[3,5])`). Therefore, participants did not change the tempo depending on the types of the recordings (*Fig \ref{fig:ioi-1}*).
+Neither main effect of Articulation (*F*(`r ioi_all_aov$anova_table[1,1]`, `r ioi_all_aov$anova_table[1,2]`) = `r ioi_all_aov$anova_table[1,4]`, *p* `r if(ioi_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ioi_all_aov$anova_table[2,1]`, `r ioi_all_aov$anova_table[2,2]`) = `r ioi_all_aov$anova_table[2,4]`, *p* `r if(ioi_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ioi_all_aov$anova_table[3,1]`, `r ioi_all_aov$anova_table[3,2]`) = `r ioi_all_aov$anova_table[3,4]`, *p* `r if(ioi_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[3,5])`). Therefore, participants did not change the tempo depending on the types of the recordings (*Fig \ref{fig:ioi-1}*).
 
 ```{r ioi-plot, include = FALSE}
 ioi_all_plot <- ggplot(ioi[Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
@@ -146,11 +131,11 @@ img_ioi_all_plot <- image_read(here("paper/image", "ioi_all_plot.png"), density 
 ## KOT
 ### Legato
 
-There was a significant main effect of Articulation (*F*(`r leg_all_aov$anova_table[1,1]`, `r leg_all_aov$anova_table[1,2]`) = `r leg_all_aov$anova_table[1,4]`, *p* = `r leg_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r leg_all_aov$anova_table[2,1]`, `r leg_all_aov$anova_table[2,2]`) = `r leg_all_aov$anova_table[2,4]`, *p* = `r leg_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r leg_all_aov$anova_table[3,1]`, `r leg_all_aov$anova_table[3,2]`) = `r leg_all_aov$anova_table[3,4]`, *p* = `r leg_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[3,5])`). Participants produced longer legato when listening to the recordings where articulation was not implemented (*Fig \ref{fig:kot-1}*, left).
+There was a significant main effect of Articulation (*F*(`r leg_all_aov$anova_table[1,1]`, `r leg_all_aov$anova_table[1,2]`) = `r leg_all_aov$anova_table[1,4]`, *p* `r if(leg_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', leg_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r leg_all_aov$anova_table[2,1]`, `r leg_all_aov$anova_table[2,2]`) = `r leg_all_aov$anova_table[2,4]`, *p* `r if(leg_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', leg_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r leg_all_aov$anova_table[3,1]`, `r leg_all_aov$anova_table[3,2]`) = `r leg_all_aov$anova_table[3,4]`, *p* `r if(leg_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', leg_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', leg_all_aov$anova_table[3,5])`). Participants produced longer legato when listening to the recordings where articulation was not implemented (*Fig \ref{fig:kot-1}*, left).
 
 ### Staccato
 
-There was a significant main effect of Articulation (*F*(`r sta_all_aov$anova_table[1,1]`, `r sta_all_aov$anova_table[1,2]`) = `r sta_all_aov$anova_table[1,4]`, *p* = `r sta_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r sta_all_aov$anova_table[2,1]`, `r sta_all_aov$anova_table[2,2]`) = `r sta_all_aov$anova_table[2,4]`, *p* = `r sta_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r sta_all_aov$anova_table[3,1]`, `r sta_all_aov$anova_table[3,2]`) = `r sta_all_aov$anova_table[3,4]`, *p* = `r sta_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[3,5])`). Participants produced shorter staccato when listening to the recordings where articulation was not implemented (*Fig \ref{fig:kot-1}*, right).
+There was a significant main effect of Articulation (*F*(`r sta_all_aov$anova_table[1,1]`, `r sta_all_aov$anova_table[1,2]`) = `r sta_all_aov$anova_table[1,4]`, *p* `r if(sta_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', sta_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r sta_all_aov$anova_table[2,1]`, `r sta_all_aov$anova_table[2,2]`) = `r sta_all_aov$anova_table[2,4]`, *p* `r if(sta_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', sta_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r sta_all_aov$anova_table[3,1]`, `r sta_all_aov$anova_table[3,2]`) = `r sta_all_aov$anova_table[3,4]`, *p* `r if(sta_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', sta_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[3,5])`). Participants produced shorter staccato when listening to the recordings where articulation was not implemented (*Fig \ref{fig:kot-1}*, right).
 
 ```{r kot-plot, include = FALSE}
 leg_all_plot <- ggplot(kot[Subcomponent1 == "Legato" & Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
@@ -178,11 +163,11 @@ img_sta_all_plot <- image_read(here("paper/image", "sta_all_plot.png"), density 
 ## KV
 ### Forte
 
-Neither main effect of Articulation (*F*(`r for_all_aov$anova_table[1,1]`, `r for_all_aov$anova_table[1,2]`) = `r for_all_aov$anova_table[1,4]`, *p* = `r for_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', for_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r for_all_aov$anova_table[2,1]`, `r for_all_aov$anova_table[2,2]`) = `r for_all_aov$anova_table[2,4]`, *p* = `r for_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', for_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r for_all_aov$anova_table[3,1]`, `r for_all_aov$anova_table[3,2]`) = `r for_all_aov$anova_table[3,4]`, *p* = `r for_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', for_all_aov$anova_table[3,5])`). Participants did not change performances in terms of dynamics (loudness) depending on the types of the recordings (*Fig \ref{fig:vel-1}*, left).
+Neither main effect of Articulation (*F*(`r for_all_aov$anova_table[1,1]`, `r for_all_aov$anova_table[1,2]`) = `r for_all_aov$anova_table[1,4]`, *p* `r if(for_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', for_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.2f', for_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r for_all_aov$anova_table[2,1]`, `r for_all_aov$anova_table[2,2]`) = `r for_all_aov$anova_table[2,4]`, *p* `r if(for_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', for_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', for_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r for_all_aov$anova_table[3,1]`, `r for_all_aov$anova_table[3,2]`) = `r for_all_aov$anova_table[3,4]`, *p* `r if(for_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', for_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', for_all_aov$anova_table[3,5])`). Participants did not change performances in terms of dynamics (loudness) depending on the types of the recordings (*Fig \ref{fig:vel-1}*, left).
 
 ### Piano
 
-There was a significant main effect of Articulation (*F*(`r pia_all_aov$anova_table[1,1]`, `r pia_all_aov$anova_table[1,2]`) = `r pia_all_aov$anova_table[1,4]`, *p* = `r pia_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r pia_all_aov$anova_table[2,1]`, `r pia_all_aov$anova_table[2,2]`) = `r pia_all_aov$anova_table[2,4]`, *p* = `r pia_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r pia_all_aov$anova_table[3,1]`, `r pia_all_aov$anova_table[3,2]`) = `r pia_all_aov$anova_table[3,4]`, *p* = `r pia_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[3,5])`). Participants produced softer piano when listening to the recordings where articulation was implemented (*Fig \ref{fig:vel-1}*, right).
+There was a significant main effect of Articulation (*F*(`r pia_all_aov$anova_table[1,1]`, `r pia_all_aov$anova_table[1,2]`) = `r pia_all_aov$anova_table[1,4]`, *p* `r if(pia_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r pia_all_aov$anova_table[2,1]`, `r pia_all_aov$anova_table[2,2]`) = `r pia_all_aov$anova_table[2,4]`, *p* `r if(pia_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[2,5])`) or interaction between Articulation and Dynamics (*F*(`r pia_all_aov$anova_table[3,1]`, `r pia_all_aov$anova_table[3,2]`) = `r pia_all_aov$anova_table[3,4]`, *p* `r if(pia_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[3,5])`). Participants produced softer piano when listening to the recordings where articulation was implemented (*Fig \ref{fig:vel-1}*, right).
 
 ```{r vel-plot, include = FALSE}
 for_all_plot <- ggplot(vel[Subcomponent2 == "Forte" & Category != "baseline"], aes(x = Dynamics, y = Mean, color = Articulation)) +
@@ -210,11 +195,11 @@ img_pia_all_plot <- image_read(here("paper/image", "pia_all_plot.png"), density 
 ## KV Difference
 ### Forte to Piano
 
-Neither main effect of Articulation (*F*(`r ftop_all_aov$anova_table[1,1]`, `r ftop_all_aov$anova_table[1,2]`) = `r ftop_all_aov$anova_table[1,4]`, *p* = `r ftop_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ftop_all_aov$anova_table[2,1]`, `r ftop_all_aov$anova_table[2,2]`) = `r ftop_all_aov$anova_table[2,4]`, *p* = `r ftop_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ftop_all_aov$anova_table[3,1]`, `r ftop_all_aov$anova_table[3,2]`) = `r ftop_all_aov$anova_table[3,4]`, *p* = `r ftop_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[3,5])`).
+Neither main effect of Articulation (*F*(`r ftop_all_aov$anova_table[1,1]`, `r ftop_all_aov$anova_table[1,2]`) = `r ftop_all_aov$anova_table[1,4]`, *p* `r if(ftop_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ftop_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ftop_all_aov$anova_table[2,1]`, `r ftop_all_aov$anova_table[2,2]`) = `r ftop_all_aov$anova_table[2,4]`, *p* `r if(ftop_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ftop_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ftop_all_aov$anova_table[3,1]`, `r ftop_all_aov$anova_table[3,2]`) = `r ftop_all_aov$anova_table[3,4]`, *p* `r if(ftop_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ftop_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ftop_all_aov$anova_table[3,5])`).
 
 ### Piano to Forte
 
-Neither main effect of Articulation (*F*(`r ptof_all_aov$anova_table[1,1]`, `r ptof_all_aov$anova_table[1,2]`) = `r ptof_all_aov$anova_table[1,4]`, *p* = `r ptof_all_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ptof_all_aov$anova_table[2,1]`, `r ptof_all_aov$anova_table[2,2]`) = `r ptof_all_aov$anova_table[2,4]`, *p* = `r ptof_all_aov$anova_table[2,6]`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ptof_all_aov$anova_table[3,1]`, `r ptof_all_aov$anova_table[3,2]`) = `r ptof_all_aov$anova_table[3,4]`, *p* = `r ptof_all_aov$anova_table[3,6]`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[3,5])`).
+Neither main effect of Articulation (*F*(`r ptof_all_aov$anova_table[1,1]`, `r ptof_all_aov$anova_table[1,2]`) = `r ptof_all_aov$anova_table[1,4]`, *p* `r if(ptof_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ptof_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[1,5])`) or Dynamics (*F*(`r ptof_all_aov$anova_table[2,1]`, `r ptof_all_aov$anova_table[2,2]`) = `r ptof_all_aov$anova_table[2,4]`, *p* `r if(ptof_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ptof_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ptof_all_aov$anova_table[3,1]`, `r ptof_all_aov$anova_table[3,2]`) = `r ptof_all_aov$anova_table[3,4]`, *p* `r if(ptof_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ptof_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ptof_all_aov$anova_table[3,5])`).
 
 These results indicated that participants did not change performances in terms of dynamics contrast depending on the types of the recording (*Fig \ref{fig:vel-diff-1}*).
 
@@ -278,7 +263,7 @@ In order to investigate how their performances during the experiment differed fr
 
 We compared the baseline performance with the performances where either both articulation and dynamics were implemented or neither of them was implemented to examine how participants performed differently for these extreme examples of students' skill levels. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
 
-There was no significant main effect of Category (*F*(`r ioi_ca_par_aov$anova_table[1,1]`, `r ioi_ca_par_aov$anova_table[1,2]`) = `r ioi_ca_par_aov$anova_table[1,4]`, *p* = `r ioi_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ioi_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had an intention to teach (*Fig \ref{fig:ioi-2}*).
+There was no significant main effect of Category (*F*(`r ioi_ca_par_aov$anova_table[1,1]`, `r ioi_ca_par_aov$anova_table[1,2]`) = `r ioi_ca_par_aov$anova_table[1,4]`, *p* `r if(ioi_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had an intention to teach (*Fig \ref{fig:ioi-2}*).
 
 ```{r ioi-bl-plot, include = FALSE}
 ioi_ca_plot <- ggplot(ioi[Category == "none" | Category == "both" | Category == "baseline"], aes(x = factor(Category, level = c("baseline", "none", "both")), y = Mean, color = Category)) +
@@ -298,11 +283,11 @@ We compared the baseline performance with the performances where dynamics was im
 
 ### Legato
 
-There was a significant main effect of Category (*F*(`r leg_ca_par_aov$anova_table[1,1]`, `r leg_ca_par_aov$anova_table[1,2]`) = `r leg_ca_par_aov$anova_table[1,4]`, *p* = `r leg_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', leg_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: *p* < .001 , baseline and dynamics-only: *p* = .008), suggesting that participants produced longer legato when they had an intention to teach (*Fig \ref{fig:kot-2}*, left).
+There was a significant main effect of Category (*F*(`r leg_ca_par_aov$anova_table[1,1]`, `r leg_ca_par_aov$anova_table[1,2]`) = `r leg_ca_par_aov$anova_table[1,4]`, *p* `r if(leg_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', leg_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', leg_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: *p* < .001 , baseline and dynamics-only: *p* .008), suggesting that participants produced longer legato when they had an intention to teach (*Fig \ref{fig:kot-2}*, left).
 
 ### Staccato
 
-There was no significant main effect of Category (*F*(`r sta_ca_par_aov$anova_table[1,1]`, `r sta_ca_par_aov$anova_table[1,2]`) = `r sta_ca_par_aov$anova_table[1,4]`, *p* = `r sta_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', sta_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected), suggesting that participants did not play staccato differently depending on whether they had an intention to teach (*Fig \ref{fig:kot-2}*, right).
+There was no significant main effect of Category (*F*(`r sta_ca_par_aov$anova_table[1,1]`, `r sta_ca_par_aov$anova_table[1,2]`) = `r sta_ca_par_aov$anova_table[1,4]`, *p* `r if(sta_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', sta_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants did not play staccato differently depending on whether they had an intention to teach (*Fig \ref{fig:kot-2}*, right).
 
 ```{r kot-bl-plot, include = FALSE}
 leg_ca_plot <- ggplot(kot[Subcomponent1 == "Legato" & Category == "baseline" | Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only"], aes(x = factor(Category, level = c("baseline", "dyn_only", "both")), y = Mean, color = Category)) +
@@ -333,11 +318,11 @@ We compared the baseline performance with the performances where articulation wa
 
 ### Forte
 
-There was no significant main effect of Category (*F*(`r for_ca_par_aov$anova_table[1,1]`, `r for_ca_par_aov$anova_table[1,2]`) = `r for_ca_par_aov$anova_table[1,4]`, *p* = `r for_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', for_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected), suggesting that participants did not play forte differently depending on whether they had an intention to teach (*Fig \ref{fig:vel-2}*, left).
+There was no significant main effect of Category (*F*(`r for_ca_par_aov$anova_table[1,1]`, `r for_ca_par_aov$anova_table[1,2]`) = `r for_ca_par_aov$anova_table[1,4]`, *p* `r if(for_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', for_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', for_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants did not play forte differently depending on whether they had an intention to teach (*Fig \ref{fig:vel-2}*, left).
 
 ### Piano
 
-There was a significant main effect of Category (*F*(`r pia_ca_par_aov$anova_table[1,1]`, `r pia_ca_par_aov$anova_table[1,2]`) = `r pia_ca_par_aov$anova_table[1,4]`, *p* = `r pia_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', pia_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: *p* = .05 , baseline and articulation-only: *p* = .03), suggesting that participants produced softer piano when they had an intention to teach (*Fig \ref{fig:vel-2}*, right).
+There was a significant main effect of Category (*F*(`r pia_ca_par_aov$anova_table[1,1]`, `r pia_ca_par_aov$anova_table[1,2]`) = `r pia_ca_par_aov$anova_table[1,4]`, *p* `r if(pia_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', pia_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: *p* .05 , baseline and articulation-only: *p* .03), suggesting that participants produced softer piano when they had an intention to teach (*Fig \ref{fig:vel-2}*, right).
 
 ```{r vel-bl-plot, include = FALSE}
 for_ca_plot <- ggplot(vel[Subcomponent2 == "Forte" & Category == "baseline" | Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
@@ -368,14 +353,14 @@ We compared the baseline performance with the performances where articulation wa
 
 ### Forte to Piano
 
-There was no significant main effect of Category (*F*(`r ftop_ca_par_aov$anova_table[1,1]`, `r ftop_ca_par_aov$anova_table[1,2]`) = `r ftop_ca_par_aov$anova_table[1,4]`, *p* = `r ftop_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ftop_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected).
+There was no significant main effect of Category (*F*(`r ftop_ca_par_aov$anova_table[1,1]`, `r ftop_ca_par_aov$anova_table[1,2]`) = `r ftop_ca_par_aov$anova_table[1,4]`, *p* `r if(ftop_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ftop_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ftop_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected).
+
 
 ### Piano to Forte
 
-There was no significant main effect of Category (*F*(`r ptof_ca_par_aov$anova_table[1,1]`, `r ptof_ca_par_aov$anova_table[1,2]`) = `r ptof_ca_par_aov$anova_table[1,4]`, *p* = `r ptof_ca_par_aov$anova_table[1,6]`, $\eta_G^2$ = `r sprintf('%.3f', ptof_ca_par_aov$anova_table[1,5])`; Greenhouse–Geisser corrected).
+There was no significant main effect of Category (*F*(`r ptof_ca_par_aov$anova_table[1,1]`, `r ptof_ca_par_aov$anova_table[1,2]`) = `r ptof_ca_par_aov$anova_table[1,4]`, *p* `r if(ptof_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ptof_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ptof_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected).
 
 These results indicated that participants did not make dynamics contrast between forte and piano differently depending on whether they had an intention to teach (*Fig \ref{fig:vel-diff-2}*).
-
 
 ```{r vel-diff-bl-plot, include = FALSE}
 ftop_ca_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category == "baseline" | Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
@@ -430,13 +415,12 @@ image_write(img_vel_diff_2, path = here("paper/image", "Fig9.tiff"), format = "t
 img_vel_diff_2
 ```
 
-```{r results-2, include = FALSE}
-source(here("analysis", "onlyfirst.R"), chdir = TRUE)
-```
-
-
-
 # Discussion
+
+The present study investigated whether and how expert pianists adapt their performance depending on the skill levels of students. We manipulated the implementation of articulation and dynamics in the piece to create four types of artificial recordings. These recordings were supposed to be the reflection of students' skill levels. In one quarter of the recordings, both articulation and dynamics were implemented
+[SUMMARY].
+We found that 
+Limitation
 
 # References
 
