@@ -3,7 +3,7 @@
   <img height="300" src="music_adaptation.jpg">
 </p>
 
-This repo contains scripts and materials for the experiment investigating whether expert pianists can adapt their performance depending on the level of novices' skills.
+This repo contains scripts and materials for the music adaptation study with expert pianists.
 
 Open Science Framework: TBC
 
