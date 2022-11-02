@@ -1,6 +1,6 @@
 # How do expert pianists adapt their didactic demonstration to novices’ skill levels?
 <p align="center">
-  <img height="300" src="https://media.giphy.com/media/abGjeRq4sQO6A/giphy.gif">
+  <img height="300" src="music_adaptation.jpg">
 </p>
 
 This repo contains scripts and materials for the experiment investigating whether expert pianists can adapt their performance depending on the level of novices' skills.
