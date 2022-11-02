@@ -82,7 +82,9 @@ We created artificial recordings of students to manipulate their skill levels. I
 ```{r stimli, out.width = "100%", fig.cap = "\\label{fig:stim}Sheet music. Articulation. For articulation notation, the curved line (slur) indicates legato and the dots indicate staccato. For dynamics notation, the symbol `f' denotes forte and the symbol `p' denotes piano. For data analysis, only the 8th notes were included.", echo = FALSE}
 here::i_am("README.md")
 stim <- image_border(image_read(here("paper/image", "stim_m.png")), "#FFFFFF", "140x140")
+image_write(stim, path = here("paper/image", "Fig1.tiff"), format = "tiff")
 stim
+
 ```
 
 ## Procedure
@@ -266,10 +268,9 @@ We compared the baseline performance with the performances where either both art
 There was no significant main effect of Category (*F*(`r ioi_ca_par_aov$anova_table[1,1]`, `r ioi_ca_par_aov$anova_table[1,2]`) = `r ioi_ca_par_aov$anova_table[1,4]`, *p* `r if(ioi_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had an intention to teach (*Fig \ref{fig:ioi-2}*).
 
 ```{r ioi-bl-plot, include = FALSE}
-ioi_ca_plot <- ggplot(ioi[Category == "none" | Category == "both" | Category == "baseline"], aes(x = factor(Category, level = c("baseline", "none", "both")), y = Mean, color = Category)) +
+ioi_ca_plot <- ggplot(ioi[Category == "none" | Category == "both" | Category == "baseline"], aes(x = factor(Category, level = c("baseline", "none", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(x = "Category", y = "IOI (ms)", title = "IOI") +
-  scale_color_aaas() +
+  geom_jitter(width = 0.15, alpha = 0.5) + labs(x = "Category", y = "IOI (ms)", title = "IOI") +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
 # save plots
@@ -290,18 +291,16 @@ There was a significant main effect of Category (*F*(`r leg_ca_par_aov$anova_tab
 There was no significant main effect of Category (*F*(`r sta_ca_par_aov$anova_table[1,1]`, `r sta_ca_par_aov$anova_table[1,2]`) = `r sta_ca_par_aov$anova_table[1,4]`, *p* `r if(sta_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', sta_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants did not play staccato differently depending on whether they had an intention to teach (*Fig \ref{fig:kot-2}*, right).
 
 ```{r kot-bl-plot, include = FALSE}
-leg_ca_plot <- ggplot(kot[Subcomponent1 == "Legato" & Category == "baseline" | Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only"], aes(x = factor(Category, level = c("baseline", "dyn_only", "both")), y = Mean, color = Category)) +
+leg_ca_plot <- ggplot(kot[Subcomponent1 == "Legato" & Category == "baseline" | Subcomponent1 == "Legato" & Category == "both" | Subcomponent1 == "Legato" & Category == "dyn_only"], aes(x = factor(Category, level = c("baseline", "dyn_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KOT (ms)", title = "KOT - Legato") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
-sta_ca_plot <- ggplot(kot[Subcomponent1 == "Staccato" & Category == "baseline" | Subcomponent1 == "Staccato" & Category == "both" | Subcomponent1 == "Staccato" & Category == "dyn_only"], aes(x = factor(Category, level = c("baseline", "dyn_only", "both")), y = Mean, color = Category)) +
+sta_ca_plot <- ggplot(kot[Subcomponent1 == "Staccato" & Category == "baseline" | Subcomponent1 == "Staccato" & Category == "both" | Subcomponent1 == "Staccato" & Category == "dyn_only"], aes(x = factor(Category, level = c("baseline", "dyn_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KOT (ms)", title = "KOT - Staccato") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
 # save plots
@@ -325,18 +324,16 @@ There was no significant main effect of Category (*F*(`r for_ca_par_aov$anova_ta
 There was a significant main effect of Category (*F*(`r pia_ca_par_aov$anova_table[1,1]`, `r pia_ca_par_aov$anova_table[1,2]`) = `r pia_ca_par_aov$anova_table[1,4]`, *p* `r if(pia_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', pia_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: *p* .05 , baseline and articulation-only: *p* .03), suggesting that participants produced softer piano when they had an intention to teach (*Fig \ref{fig:vel-2}*, right).
 
 ```{r vel-bl-plot, include = FALSE}
-for_ca_plot <- ggplot(vel[Subcomponent2 == "Forte" & Category == "baseline" | Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
+for_ca_plot <- ggplot(vel[Subcomponent2 == "Forte" & Category == "baseline" | Subcomponent2 == "Forte" & Category == "both" | Subcomponent2 == "Forte" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KV (0-127)", title = "KV - Forte") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
-pia_ca_plot <- ggplot(vel[Subcomponent2 == "Piano" & Category == "baseline" | Subcomponent2 == "Piano" & Category == "both" | Subcomponent2 == "Piano" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
+pia_ca_plot <- ggplot(vel[Subcomponent2 == "Piano" & Category == "baseline" | Subcomponent2 == "Piano" & Category == "both" | Subcomponent2 == "Piano" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KV (0-127)", title = "KV - Piano") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
 # save plots
@@ -363,18 +360,16 @@ There was no significant main effect of Category (*F*(`r ptof_ca_par_aov$anova_t
 These results indicated that participants did not make dynamics contrast between forte and piano differently depending on whether they had an intention to teach (*Fig \ref{fig:vel-diff-2}*).
 
 ```{r vel-diff-bl-plot, include = FALSE}
-ftop_ca_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category == "baseline" | Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
+ftop_ca_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category == "baseline" | Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KV Difference (-127-127)", title = "KV Difference - FtoP") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
-ptof_ca_plot <- ggplot(vel_diff[Subcomponent2 == "PtoF" & Category == "baseline" | Subcomponent2 == "PtoF" & Category == "both" | Subcomponent2 == "PtoF" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean, color = Category)) +
+ptof_ca_plot <- ggplot(vel_diff[Subcomponent2 == "PtoF" & Category == "baseline" | Subcomponent2 == "PtoF" & Category == "both" | Subcomponent2 == "PtoF" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
+  geom_jitter(width = 0.15, alpha = 0.5) +
   labs(x = "Category", y = "KV Difference (-127-127)", title = "KV Difference - PtoF") +
-  scale_color_aaas() +
   theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
 
 # save plots
@@ -419,11 +414,16 @@ img_vel_diff_2
 
 The present study investigated whether and how expert pianists adapt their performance depending on the skill levels of students. We created artificial recordings to manipulate the skill levels by modifying the implementation of two musical expressive techniques (i.e., articulation and dynamics) notated on the sheet music. The recordings where the two techniques were implemented were supposed to replicate the performances of students with high skills. On the other hand, the recordings where none of the two techniques was implemented were supposed to replicate the performances of students with low skills. The recordings where either of the two techniques was implemented but the other was missing were equivalent to the performances of students with intermediate skills.
 
-We found that expert pianists did not modulate their tempo (IOIs) depending on the skill levels of students. Compared with the tempo of the baseline performance, they did not change the tempo either. These findings indicated that tempo was not employed specifically for teaching because tempo itself was relevant to neither articulation nor dynamics. Especially in music performance, it may not be an effective strategy to perform slowly as changing tempo might give another interpretation of music (e.g., expressive timing).
+We found that expert pianists did not modulate their tempo (IOIs) depending on the skill levels of students. Even compared with the tempo of the baseline performance, they did not change their tempo either. These findings indicated that tempo was not employed specifically for teaching because tempo itself was relevant to neither articulation nor dynamics. Especially in music performance, it may not be an effective strategy to perform slowly as changing tempo might give another interpretation of music (e.g., expressive timing).
 
-For KOT, expert pianists exaggerated legato and staccato when articulation was not implemented in the recordings. This is in line with our predictions that experts would exaggerate only the relevant aspects of the performance if a particular technique was not implemented in the recordings. However, we did not find the same results in terms of dynamics. Instead, we found that expert pianists produced softer piano when articulation was implemented in the recordings. These findings suggest that participants modulated the articulation-related aspect of performances only.
+For KOT, expert pianists exaggerated legato and staccato when articulation was not implemented in the recordings. This is in line with our predictions that experts would exaggerate only the relevant aspects of the performance if a particular technique was missing in the recordings. However, we did not find significant results in terms of dynamics. Instead, we found that expert pianists produced softer piano when articulation was implemented in the recordings. Participants exaggerated piano only when there was no problem with regard to articulation in the recordings.
 
-There are two potential reasons that participants modulated articulation only for teaching purposes. One possibility would be that articulation was more important for the piece or the piece itself invites some implementations of articulation. In our previous experiment, we found that even during measuring the baseline performance before the experiment, many participants tend to implement some articulation even though nothing was notated on the sheet music (see details: Supplementary Material). To make the implementation of articulation clear, we particularly selected detached performances for the recordings where articulation was missing. Another possibility is that dynamics implementation was not perceived by participants, therefore they did not modulate the dynamic-related aspect of performances for teaching.
+Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we observed most participants implemented articulation (particularly legato) when they were asked to perform the piece even when neither of articulation nor dynamics was notated on the sheet music. Therefore, it is possible that expert pianists were particularly sensitive to the lack of articulation in the recordings and trying to teach it. Another possibility is that dynamics modulations in the recordings were too subtle to be noticed by participants.
+
+One of the limitation of the current study is that . One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it. After they had an idea of what the model performance (i.e., the goal of the performance) is, they have a chance to listen to the recordings produced by students with various skill levels as we did in the current experiment.
+
+
+we found that even during measuring the baseline performance before the experiment, many participants tend to implement some articulation even though nothing was notated on the sheet music (see details: Supplementary Material). To make the implementation of articulation clear, we particularly selected detached performances for the recordings where articulation was missing. Another possibility is that dynamics implementation was not perceived by participants, therefore they did not modulate the dynamic-related aspect of performances for teaching.
 
 One of the limitations of the current study is that ---.
 
