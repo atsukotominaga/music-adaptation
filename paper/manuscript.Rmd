@@ -1,6 +1,6 @@
 ---
-title             : "The title"
-shorttitle        : "Title"
+title             : "How do expert pianists adapt their didactic demonstration to novices’ skill levels?"
+shorttitle        : "How do expert pianists adapt their didactic demonstration to novices’ skill levels?"
 
 author: 
   - name          : "Atsuko Tominaga"
@@ -30,12 +30,11 @@ affiliation:
 # authornote: |
 
 abstract: |
-  AAA
+  Later
   
 keywords          : "keywords"
-wordcount         : "X"
 
-#bibliography      : ""
+bibliography      : "references.bib"
 
 floatsintext      : no
 linenumbers       : no
@@ -58,6 +57,8 @@ if (!require("ggsci")) {install.packages("ggsci"): require("ggsci")}
 ```
 
 # Introduction
+
+
 
 ## Methods
 
@@ -420,18 +421,11 @@ For KOT, expert pianists exaggerated legato and staccato when articulation was n
 
 Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we observed most participants implemented articulation (particularly legato) when they were asked to perform the piece even when neither of articulation nor dynamics was notated on the sheet music. Therefore, it is possible that expert pianists were particularly sensitive to the lack of articulation in the recordings and trying to teach it. Another possibility is that dynamics modulations in the recordings were too subtle to be noticed by participants.
 
-One of the limitation of the current study is that . One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it. After they had an idea of what the model performance (i.e., the goal of the performance) is, they have a chance to listen to the recordings produced by students with various skill levels as we did in the current experiment.
+One of the limitations of the current study is that participants did not have an idea about what the ideal performance was. As some participants reported that "(students had) very different interpretations of the melody" or "all kids played rhythmically correct" in the questionnaire, it is plausible that the lack of articulation and/or dynamics might not have been perceived as errors. One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it before starting the current experiment so that they can detect errors in the recordings.
 
+The reason why participants considered different recording variations as interpretations rather than errors might stem from the fact that all the recordings did not include any pitch errors and performed the piece with the stable tempo. This was to make sure that we manipulated articulation and dynamics features of the recordings only. However, all the recordings might not have sounded like unskillful students were playing. In order to create more realistic unskillful performances, it might be useful to add some jitters to the tempo of the recordings we created, or to ask unskillful students to play the piece and extract the temporal feature of their performances.
 
-we found that even during measuring the baseline performance before the experiment, many participants tend to implement some articulation even though nothing was notated on the sheet music (see details: Supplementary Material). To make the implementation of articulation clear, we particularly selected detached performances for the recordings where articulation was missing. Another possibility is that dynamics implementation was not perceived by participants, therefore they did not modulate the dynamic-related aspect of performances for teaching.
-
-One of the limitations of the current study is that ---.
-
-Future research should investigate.
-
-
-
-Limitation
+Evidence from infant-directed action research has shown that caregivers are sensitive to the infants' skill levels and modified their demonstration according to infants' abilities to perform a motor task [@fukuyama_2015]. In the current experiment, expert pianists needed to perform in the absence of actual students. Future research should investigate how expert pianists and students dynamically interact in a situation where they can communicate as a naturalistic lesson and examine how the performance of expert pianists and that of students are related.
 
 # References
 

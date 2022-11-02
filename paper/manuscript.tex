@@ -59,6 +59,29 @@
   \let\oldsubparagraph\subparagraph
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -132,7 +155,7 @@
     {}{\InnerPatchFailed}%
   }
 {}{\PatchFailed}
-\keywords{keywords\newline\indent Word count: X}
+\keywords{keywords}
 \DeclareDelayedFloatFlavor{ThreePartTable}{table}
 \DeclareDelayedFloatFlavor{lltable}{table}
 \DeclareDelayedFloatFlavor*{longtable}{table}
@@ -147,19 +170,19 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={The title},
+  pdftitle={How do expert pianists adapt their didactic demonstration to novices' skill levels?},
   pdfauthor={Atsuko Tominaga1, Günther Knoblich1, \& Natalie Sebanz1},
   pdflang={en-EN},
   pdfkeywords={keywords},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{The title}
+\title{How do expert pianists adapt their didactic demonstration to novices' skill levels?}
 \author{Atsuko Tominaga\textsuperscript{1}, Günther Knoblich\textsuperscript{1}, \& Natalie Sebanz\textsuperscript{1}}
 \date{}
 
 
-\shorttitle{Title}
+\shorttitle{How do expert pianists adapt their didactic demonstration to novices' skill levels?}
 
 \authornote{
 
@@ -170,7 +193,7 @@ Correspondence concerning this article should be addressed to Atsuko Tominaga, Q
 \affiliation{\vspace{0.5cm}\textsuperscript{1} Department of Cognitive Science, Central European University}
 
 \abstract{%
-AAA
+Later
 }
 
 
@@ -373,19 +396,27 @@ We found that expert pianists did not modulate their tempo (IOIs) depending on t
 
 For KOT, expert pianists exaggerated legato and staccato when articulation was not implemented in the recordings. This is in line with our predictions that experts would exaggerate only the relevant aspects of the performance if a particular technique was missing in the recordings. However, we did not find significant results in terms of dynamics. Instead, we found that expert pianists produced softer piano when articulation was implemented in the recordings. Participants exaggerated piano only when there was no problem with regard to articulation in the recordings.
 
-Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we found that even during measuring the baseline performance before the experiment, many participants tend to implement some articulation even though nothing was notated on the sheet music (see details: Supplementary Material). To make the implementation of articulation clear, we particularly selected detached performances for the recordings where articulation was missing. Another possibility is that dynamics implementation was not perceived by participants, therefore they did not modulate the dynamic-related aspect of performances for teaching.
+Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we observed most participants implemented articulation (particularly legato) when they were asked to perform the piece even when neither of articulation nor dynamics was notated on the sheet music. Therefore, it is possible that expert pianists were particularly sensitive to the lack of articulation in the recordings and trying to teach it. Another possibility is that dynamics modulations in the recordings were too subtle to be noticed by participants.
 
-One of the limitations of the current study is that ---.
+One of the limitations of the current study is that participants did not have an idea about what the ideal performance was. As some participants reported that ``(students had) very different interpretations of the melody'' or ``all kids played rhythmically correct'' in the questionnaire, it is plausible that the lack of articulation and/or dynamics might not have been perceived as errors. One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it before starting the current experiment so that they can detect errors in the recordings.
 
-Future research should investigate.
+The reason why participants considered different recording variations as interpretations rather than errors might stem from the fact that all the recordings did not include any pitch errors and performed the piece with the stable tempo. This was to make sure that we manipulated articulation and dynamics features of the recordings only. However, all the recordings might not have sounded like unskillful students were playing. In order to create more realistic unskillful performances, it might be useful to add some jitters to the tempo of the recordings we created, or to ask unskillful students to play the piece and extract the temporal feature of their performances.
 
-Limitation
+Evidence from infant-directed action research has shown that caregivers are sensitive to the infants' skill levels and modified their demonstration according to infants' abilities to perform a motor task (Fukuyama et al., 2015). In the current experiment, expert pianists needed to perform in the absence of actual students. Future research should investigate how expert pianists and students dynamically interact in a situation where they can communicate as a naturalistic lesson and examine how the performance of expert pianists and that of students are related.
 
 \hypertarget{references}{%
 \section{References}\label{references}}
 
 \hypertarget{acknowledgement}{%
-\section{Acknowledgement}\label{acknowledgement}}
+\section*{Acknowledgement}\label{acknowledgement}}
+\addcontentsline{toc}{section}{Acknowledgement}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-fukuyama_2015}{}}%
+Fukuyama, H., Qin, S., Kanakogi, Y., Nagai, Y., Asada, M., \& Myowa-Yamakoshi, M. (2015). Infant's action skill dynamically modulates parental action demonstration in the dyadic interaction. \emph{Developmental Science}, \emph{18}(6), 1006--1013. \url{https://doi.org/10.1111/desc.12270}
+
+\end{CSLReferences}
 
 
 \end{document}
