@@ -58,6 +58,16 @@ if (!require("ggsci")) {install.packages("ggsci"): require("ggsci")}
 
 # Introduction
 
+Teaching is effective when teachers and learners intensively communicate. 
+
+Exaggeration is used to communicate -. When experts have the intention to teach, they modulate their behaviour. Flexibly -.
+
+Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. Fukuyama et al., (2014) revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce the expected actions whereas the mother did not produce such exaggeration when their infants did not have enough motor skills to produce the actions. The results indicated that adults monitored infants' actions and adapted their demonstration accordingly.
+
+In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance for teaching.
+
+Based on the literature on infant-directed action, teachers should be sensitive to the skill levels of students and such exaggeration should occur only when students fail to achieve a task. The current study investigated whether nad how expert pianists adapt their didactic performance depending on the skill levels of students. In order to manipulate 
+We hypothesised that ---.
 
 
 ## Methods
