@@ -58,11 +58,11 @@ if (!require("ggsci")) {install.packages("ggsci"): require("ggsci")}
 
 # Introduction
 
-Teaching is effective when teachers and learners intensively communicate. 
+Teaching is effective when experts and novices dynamically interact with each other. In the literature of cultural evolution, it has been considered that humans have developed knowledge and skills by imitating knowledgeable others (experts) and transmitting what they acquired to the next generation [@mesoudi_2016a]. However, information flows between experts and novices are not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive [@charbonneau_2022]. Experts dynamically adapt their behaviour and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process [@okazaki_2019; @flynn_2022].
 
-Exaggeration is used to communicate -. When experts have the intention to teach, they modulate their behaviour. Flexibly -.
+Exaggeration of movement is often used to signal a communicative intent to others during ongoing interactions [@pezzulo_2019]. When experts have the intention to teach, they modulate their behaviour. For instance, when care givers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths [@brand_2002]. Such exaggeration was observed not only in infant research but also when knowledgeable adults were teaching some knowledge and skills to adult learners [@mcellin_2017; @uther_2007].
 
-Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. Fukuyama et al., (2014) revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce the expected actions whereas the mother did not produce such exaggeration when their infants did not have enough motor skills to produce the actions. The results indicated that adults monitored infants' actions and adapted their demonstration accordingly.
+Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. @fukuyama_2015 revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce the expected actions whereas the mother did not produce such exaggeration when their infants did not have enough motor skills to produce the actions. The results indicated that adults monitored infants' actions and adapted their demonstration accordingly.
 
 In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance for teaching.
 
