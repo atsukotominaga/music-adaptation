@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  man]{apa6}
+  man,floatsintext]{apa6}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -156,12 +156,6 @@
   }
 {}{\PatchFailed}
 \keywords{keywords}
-\DeclareDelayedFloatFlavor{ThreePartTable}{table}
-\DeclareDelayedFloatFlavor{lltable}{table}
-\DeclareDelayedFloatFlavor*{longtable}{table}
-\makeatletter
-\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
-\makeatother
 \usepackage{csquotes}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -170,19 +164,19 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={How do expert pianists adapt their didactic demonstration to novices' skill levels?},
+  pdftitle={How do expert pianists adapt their pedagogical demonstration to novices' skill levels?},
   pdfauthor={Atsuko Tominaga1, Günther Knoblich1, \& Natalie Sebanz1},
   pdflang={en-EN},
   pdfkeywords={keywords},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{How do expert pianists adapt their didactic demonstration to novices' skill levels?}
+\title{How do expert pianists adapt their pedagogical demonstration to novices' skill levels?}
 \author{Atsuko Tominaga\textsuperscript{1}, Günther Knoblich\textsuperscript{1}, \& Natalie Sebanz\textsuperscript{1}}
 \date{}
 
 
-\shorttitle{How do expert pianists adapt their didactic demonstration to novices' skill levels?}
+\shorttitle{How do expert pianists adapt their pedagogical demonstration to novices' skill levels?}
 
 \authornote{
 
@@ -204,16 +198,17 @@ Later
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Teaching is effective when experts and novices dynamically interact with each other. In the literature of cultural evolution, it has been considered that humans have developed knowledge and skills by imitating knowledgeable others (experts) and transmitting what they acquired to the next generation (Mesoudi, 2016). However, information flows between experts and novices are not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive (Charbonneau \& Strachan, 2022). Experts dynamically adapt their behaviour and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process (Flynn, 2022; Okazaki, Muraoka, \& Osu, 2019).
+Teaching is effective when experts and novices dynamically interact with each other (Byrne \& Rapaport, 2011). In the literature on cultural evolution, it has been considered that humans have developed knowledge and skills by imitating knowledgeable others (experts) and transmitting what they have acquired to the next generation (Mesoudi, 2016). However, information flows between experts and novices are mostly not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive (Charbonneau \& Strachan, 2022). Experts adapt their behaviour to novices and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process (Flynn, 2022; Okazaki, Muraoka, \& Osu, 2019).
 
-Exaggeration of movement is often used to signal a communicative intent to others during ongoing interactions (Pezzulo et al., 2019). When experts have the intention to teach, they modulate their behaviour. For instance, when care givers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths (Brand, Baldwin, \& Ashburn, 2002). Such exaggeration was observed not only in infant research but also when knowledgeable adults were teaching some knowledge and skills to adult learners (McEllin, Knoblich, \& Sebanz, 2017; Uther, Knoll, \& Burnham, 2007).
+Exaggeration of movement is often used to signal a communicative intent to others during real-time interactions (Pezzulo et al., 2019). When experts have an intention to teach, they modulate their behaviour. For instance, when caregivers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths (Brand, Baldwin, \& Ashburn, 2002). Such exaggeration was observed not only towards infant learners but also when adults were interacting with adult learners (McEllin, Knoblich, \& Sebanz, 2017; Uther, Knoll, \& Burnham, 2007).
 
-Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. Fukuyama et al. (2015) revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce the expected actions whereas the mother did not produce such exaggeration when their infants did not have enough motor skills to produce the actions. The results indicated that adults monitored infants' actions and adapted their demonstration accordingly.
+Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. Fukuyama et al. (2015) revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce expected actions whereas the mothers did not produce such exaggeration when their infants did not have enough motor skills to produce such actions. The results indicated that adults monitored infants' actions and abilities, and adapted their demonstration accordingly.
 
-In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance for teaching.
+In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance when they were asked to teach musical expressive techniques such as articulation and dynamics. For example, expert pianists exaggerated dynamics contrast (i.e., making larger contrast between forte and piano) when they had an intention to teach dynamics. Such exaggeration is considered to be most effective for those who fail to produce the techniques in their performance. If teaching is an adaptive and scaffolding process, it can be expected that experts should not use such exaggeration if novices became able to produce them.
 
-Based on the literature on infant-directed action, teachers should be sensitive to the skill levels of students and such exaggeration should occur only when students fail to achieve a task. The current study investigated whether nad how expert pianists adapt their didactic performance depending on the skill levels of students. In order to manipulate
-We hypothesised that ---.
+In the current study, we investigated whether and how expert pianists adapted their performance depending on the skill levels of novice learners. Instead of recruiting actual novice pianists, we created artificial recordings to manipulate the skill levels of novices to maximise the experimental control. The recordings were made based on the performance data from our previous experiment (Tominaga et al., under review). All the recordings had the same musical structure (i.e., the same piece) but had different implementations of articulation and dynamics. In the ideal performance, both articulation and dynamics should be implemented as notated on the sheet music (\emph{Fig \ref{fig:stim}}). We made the recordings so that both techniques were implemented in the first quarter, only articulation was implemented in the second quarter, only dynamics was implemented in the third quarter and neither of them was implemented in the last quarter of the recordings. Therefore, in this experiment, the skill levels of novices corresponded to the implementation of articulation and dynamics.
+
+We hypothesised that expert pianists would exaggerate their performance only when specific techniques (i.e., either articulation or dynamics, or both) were missing in the recordings. More precisely, expert pianists would exaggerate articulation (i.e., producing longer legato and shorter staccato) when articulation was not implemented in the recordings whereas expert pianists would exaggerate dynamics (i.e., producing louder forte and softer piano, and larger contrast between forte and piano) when dynamics was not implemented in the recordings. If both articulation and dynamics were missing, we predicted that expert pianists would exaggerate both aspects.
 
 \hypertarget{methods}{%
 \subsection{Methods}\label{methods}}
@@ -228,12 +223,12 @@ We recruited 20 participants who already had a degree (above bachelor's or equiv
 
 The experiment was programmed in Max/MSP (8.1.11; \url{https://cycling74.com/products/max}) on a Mac Book Pro with Mac OS X Catalina 10.15.7. A weighted Yamaha MIDI digital piano was used to record participants' performances. The pitch, onset and offset time of each note, and key velocity profiles were obtained from MIDI data using Max/MSP patchers. All auditory feedback was given to participants through headphones (Audio-Technica ATH-M50X). Sheet music was displayed on a computer monitor in front of the participants.
 
-As stimuli, one piece of music, which was used in our previous experiment, was selected (for details, Tominaga et al., 2022). The piece was taken from Clementi's Sonatina Op.36 (No.3) in C major. The first 12 measures of the original piece were used and modified so that the piece had an almost equal number of data points for each dependent variable. The modified piece consisted of a 12-measure isochronous melody notated in 4/4 meter to be played with the right hand only. Two expressive notations (i.e., articulation and dynamics) were added as \emph{Fig \ref{fig:stim}}.
+As stimuli, one piece of music, which was used in our previous experiment, was selected (Tominaga et al., under review). The piece was taken from Clementi's Sonatina Op.36 (No.3) in C major. The first 12 measures of the original piece were used and modified so that the piece had an almost equal number of data points for each dependent variable. The modified piece consisted of a 12-measure isochronous melody notated in 4/4 meter to be played with the right hand only. Two expressive notations (i.e., articulation and dynamics) were added as \emph{Fig \ref{fig:stim}}.
 
-We created artificial recordings of students to manipulate their skill levels. In this experiment, we made the recordings by changing two factors of articulation (present or absent) and dynamics (present or absent). Therefore, there were four types of recordings. We aimed to create a quarter of the recordings where both articulation and dynamics were implemented. The second quarter included the recordings where only articulation was implemented whereas dynamics was missing. The third quarter included the recordings where only dynamics was implemented whereas articulation was missing. The last quarter included the recordings where neither articulation nor dynamics was implemented. We generated 4 instances for each type, therefore there were 16 stimuli (i.e., recordings) in total. How we generated the stimuli is written in \emph{Supplementary Material}.
+We created artificial recordings of novices to manipulate their skill levels. In this experiment, we made the recordings by changing two factors Articulation (present or absent) and Dynamics (present or absent). Therefore, there were four types of recordings. We aimed to create a quarter of the recordings where both articulation and dynamics were implemented. The second quarter included the recordings where only articulation was implemented whereas dynamics was missing. The third quarter included the recordings where only dynamics was implemented whereas articulation was missing. The last quarter included the recordings where neither articulation nor dynamics was implemented. We generated 4 instances for each type, therefore there were 16 stimuli (i.e., recordings) in total. How we generated the recordings is written in \emph{Supplementary Material}.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/stimli-1} \caption{\label{fig:stim}Sheet music. Articulation. For articulation notation, the curved line (slur) indicates legato and the dots indicate staccato. For dynamics notation, the symbol `f' denotes forte and the symbol `p' denotes piano. For data analysis, only the 8th notes were included.}\label{fig:stimli}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/stimli-1} \caption{\label{fig:stim}Sheet music. For articulation notation, the curved line (slur) indicates legato and the dots indicate staccato. For dynamics notation, the symbol `f' denotes forte and the symbol `p' denotes piano. For data analysis, only the 8th notes with expressive notations were included.}\label{fig:stimli}
 \end{figure}
 
 \hypertarget{procedure}{%
@@ -241,16 +236,16 @@ We created artificial recordings of students to manipulate their skill levels. I
 
 Prior to the experiment, participants were required to memorise the piece so that they had enough time to practise and perform it without pitch errors while implementing notated expressions in the experiment.
 
-First, we recorded participants' baseline performance by asking them to perform the piece without listening to any students' performance. A leading metronome (100 quarter beats per minute, 8 beats) was given before participants started performing the piece. Sheet music (\emph{Fig \ref{fig:stim}}) was displayed in front of the participants. Also, they were told to perform the piece expressively with their interpretation and do their best as a performer. This instruction was given to make sure that they paid attention to expressive aspects of the performance. Each participant performed the piece twice.
+First, we recorded participants' baseline performance by asking them to perform the piece without listening to any novices' performance. A leading metronome (100 quarter beats per minute, 8 beats) was given before participants started performing the piece. Sheet music (\emph{Fig \ref{fig:stim}}) was displayed in front of the participants. Also, they were told to perform the piece expressively with their interpretation and do their best as a performer. This instruction was given to make sure that they paid attention to the expressive aspects of the performance. Each participant performed the piece twice.
 
-After we recorded the participants' baseline performance, participants were informed that they were going to listen to a number of recordings from 16 different students, who were learning musical expressive techniques. Participants were required to listen to each student's recording first, and then to perform the same piece to teach musical expressive techniques to the student (i.e., recording). In total, there were 16 trials and participants played the piece for each recording only once. The order of the recordings was randomised for each participant. A leading metronome (100 quarter beats per minute, 8 beats) was given before participants started performing the piece.
+After we recorded the participants' baseline performance, participants were informed that they were going to listen to a number of recordings from 16 different students, who were learning musical expressive techniques. Participants were required to listen to each student's recording first, and then to perform the same piece to teach musical expressive techniques to the student (i.e., recording). In total, there were 16 trials and participants played the piece for each student (i.e., recording) only once. The order of the recordings was randomised for each participant. A leading metronome (100 quarter beats per minute, 8 beats) was given before participants started performing the piece.
 
 After participants completed the 16 trials, they were asked to perform the piece in the same situation as we recorded their baseline performance. At the end of the experiment, participants filled in a questionnaire asking about their demographic information and experience in piano performance/teaching.
 
 \hypertarget{data-analysis}{%
 \subsection{Data analysis}\label{data-analysis}}
 
-The dependent variables were computed from MIDI data for data analysis. Interonset intervals (IOIs) are the intervals between onsets of adjacent notes and provide a measure of tempo. Key-overlap time (KOT) is the difference between the offset time of the current tone (i.e., key release time) and the onset time of the ensuing tone and is a measure for the smoothness of musical sequences. A positive value indicates smooth legato styles due to overlap between the current and ensuing tone whereas a negative value indicates sharp staccato styles due to separation between the current and ensuing note. Tone intensity is assessed by key velocity (KV) and measures the loudness of a musical note. A higher value indicates forte styles whereas a lower value indicates piano styles. The value of KV in MIDI varies between 0 (minimum) and 127 (maximum). Also, KV difference was calculated by subtracting the KV value of the current note from that of the following note. We particularly focused on specific points where each subcomponent changed from one to the other (i.e., forte to piano or piano to forte) to measure dynamics contrast between forte and piano.
+The dependent variables were computed from MIDI data for data analysis. Interonset intervals (IOIs) are the intervals between onsets of adjacent notes and provide a measure of tempo. Key-overlap time (KOT) is the difference between the offset time (i.e., key release time) of the current tone and the onset time of the ensuing tone and is a measure for the smoothness of musical sequences. A positive value indicates smooth legato styles due to overlap between the current and ensuing tone whereas a negative value indicates sharp staccato styles due to separation between the current and ensuing note. Tone intensity is assessed by key velocity (KV) and measures the loudness of a musical note. A higher value indicates forte styles whereas a lower value indicates piano styles. The value of KV in MIDI varies between 0 (minimum) and 127 (maximum). Also, KV difference was calculated by subtracting the KV value of the current note from that of the following note. We particularly focused on specific points where each subcomponent changed from one to the other (i.e., forte to piano or piano to forte) to measure dynamics contrast between forte and piano.
 
 Data processing and statistical analysis were performed in R version 4.0.5. For statistical analysis, we included 8th notes with expressive notations only. Pitch errors were identified by comparing the sequence of musical notes produced by a participant with the sequence of musical notes according to the sheet music. Pitch errors included either, extra, missing or substituted tones and were manually removed by using the \emph{editData} R package. For note onsets, 31.87 \% of the trials contained at least one pitch error (extra notes: 5.94 \%, missing notes: 24.38 \%, substituted notes: 1.56 \%). For note offsets, 35.31 \% of the trials contained at least one pitch error (extra notes: 5.94 \%, missing notes: 24.38 \%, substituted notes: 5 \%). We found that some participants did not precisely follow the sheet music (e.g., they held some notes longer than notated), therefore the order of offsets did not correspond to that of onsets. We considered these as errors and removed the erroneous notes even if the order of onsets was correct. As a result, less than 1 \% of total responses were corrected. After removing pitch errors, we removed outliers for IOIs, KOT, KV and KV Difference, defined as values more than 3 standard deviations from the mean of each dependent variable. For each dependent variable, this resulted in less than 2 \% of overall responses being removed as outliers.
 
@@ -264,7 +259,7 @@ All effects are reported as significant at \emph{p} \textless{} .05. For KOT, KV
 \hypertarget{iois}{%
 \subsection{IOIs}\label{iois}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 2.79, \emph{p} = 0.111, \(\eta_G^2\) = 0.010) or Dynamics (\emph{F}(1, 19) = 3.27, \emph{p} = 0.086, \(\eta_G^2\) = 0.003) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.48, \emph{p} = 0.24, \(\eta_G^2\) = 0.002). Therefore, participants did not change the tempo depending on the types of the recordings (\emph{Fig \ref{fig:ioi-1}}).
+Neither main effect of Articulation (\emph{F}(1, 19) = 2.79, \emph{p} = 0.111, \(\eta_G^2\) = 0.010) or Dynamics (\emph{F}(1, 19) = 3.27, \emph{p} = 0.086, \(\eta_G^2\) = 0.003) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.48, \emph{p} = 0.24, \(\eta_G^2\) = 0.002). Therefore, participants did not change the tempo depending on the types of recordings (\emph{Fig \ref{fig:ioi-1}}).
 
 \hypertarget{kot}{%
 \subsection{KOT}\label{kot}}
@@ -285,7 +280,7 @@ There was a significant main effect of Articulation (\emph{F}(1, 19) = 4.88, \em
 \hypertarget{forte}{%
 \subsubsection{Forte}\label{forte}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 1.66, \emph{p} = 0.213, \(\eta_G^2\) = 0.00) or Dynamics (\emph{F}(1, 19) = 0.33, \emph{p} = 0.57, \(\eta_G^2\) = 0.000) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.00, \emph{p} = 0.96, \(\eta_G^2\) = 0.000). Participants did not change performances in terms of dynamics (loudness) depending on the types of the recordings (\emph{Fig \ref{fig:vel-1}}, left).
+Neither main effect of Articulation (\emph{F}(1, 19) = 1.66, \emph{p} = 0.213, \(\eta_G^2\) = 0.00) or Dynamics (\emph{F}(1, 19) = 0.33, \emph{p} = 0.57, \(\eta_G^2\) = 0.000) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.00, \emph{p} = 0.96, \(\eta_G^2\) = 0.000). Participants did not change performances in terms of notated forte depending on the types of recordings (\emph{Fig \ref{fig:vel-1}}, left).
 
 \hypertarget{piano}{%
 \subsubsection{Piano}\label{piano}}
@@ -305,7 +300,7 @@ Neither main effect of Articulation (\emph{F}(1, 19) = 3.40, \emph{p} = 0.081, \
 
 Neither main effect of Articulation (\emph{F}(1, 19) = 2.25, \emph{p} = 0.150, \(\eta_G^2\) = 0.005) or Dynamics (\emph{F}(1, 19) = 3.76, \emph{p} = 0.07, \(\eta_G^2\) = 0.004) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.08, \emph{p} = 0.31, \(\eta_G^2\) = 0.001).
 
-These results indicated that participants did not change performances in terms of dynamics contrast depending on the types of the recording (\emph{Fig \ref{fig:vel-diff-1}}).
+These results indicated that participants did not change performances in terms of dynamics contrast depending on the types of recordings (\emph{Fig \ref{fig:vel-diff-1}}).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-1-1} \caption{\label{fig:ioi-1}IOIs (ms). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-1}
@@ -326,24 +321,24 @@ These results indicated that participants did not change performances in terms o
 \hypertarget{comparison-with-baseline-performance}{%
 \subsection{Comparison with baseline performance}\label{comparison-with-baseline-performance}}
 
-In order to investigate how their performances during the experiment differed from their baseline performances (i.e., performances that participants produced before listening to any of the recordings), we performed one-way repeated-measures ANOVAs. For KOT, KV and KV Difference, we performed ANOVAs separately for each subcomponent. To recall the instruction for the baseline performance, we asked participants to perform the piece expressively with their interpretation and do their best as a performer. By comparing with the baseline performance, we can investigate how didactic intentions influence participants' performances.
+In order to investigate how their performances during the experiment differed from their baseline performances (i.e., performances that participants produced before listening to any of the recordings), we performed one-way repeated-measures ANOVAs. For KOT, KV and KV Difference, we performed ANOVAs separately for each subcomponent. To recall the instruction for the baseline performance, we asked participants to perform the piece expressively with their interpretation and do their best as a performer. By comparing with the baseline performance, we can investigate how pedagogical intentions influence participants' performances.
 
 \hypertarget{iois-1}{%
 \subsection{IOIs}\label{iois-1}}
 
-We compared the baseline performance with the performances where either both articulation and dynamics were implemented or neither of them was implemented to examine how participants performed differently for these extreme examples of students' skill levels. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
+We compared the baseline performance with the performances where either both articulation and dynamics were implemented or neither of them was implemented to examine how participants performed differently for these extreme examples of novices' skill levels. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
 
 There was no significant main effect of Category (\emph{F}(1.11, 21.18) = 0.58, \emph{p} = 0.47, \(\eta_G^2\) = 0.012; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had an intention to teach (\emph{Fig \ref{fig:ioi-2}}).
 
 \hypertarget{kot-1}{%
 \subsection{KOT}\label{kot-1}}
 
-We compared the baseline performance with the performances where dynamics was implemented to examine how participants performed differently depending on whether articulation was implemented or not on each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), dynamics-only (i.e., articulation-absent, dynamics-present)) and treated them as a factor Category.
+We compared the baseline performance with the performances where dynamics was implemented to examine how participants performed differently depending on whether articulation was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), dynamics-only (i.e., articulation-absent, dynamics-present)) and treated them as a factor Category.
 
 \hypertarget{legato-1}{%
 \subsubsection{Legato}\label{legato-1}}
 
-There was a significant main effect of Category (\emph{F}(1.45, 27.53) = 11.82, \emph{p} \textless{} 0.001, \(\eta_G^2\) = 0.060; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} \textless{} .001 , baseline and dynamics-only: \emph{p} .008), suggesting that participants produced longer legato when they had an intention to teach (\emph{Fig \ref{fig:kot-2}}, left).
+There was a significant main effect of Category (\emph{F}(1.45, 27.53) = 11.82, \emph{p} \textless{} 0.001, \(\eta_G^2\) = 0.060; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} \textless{} .001 , baseline and dynamics-only: \emph{p} = .008), suggesting that participants produced longer legato when they had an intention to teach (\emph{Fig \ref{fig:kot-2}}, left).
 
 \hypertarget{staccato-1}{%
 \subsubsection{Staccato}\label{staccato-1}}
@@ -353,7 +348,7 @@ There was no significant main effect of Category (\emph{F}(1.12, 21.28) = 0.75, 
 \hypertarget{kv-1}{%
 \subsection{KV}\label{kv-1}}
 
-We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not on each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
+We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
 
 \hypertarget{forte-1}{%
 \subsubsection{Forte}\label{forte-1}}
@@ -363,12 +358,12 @@ There was no significant main effect of Category (\emph{F}(1.59, 30.18) = 1.43, 
 \hypertarget{piano-1}{%
 \subsubsection{Piano}\label{piano-1}}
 
-There was a significant main effect of Category (\emph{F}(1.79, 34.09) = 5.68, \emph{p} = 0.009, \(\eta_G^2\) = 0.072; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} .05 , baseline and articulation-only: \emph{p} .03), suggesting that participants produced softer piano when they had an intention to teach (\emph{Fig \ref{fig:vel-2}}, right).
+There was a significant main effect of Category (\emph{F}(1.79, 34.09) = 5.68, \emph{p} = 0.009, \(\eta_G^2\) = 0.072; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} = .05 , baseline and articulation-only: \emph{p} = .03), suggesting that participants produced softer piano when they had an intention to teach (\emph{Fig \ref{fig:vel-2}}, right).
 
 \hypertarget{kv-difference-1}{%
 \subsection{KV Difference}\label{kv-difference-1}}
 
-We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not on each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
+We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
 
 \hypertarget{forte-to-piano-1}{%
 \subsubsection{Forte to Piano}\label{forte-to-piano-1}}
@@ -398,34 +393,41 @@ These results indicated that participants did not make dynamics contrast between
 \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-2-1} \caption{\label{fig:vel-diff-2}Comparison with the baseline performance in terms of KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-2}
 \end{figure}
 
+\clearpage
+
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-The present study investigated whether and how expert pianists adapt their performance depending on the skill levels of students. We created artificial recordings to manipulate the skill levels by modifying the implementation of two musical expressive techniques (i.e., articulation and dynamics) notated on the sheet music. The recordings where the two techniques were implemented were supposed to replicate the performances of students with high skills. On the other hand, the recordings where none of the two techniques was implemented were supposed to replicate the performances of students with low skills. The recordings where either of the two techniques was implemented but the other was missing were equivalent to the performances of students with intermediate skills.
+The present study investigated whether and how expert pianists adapt their performance depending on the skill levels of novices. We created artificial recordings to manipulate the skill levels by modifying the implementation of two musical expressive techniques (i.e., articulation and dynamics) notated on the sheet music. The recordings where the two techniques were implemented were supposed to replicate the performances of students with high skills. On the other hand, the recordings where none of the two techniques was implemented were supposed to replicate the performances of students with low skills. The recordings where either of the two techniques was implemented but the other was missing were equivalent to the performances of students with intermediate skills.
 
-We found that expert pianists did not modulate their tempo (IOIs) depending on the skill levels of students. Even compared with the tempo of the baseline performance, they did not change their tempo either. These findings indicated that tempo was not employed specifically for teaching because tempo itself was relevant to neither articulation nor dynamics. Especially in music performance, it may not be an effective strategy to perform slowly as changing tempo might give another interpretation of music (e.g., expressive timing).
+We found that expert pianists did not modulate their tempo (IOIs) depending on the skill levels of students. Even compared with the tempo of the baseline performance, they did not change the tempo either. These findings indicated that tempo was not employed specifically for teaching because tempo itself was relevant to neither articulation nor dynamics. Although slower demonstration is generally considered to be used for teaching (McEllin et al., 2017; Saint-Georges et al., 2013; Schaik, Meyer, Ham, \& Hunnius, 2019), specially in music performance, it may not be an effective strategy to perform slowly as changing tempo might give another interpretation of music (e.g., expressive timing).
 
-For KOT, expert pianists exaggerated legato and staccato when articulation was not implemented in the recordings. This is in line with our predictions that experts would exaggerate only the relevant aspects of the performance if a particular technique was missing in the recordings. However, we did not find significant results in terms of dynamics. Instead, we found that expert pianists produced softer piano when articulation was implemented in the recordings. Participants exaggerated piano only when there was no problem with regard to articulation in the recordings.
+For KOT, expert pianists exaggerated legato and staccato when articulation was not implemented in the recordings. This is in line with our predictions that experts would exaggerate only the relevant aspects of the performance if a particular technique was missing in the recordings. However, we did not find significant results in terms of dynamics. Instead, we found that expert pianists produced softer piano when articulation was implemented in the recordings, indicating that participants exaggerated piano only when there was no problem with regard to articulation in the recordings.
 
-Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we observed most participants implemented articulation (particularly legato) when they were asked to perform the piece even when neither of articulation nor dynamics was notated on the sheet music. Therefore, it is possible that expert pianists were particularly sensitive to the lack of articulation in the recordings and trying to teach it. Another possibility is that dynamics modulations in the recordings were too subtle to be noticed by participants.
+Overall, the results indicated that expert pianists seemed to prioritise the teaching of articulation. One possibility would be that articulation was more important for the specific piece we selected or the piece itself naturally invited some implementation of articulation. In our previous experiment, we observed most participants implemented articulation (particularly legato) when they were asked to perform the piece even when neither of articulation nor dynamics was notated on the sheet music. Therefore, it is possible that expert pianists were particularly sensitive to the lack of articulation in the recordings and trying to teach it. Another possibility is that dynamics modulations in the recordings were too subtle to be noticed by participants and therefore they did not modulate the dynamics aspect of their performance.
 
-One of the limitations of the current study is that participants did not have an idea about what the ideal performance was. As some participants reported that ``(students had) very different interpretations of the melody'' or ``all kids played rhythmically correct'' in the questionnaire, it is plausible that the lack of articulation and/or dynamics might not have been perceived as errors. One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it before starting the current experiment so that they can detect errors in the recordings.
+One of the limitations of the current study is that participants did not have an idea about what the ideal performance was. As some participants reported that ``(students had) very different interpretations of the melody'' or ``all kids played rhythmically correct'' in the questionnaire, it is plausible that the lack of articulation and/or dynamics might not have been perceived as errors. One solution would be to create a model performance where both articulation and dynamics was implemented and ask participants (expert pianists) to listen to it before starting the current experiment so that they can detect errors by comparing each recording with the model performance.
 
-The reason why participants considered different recording variations as interpretations rather than errors might stem from the fact that all the recordings did not include any pitch errors and performed the piece with the stable tempo. This was to make sure that we manipulated articulation and dynamics features of the recordings only. However, all the recordings might not have sounded like unskillful students were playing. In order to create more realistic unskillful performances, it might be useful to add some jitters to the tempo of the recordings we created, or to ask unskillful students to play the piece and extract the temporal feature of their performances.
+The reason why participants considered different recording variations as interpretations rather than errors might stem from the fact that all the recordings did not include any pitch errors and were performed the piece with a stable tempo. This was to make sure that we manipulated articulation and dynamics features of the recordings only. However, all the recordings might not have sounded as if unskillful students were playing. In order to create more realistic unskillful performances, it might be useful to add some jitters to the tempo of the recordings we created, or to ask unskillful students to play the piece and extract the temporal feature of their performances.
 
-Evidence from infant-directed action research has shown that caregivers are sensitive to the infants' skill levels and modified their demonstration according to infants' abilities to perform a motor task (Fukuyama et al., 2015). In the current experiment, expert pianists needed to perform in the absence of actual students. Future research should investigate how expert pianists and students dynamically interact in a situation where they can communicate as a naturalistic lesson and examine how the performance of expert pianists and that of students are related.
+Experiments which investigated dynamic interactions between experts and novices have been done with the physical presence of both an expert and a novice in the same place (Fukuyama et al., 2015; Okazaki et al., 2019). In the current experiment, expert pianists had only access to their imaginary students and needed to perform in the absence of actual students. Future research should investigate how expert pianists and novices dynamically interact in a situation where they can communicate in real-time and examine how the performance of expert pianists and that of novices are related to each other.
+
+\clearpage
 
 \hypertarget{references}{%
 \section{References}\label{references}}
 
-\hypertarget{acknowledgement}{%
-\section*{Acknowledgement}\label{acknowledgement}}
-\addcontentsline{toc}{section}{Acknowledgement}
+\begingroup
+\setlength{\parindent}{-0in}
+\setlength{\leftskip}{0in}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-brand_2002}{}}%
 Brand, R. J., Baldwin, D. A., \& Ashburn, L. A. (2002). Evidence for {``motionese''}: Modifications in mothers' infant-directed action. \emph{Developmental Science}, \emph{5}(1), 72--83. \url{https://doi.org/10.1111/1467-7687.00211}
+
+\leavevmode\vadjust pre{\hypertarget{ref-byrne_2011}{}}%
+Byrne, R. W., \& Rapaport, L. G. (2011). What are we learning from teaching? \emph{Animal Behaviour}, \emph{82}(5), 1207--1211. \url{https://doi.org/10.1016/j.anbehav.2011.08.018}
 
 \leavevmode\vadjust pre{\hypertarget{ref-charbonneau_2022}{}}%
 Charbonneau, M., \& Strachan, J. W. A. (2022). From {Copying} to {Coordination}: {An Alternative Framework} for {Understanding Cultural Learning Mechanisms}. \emph{Journal of Cognition and Culture}, \emph{22}(5), 451--466. \url{https://doi.org/10.1163/15685373-12340145}
@@ -448,10 +450,23 @@ Okazaki, S., Muraoka, Y., \& Osu, R. (2019). Teacher-learner interaction quantif
 \leavevmode\vadjust pre{\hypertarget{ref-pezzulo_2019}{}}%
 Pezzulo, G., Donnarumma, F., Dindo, H., D'Ausilio, A., Konvalinka, I., \& Castelfranchi, C. (2019). The body talks: {Sensorimotor} communication and its brain and kinematic signatures. \emph{Physics of Life Reviews}, \emph{28}, 1--21. \url{https://doi.org/10.1016/j.plrev.2018.06.014}
 
+\leavevmode\vadjust pre{\hypertarget{ref-saint-georges_2013}{}}%
+Saint-Georges, C., Chetouani, M., Cassel, R., Apicella, F., Mahdhaoui, A., Muratori, F., \ldots{} Cohen, D. (2013). Motherese in {Interaction}: {At} the {Cross-Road} of {Emotion} and {Cognition}? ({A Systematic Review}). \emph{PLOS ONE}, \emph{8}(10), e78103. \url{https://doi.org/10.1371/journal.pone.0078103}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schaik_2019}{}}%
+Schaik, J. E. van, Meyer, M., Ham, C. R. van, \& Hunnius, S. (2019). Motion tracking of parents' infant- versus adult-directed actions reveals general and action-specific modulations. \emph{Developmental Science}, \emph{0}(0), e12869. \url{https://doi.org/10.1111/desc.12869}
+
 \leavevmode\vadjust pre{\hypertarget{ref-uther_2007}{}}%
 Uther, M., Knoll, M. A., \& Burnham, D. (2007). Do you speak {E-NG-L-I-SH}? {A} comparison of foreigner- and infant-directed speech. \emph{Speech Communication}, \emph{49}(1), 2--7. \url{https://doi.org/10.1016/j.specom.2006.10.003}
 
 \end{CSLReferences}
+
+\endgroup
+
+\hypertarget{acknowledgement}{%
+\section{Acknowledgement}\label{acknowledgement}}
+
+This research was supported by the European Research Council under the European Union's Seventh Framework Program (FP7/2007--2013)/ERC Grant agreement no. 609819, SOMICS, and by ERC Grant agreement no. 616072, JAXPERTISE. We thank Candasch Acar for his help with data collection.
 
 
 \end{document}
