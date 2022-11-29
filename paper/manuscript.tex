@@ -164,19 +164,19 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={How do expert pianists adapt their pedagogical demonstration to novices' skill levels?},
+  pdftitle={Do expert pianists adapt their pedagogical demonstrations to novices' skills?},
   pdfauthor={Atsuko Tominaga1, Günther Knoblich1, \& Natalie Sebanz1},
   pdflang={en-EN},
   pdfkeywords={keywords},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{How do expert pianists adapt their pedagogical demonstration to novices' skill levels?}
+\title{Do expert pianists adapt their pedagogical demonstrations to novices' skills?}
 \author{Atsuko Tominaga\textsuperscript{1}, Günther Knoblich\textsuperscript{1}, \& Natalie Sebanz\textsuperscript{1}}
 \date{}
 
 
-\shorttitle{How do expert pianists adapt their pedagogical demonstration to novices' skill levels?}
+\shorttitle{Do expert pianists adapt their pedagogical demonstrations to novices' skills?}
 
 \authornote{
 
@@ -198,13 +198,13 @@ Later
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Teaching is effective when experts and novices dynamically interact with each other (Byrne \& Rapaport, 2011). In the literature on cultural evolution, it has been considered that humans have developed knowledge and skills by imitating knowledgeable others (experts) and transmitting what they have acquired to the next generation (Mesoudi, 2016). However, information flows between experts and novices are mostly not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive (Charbonneau \& Strachan, 2022). Experts adapt their behaviour to novices and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process (Flynn, 2022; Okazaki, Muraoka, \& Osu, 2019).
+Effective teaching involves experts and novices dynamically interacting with each other (Byrne \& Rapaport, 2011). Typically, information flows between experts and novices is mostly not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive (Charbonneau \& Strachan, 2022). Experts adapt their behaviour to novices and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process (Flynn, 2022; Okazaki, Muraoka, \& Osu, 2019).
 
-Exaggeration of movement is often used to signal a communicative intent to others during real-time interactions (Pezzulo et al., 2019). When experts have an intention to teach, they modulate their behaviour. For instance, when caregivers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths (Brand, Baldwin, \& Ashburn, 2002). Such exaggeration was observed not only towards infant learners but also when adults were interacting with adult learners (McEllin, Knoblich, \& Sebanz, 2017; Uther, Knoll, \& Burnham, 2007).
+Exaggeration of movement is often used to signal a communicative intent to others during real-time interactions (Pezzulo et al., 2019), including teaching contexts. For instance, when caregivers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths (Brand, Baldwin, \& Ashburn, 2002). Such exaggeration was observed not only towards infant learners but also when adults were interacting with adult learners (McEllin, Knoblich, \& Sebanz, 2017; Uther, Knoll, \& Burnham, 2007).
 
 Furthermore, recent evidence has shown that such pedagogical modulations were sensitive to the skill levels of learners. Fukuyama et al. (2015) revealed mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation. For example, the mothers exaggerated their movements when their infants failed to produce expected actions whereas the mothers did not produce such exaggeration when their infants did not have enough motor skills to produce such actions. The results indicated that adults monitored infants' actions and abilities, and adapted their demonstration accordingly.
 
-In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance when they were asked to teach musical expressive techniques such as articulation and dynamics. For example, expert pianists exaggerated dynamics contrast (i.e., making larger contrast between forte and piano) when they had an intention to teach dynamics. Such exaggeration is considered to be most effective for those who fail to produce the techniques in their performance. If teaching is an adaptive and scaffolding process, it can be expected that experts should not use such exaggeration if novices became able to produce them.
+In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance when they were asked to teach musical expressive techniques such as articulation and dynamics. For example, expert pianists exaggerated dynamics contrast (i.e., making larger contrast between forte and piano) when they had the intention to teach dynamics. Such exaggeration is considered to be most effective for those who fail to produce the techniques in their performance. If teaching is an adaptive and scaffolding process, it can be expected that experts should not use such exaggeration if novices became able to produce them.
 
 In the current study, we investigated whether and how expert pianists adapted their performance depending on the skill levels of novice learners. Instead of recruiting actual novice pianists, we created artificial recordings to manipulate the skill levels of novices to maximise the experimental control. The recordings were made based on the performance data from our previous experiment (Tominaga et al., under review). All the recordings had the same musical structure (i.e., the same piece) but had different implementations of articulation and dynamics. In the ideal performance, both articulation and dynamics should be implemented as notated on the sheet music (\emph{Fig \ref{fig:stim}}). We made the recordings so that both techniques were implemented in the first quarter, only articulation was implemented in the second quarter, only dynamics was implemented in the third quarter and neither of them was implemented in the last quarter of the recordings. Therefore, in this experiment, the skill levels of novices corresponded to the implementation of articulation and dynamics.
 
@@ -249,7 +249,9 @@ The dependent variables were computed from MIDI data for data analysis. Interons
 
 Data processing and statistical analysis were performed in R version 4.0.5. For statistical analysis, we included 8th notes with expressive notations only. Pitch errors were identified by comparing the sequence of musical notes produced by a participant with the sequence of musical notes according to the sheet music. Pitch errors included extra, missing or substituted tones and were manually removed by using the \emph{editData} R package. For note onsets, 31.87 \% of the trials contained at least one pitch error (extra notes: 5.94 \%, missing notes: 24.38 \%, substituted notes: 1.56 \%). For note offsets, 35.31 \% of the trials contained at least one pitch error (extra notes: 5.94 \%, missing notes: 24.38 \%, substituted notes: 5 \%). We found that some participants did not precisely follow the sheet music (e.g., they held some notes longer than notated), therefore the order of offsets did not correspond to that of onsets. We considered these as errors and removed the erroneous notes even if the order of onsets was correct. As a result, less than 1 \% of total responses were removed. After removing pitch errors, we removed outliers for IOIs, KOT, KV and KV Difference, defined as values more than 3 standard deviations from the mean of each dependent variable. For each dependent variable, this resulted in less than 2 \% of overall responses being removed as outliers.
 
-We performed a 2 x 2 repeated-measures analysis of variance (ANOVA) with the factors Articulation (present vs.~absent) and Dynamics (present vs absent) for each dependent variable (i.e.., IOIs, KOT, KV, KV Difference). The \emph{aov\_ez} function in the \emph{afex} R package was used for a repeated-measures ANOVA. For post-hoc comparisons on the estimated marginal means, we used the \emph{emmeans} R package.
+First, we performed a 2 x 2 repeated-measures analysis of variance (ANOVA) with the factors Articulation (present vs.~absent) and Dynamics (present vs absent) for each dependent variable (i.e.., IOIs, KOT, KV, KV Difference). The \emph{aov\_ez} function in the \emph{afex} R package was used for a repeated-measures ANOVA. For post-hoc comparisons on the estimated marginal means, we used the \emph{emmeans} R package.
+
+In order to investigate how their performances during the experiment differed from their baseline performances (i.e., performances that participants produced for non-teaching purposes), we performed one-way repeated-measures ANOVAs. For KOT, KV and KV Difference, we performed ANOVAs separately for each subcomponent (i.e., Legato, Staccato, Forte, Piano).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -259,7 +261,7 @@ All effects are reported as significant at \emph{p} \textless{} .05. For KOT, KV
 \hypertarget{iois}{%
 \subsection{IOIs}\label{iois}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 2.79, \emph{p} = 0.111, \(\eta_G^2\) = 0.010) or Dynamics (\emph{F}(1, 19) = 3.27, \emph{p} = 0.086, \(\eta_G^2\) = 0.003) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.48, \emph{p} = 0.24, \(\eta_G^2\) = 0.002). Therefore, participants did not change the tempo depending on the types of recordings (\emph{Fig \ref{fig:ioi-1}}).
+Neither the main effect of Articulation (\emph{F}(1, 19) = 2.79, \emph{p} = 0.111, \(\eta_G^2\) = 0.010) nor the main effect of Dynamics (\emph{F}(1, 19) = 3.27, \emph{p} = 0.086, \(\eta_G^2\) = 0.003) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.48, \emph{p} = 0.24, \(\eta_G^2\) = 0.002). This indicates that participants did not change the tempo depending on the type of recordings (\emph{Fig \ref{fig:ioi-1}}).
 
 \hypertarget{kot}{%
 \subsection{KOT}\label{kot}}
@@ -267,12 +269,12 @@ Neither main effect of Articulation (\emph{F}(1, 19) = 2.79, \emph{p} = 0.111, \
 \hypertarget{legato}{%
 \subsubsection{Legato}\label{legato}}
 
-There was a significant main effect of Articulation (\emph{F}(1, 19) = 5.59, \emph{p} = 0.029, \(\eta_G^2\) = 0.002). However, there was no significant main effect of Dynamics (\emph{F}(1, 19) = 0.06, \emph{p} = 0.81, \(\eta_G^2\) = 0.000) or interaction between Articulation and Dynamics (\emph{F}(1, 19) = 1.89, \emph{p} = 0.19, \(\eta_G^2\) = 0.002). Participants produced longer legato when listening to the recordings where articulation was not implemented (\emph{Fig \ref{fig:kot-1}}, left).
+As predicted, there was a significant main effect of Articulation (\emph{F}(1, 19) = 5.59, \emph{p} = 0.029, \(\eta_G^2\) = 0.002). There was no significant main effect of Dynamics (\emph{F}(1, 19) = 0.06, \emph{p} = 0.81, \(\eta_G^2\) = 0.000) and no significant interaction between Articulation and Dynamics (\emph{F}(1, 19) = 1.89, \emph{p} = 0.19, \(\eta_G^2\) = 0.002). Participants produced longer legato when listening to the recordings where articulation was not implemented (\emph{Fig \ref{fig:kot-1}}, left).
 
 \hypertarget{staccato}{%
 \subsubsection{Staccato}\label{staccato}}
 
-There was a significant main effect of Articulation (\emph{F}(1, 19) = 4.88, \emph{p} = 0.040, \(\eta_G^2\) = 0.009). However, there was no significant main effect of Dynamics (\emph{F}(1, 19) = 0.68, \emph{p} = 0.42, \(\eta_G^2\) = 0.000) or interaction between Articulation and Dynamics (\emph{F}(1, 19) = 3.13, \emph{p} = 0.093, \(\eta_G^2\) = 0.001). Participants produced shorter staccato when listening to the recordings where articulation was not implemented (\emph{Fig \ref{fig:kot-1}}, right).
+In line with our prediction, there was a significant main effect of Articulation (\emph{F}(1, 19) = 4.88, \emph{p} = 0.040, \(\eta_G^2\) = 0.009). There was no significant main effect of Dynamics (\emph{F}(1, 19) = 0.68, \emph{p} = 0.42, \(\eta_G^2\) = 0.000) and no significant interaction between Articulation and Dynamics (\emph{F}(1, 19) = 3.13, \emph{p} = 0.093, \(\eta_G^2\) = 0.001). Participants produced shorter staccato when listening to the recordings where articulation was not implemented (\emph{Fig \ref{fig:kot-1}}, right).
 
 \hypertarget{kv}{%
 \subsection{KV}\label{kv}}
@@ -280,12 +282,12 @@ There was a significant main effect of Articulation (\emph{F}(1, 19) = 4.88, \em
 \hypertarget{forte}{%
 \subsubsection{Forte}\label{forte}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 1.66, \emph{p} = 0.213, \(\eta_G^2\) = 0.00) or Dynamics (\emph{F}(1, 19) = 0.33, \emph{p} = 0.57, \(\eta_G^2\) = 0.000) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.00, \emph{p} = 0.96, \(\eta_G^2\) = 0.000). Participants did not change performances in terms of notated forte depending on the types of recordings (\emph{Fig \ref{fig:vel-1}}, left).
+Neither the main effect of Articulation (\emph{F}(1, 19) = 1.66, \emph{p} = 0.213, \(\eta_G^2\) = 0.00) nor the main effect of Dynamics (\emph{F}(1, 19) = 0.33, \emph{p} = 0.57, \(\eta_G^2\) = 0.000) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.00, \emph{p} = 0.96, \(\eta_G^2\) = 0.000). Participants did not change their performances in terms of notated forte depending on the type of recordings (\emph{Fig \ref{fig:vel-1}}, left).
 
 \hypertarget{piano}{%
 \subsubsection{Piano}\label{piano}}
 
-There was a significant main effect of Articulation (\emph{F}(1, 19) = 7.18, \emph{p} = 0.01, \(\eta_G^2\) = 0.060). However, there was no significant main effect of Dynamics (\emph{F}(1, 19) = 1.80, \emph{p} = 0.20, \(\eta_G^2\) = 0.003) or interaction between Articulation and Dynamics (\emph{F}(1, 19) = 0.04, \emph{p} = 0.85, \(\eta_G^2\) = 0.000). Participants produced softer piano when listening to the recordings where articulation was implemented (\emph{Fig \ref{fig:vel-1}}, right).
+There was a significant main effect of Articulation (\emph{F}(1, 19) = 7.18, \emph{p} = 0.01, \(\eta_G^2\) = 0.060). However, there was no significant main effect of Dynamics (\emph{F}(1, 19) = 1.80, \emph{p} = 0.20, \(\eta_G^2\) = 0.003) and no significant interaction between Articulation and Dynamics (\emph{F}(1, 19) = 0.04, \emph{p} = 0.85, \(\eta_G^2\) = 0.000). Participants produced softer piano when listening to the recordings where articulation was implemented (\emph{Fig \ref{fig:vel-1}}, right).
 
 \hypertarget{kv-difference}{%
 \subsection{KV Difference}\label{kv-difference}}
@@ -293,17 +295,17 @@ There was a significant main effect of Articulation (\emph{F}(1, 19) = 7.18, \em
 \hypertarget{forte-to-piano}{%
 \subsubsection{Forte to Piano}\label{forte-to-piano}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 3.40, \emph{p} = 0.081, \(\eta_G^2\) = 0.012) or Dynamics (\emph{F}(1, 19) = 1.58, \emph{p} = 0.22, \(\eta_G^2\) = 0.002) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.97, \emph{p} = 0.336, \(\eta_G^2\) = 0.001).
+Neither the main effect of Articulation (\emph{F}(1, 19) = 3.40, \emph{p} = 0.081, \(\eta_G^2\) = 0.012) nor Dynamics (\emph{F}(1, 19) = 1.58, \emph{p} = 0.22, \(\eta_G^2\) = 0.002) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 0.97, \emph{p} = 0.336, \(\eta_G^2\) = 0.001).
 
 \hypertarget{piano-to-forte}{%
 \subsubsection{Piano to Forte}\label{piano-to-forte}}
 
-Neither main effect of Articulation (\emph{F}(1, 19) = 2.25, \emph{p} = 0.150, \(\eta_G^2\) = 0.005) or Dynamics (\emph{F}(1, 19) = 3.76, \emph{p} = 0.07, \(\eta_G^2\) = 0.004) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.08, \emph{p} = 0.31, \(\eta_G^2\) = 0.001).
+Neither the main effect of Articulation (\emph{F}(1, 19) = 2.25, \emph{p} = 0.150, \(\eta_G^2\) = 0.005) nor Dynamics (\emph{F}(1, 19) = 3.76, \emph{p} = 0.07, \(\eta_G^2\) = 0.004) nor the interaction between Articulation and Dynamics was significant (\emph{F}(1, 19) = 1.08, \emph{p} = 0.31, \(\eta_G^2\) = 0.001).
 
-These results indicated that participants did not change performances in terms of dynamics contrast depending on the types of recordings (\emph{Fig \ref{fig:vel-diff-1}}).
+These results indicated that participants did not change their performances in terms of dynamics contrast depending on the type of recordings (\emph{Fig \ref{fig:vel-diff-1}}).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-1-1} \caption{\label{fig:ioi-1}IOIs (ms). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-1}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-1-1} \caption{\label{fig:ioi-1}IOIs (ms). A dashed line represents the tempo given by a metronome. Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-1}
 \end{figure}
 
 \begin{figure}
@@ -316,81 +318,6 @@ These results indicated that participants did not change performances in terms o
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-1-1} \caption{\label{fig:vel-diff-1}KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-1}
-\end{figure}
-
-\hypertarget{comparison-with-baseline-performance}{%
-\subsection{Comparison with baseline performance}\label{comparison-with-baseline-performance}}
-
-In order to investigate how their performances during the experiment differed from their baseline performances (i.e., performances that participants produced before listening to any of the recordings), we performed one-way repeated-measures ANOVAs. For KOT, KV and KV Difference, we performed ANOVAs separately for each subcomponent. To recall the instruction for the baseline performance, we asked participants to perform the piece expressively with their interpretation and do their best as a performer. By comparing with the baseline performance, we can investigate how pedagogical intentions influence participants' performances.
-
-\hypertarget{iois-1}{%
-\subsection{IOIs}\label{iois-1}}
-
-We compared the baseline performance with the performances where either both articulation and dynamics were implemented or neither of them was implemented to examine how participants performed differently for these extreme examples of novices' skill levels. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
-
-There was no significant main effect of Category (\emph{F}(1.11, 21.18) = 0.58, \emph{p} = 0.47, \(\eta_G^2\) = 0.012; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had an intention to teach (\emph{Fig \ref{fig:ioi-2}}).
-
-\hypertarget{kot-1}{%
-\subsection{KOT}\label{kot-1}}
-
-We compared the baseline performance with the performances where dynamics was implemented to examine how participants performed differently depending on whether articulation was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), dynamics-only (i.e., articulation-absent, dynamics-present)) and treated them as a factor Category.
-
-\hypertarget{legato-1}{%
-\subsubsection{Legato}\label{legato-1}}
-
-There was a significant main effect of Category (\emph{F}(1.45, 27.53) = 11.82, \emph{p} \textless{} 0.001, \(\eta_G^2\) = 0.060; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} \textless{} .001 , baseline and dynamics-only: \emph{p} = .008), suggesting that participants produced longer legato when they had an intention to teach (\emph{Fig \ref{fig:kot-2}}, left).
-
-\hypertarget{staccato-1}{%
-\subsubsection{Staccato}\label{staccato-1}}
-
-There was no significant main effect of Category (\emph{F}(1.12, 21.28) = 0.75, \emph{p} = 0.41, \(\eta_G^2\) = 0.011; Greenhouse-Geisser corrected), suggesting that participants did not play staccato differently depending on whether they had an intention to teach (\emph{Fig \ref{fig:kot-2}}, right).
-
-\hypertarget{kv-1}{%
-\subsection{KV}\label{kv-1}}
-
-We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
-
-\hypertarget{forte-1}{%
-\subsubsection{Forte}\label{forte-1}}
-
-There was no significant main effect of Category (\emph{F}(1.59, 30.18) = 1.43, \emph{p} = 0.25, \(\eta_G^2\) = 0.004; Greenhouse-Geisser corrected), suggesting that participants did not play forte differently depending on whether they had an intention to teach (\emph{Fig \ref{fig:vel-2}}, left).
-
-\hypertarget{piano-1}{%
-\subsubsection{Piano}\label{piano-1}}
-
-There was a significant main effect of Category (\emph{F}(1.79, 34.09) = 5.68, \emph{p} = 0.009, \(\eta_G^2\) = 0.072; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} = .05 , baseline and articulation-only: \emph{p} = .03), suggesting that participants produced softer piano when they had an intention to teach (\emph{Fig \ref{fig:vel-2}}, right).
-
-\hypertarget{kv-difference-1}{%
-\subsection{KV Difference}\label{kv-difference-1}}
-
-We compared the baseline performance with the performances where articulation was implemented to examine how participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
-
-\hypertarget{forte-to-piano-1}{%
-\subsubsection{Forte to Piano}\label{forte-to-piano-1}}
-
-There was no significant main effect of Category (\emph{F}(1.53, 29.15) = 1.73, \emph{p} = 0.20, \(\eta_G^2\) = 0.014; Greenhouse-Geisser corrected).
-
-\hypertarget{piano-to-forte-1}{%
-\subsubsection{Piano to Forte}\label{piano-to-forte-1}}
-
-There was no significant main effect of Category (\emph{F}(1.28, 24.39) = 2.27, \emph{p} = 0.14, \(\eta_G^2\) = 0.013; Greenhouse-Geisser corrected).
-
-These results indicated that participants did not make dynamics contrast between forte and piano differently depending on whether they had an intention to teach (\emph{Fig \ref{fig:vel-diff-2}}).
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-2-1} \caption{\label{fig:ioi-2}Comparison with the baseline performance in terms of IOIs (ms). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-2}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-kot-2-1} \caption{\label{fig:kot-2}Comparison with the baseline performance in terms of KOT(ms) for each subcomponent; legato (left) and staccato (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-kot-2}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-2-1} \caption{\label{fig:vel-2}Comparison with the baseline performance in terms of KV (0-127) for each subcomponent; forte (left) and piano (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-2}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-2-1} \caption{\label{fig:vel-diff-2}Comparison with the baseline performance in terms of KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-2}
 \end{figure}
 
 \clearpage
@@ -441,9 +368,6 @@ Fukuyama, H., Qin, S., Kanakogi, Y., Nagai, Y., Asada, M., \& Myowa-Yamakoshi, M
 \leavevmode\vadjust pre{\hypertarget{ref-mcellin_2017}{}}%
 McEllin, L., Knoblich, G., \& Sebanz, N. (2017). Distinct kinematic markers of demonstration and joint action coordination? {Evidence} from virtual xylophone playing. \emph{Journal of Experimental Psychology: Human Perception and Performance}, \emph{44}(6), 885. \url{https://doi.org/10.1037/xhp0000505}
 
-\leavevmode\vadjust pre{\hypertarget{ref-mesoudi_2016a}{}}%
-Mesoudi, A. (2016). Cultural evolution: Integrating psychology, evolution and culture. \emph{Current Opinion in Psychology}, \emph{7}, 17--22. \url{https://doi.org/10.1016/j.copsyc.2015.07.001}
-
 \leavevmode\vadjust pre{\hypertarget{ref-okazaki_2019}{}}%
 Okazaki, S., Muraoka, Y., \& Osu, R. (2019). Teacher-learner interaction quantifies scaffolding behaviour in imitation learning. \emph{Scientific Reports}, \emph{9}(1), 1--13. \url{https://doi.org/10.1038/s41598-019-44049-x}
 
@@ -467,6 +391,86 @@ Uther, M., Knoll, M. A., \& Burnham, D. (2007). Do you speak {E-NG-L-I-SH}? {A} 
 \section{Acknowledgement}\label{acknowledgement}}
 
 This research was supported by the European Research Council under the European Union's Seventh Framework Program (FP7/2007--2013)/ERC Grant agreement no. 609819, SOMICS, and by ERC Grant agreement no. 616072, JAXPERTISE. We thank Candasch Acar for his help with data collection.
+
+\clearpage
+
+\hypertarget{supplementary-material}{%
+\section{Supplementary Material}\label{supplementary-material}}
+
+\hypertarget{comparison-with-baseline-performance}{%
+\subsection{2. Comparison with baseline performance}\label{comparison-with-baseline-performance}}
+
+To recall the instruction for the baseline performance, we asked participants to perform the piece expressively with their interpretation and to do their best as a performer. By comparing with the baseline performance, we can investigate how pedagogical intentions influence participants' performances.
+
+\hypertarget{iois-1}{%
+\subsection{IOIs}\label{iois-1}}
+
+We compared the baseline performance with the performances in response to recordings where either both articulation and dynamics were implemented or neither of them was implemented. The reason for choosing this comparison was that we wanted to test whether having the intention to teach would lead to slower performances, either regardless of the learner's skill or especially when skills appeared to be lacking. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
+
+There was no significant main effect of Category (\emph{F}(1.11, 21.18) = 0.58, \emph{p} = 0.47, \(\eta_G^2\) = 0.012; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had the intention to teach (\emph{Fig \ref{fig:ioi-2}}).
+
+\hypertarget{kot-1}{%
+\subsection{KOT}\label{kot-1}}
+
+We compared the baseline performance with the performances in response to recordings where dynamics was implemented to examine whether participants performed differently depending on whether articulation was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), dynamics-only (i.e., articulation-absent, dynamics-present)) and treated them as a factor Category.
+
+\hypertarget{legato-1}{%
+\subsubsection{Legato}\label{legato-1}}
+
+There was a significant main effect of Category (\emph{F}(1.45, 27.53) = 11.82, \emph{p} \textless{} 0.001, \(\eta_G^2\) = 0.060; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} \textless{} .001, baseline and dynamics-only: \emph{p} = .008), suggesting that participants produced longer legato when they had the intention to teach (\emph{Fig \ref{fig:kot-2}}, left).
+
+\hypertarget{staccato-1}{%
+\subsubsection{Staccato}\label{staccato-1}}
+
+There was no significant main effect of Category (\emph{F}(1.12, 21.28) = 0.75, \emph{p} = 0.41, \(\eta_G^2\) = 0.011; Greenhouse-Geisser corrected), suggesting that participants did not play staccato differently depending on whether they had the intention to teach (\emph{Fig \ref{fig:kot-2}}, right).
+
+\hypertarget{kv-1}{%
+\subsection{KV}\label{kv-1}}
+
+We compared the baseline performance with the performances in response to recordings where articulation was implemented to examine whether participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
+
+\hypertarget{forte-1}{%
+\subsubsection{Forte}\label{forte-1}}
+
+There was no significant main effect of Category (\emph{F}(1.59, 30.18) = 1.43, \emph{p} = 0.25, \(\eta_G^2\) = 0.004; Greenhouse-Geisser corrected), suggesting that participants did not play forte differently depending on whether they had the intention to teach (\emph{Fig \ref{fig:vel-2}}, left).
+
+\hypertarget{piano-1}{%
+\subsubsection{Piano}\label{piano-1}}
+
+There was a significant main effect of Category (\emph{F}(1.79, 34.09) = 5.68, \emph{p} = 0.009, \(\eta_G^2\) = 0.072; Greenhouse-Geisser corrected). Post-hoc comparisons based on the estimated marginal means with Tukey adjustment showed that there were differences between baseline and the other two categories (baseline and both: \emph{p} = .05 , baseline and articulation-only: \emph{p} = .03), suggesting that participants produced softer piano when they had the intention to teach (\emph{Fig \ref{fig:vel-2}}, right).
+
+\hypertarget{kv-difference-1}{%
+\subsection{KV Difference}\label{kv-difference-1}}
+
+We compared the baseline performance with the performances in response to recordings where articulation was implemented to examine whether participants performed differently depending on whether dynamics was implemented or not in each recording. We categorised performances into three groups (baseline, both (i.e., articulation-present, dynamics-present), articulation-only (i.e., articulation-present, dynamics-absent)) and treated them as a factor Category.
+
+\hypertarget{forte-to-piano-1}{%
+\subsubsection{Forte to Piano}\label{forte-to-piano-1}}
+
+There was no significant main effect of Category (\emph{F}(1.53, 29.15) = 1.73, \emph{p} = 0.20, \(\eta_G^2\) = 0.014; Greenhouse-Geisser corrected).
+
+\hypertarget{piano-to-forte-1}{%
+\subsubsection{Piano to Forte}\label{piano-to-forte-1}}
+
+There was no significant main effect of Category (\emph{F}(1.28, 24.39) = 2.27, \emph{p} = 0.14, \(\eta_G^2\) = 0.013; Greenhouse-Geisser corrected).
+
+These results indicated that participants did not make dynamics contrast between forte and piano differently depending on whether they had the intention to teach (\emph{Fig \ref{fig:vel-diff-2}}).
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-ioi-2-1} \caption{\label{fig:ioi-2}Comparison with the baseline performance in terms of IOIs (ms). A dashed line represents the tempo given by a metronome. Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-ioi-2}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-kot-2-1} \caption{\label{fig:kot-2}Comparison with the baseline performance in terms of KOT(ms) for each subcomponent; legato (left) and staccato (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-kot-2}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-2-1} \caption{\label{fig:vel-2}Comparison with the baseline performance in terms of KV (0-127) for each subcomponent; forte (left) and piano (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-2}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_files/figure-latex/plot-vel-diff-2-1} \caption{\label{fig:vel-diff-2}Comparison with the baseline performance in terms of KV Difference (-127-127) for each subcomponent; forte to piano (left) and piano to forte (right). Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box.}\label{fig:plot-vel-diff-2}
+\end{figure}
 
 
 \end{document}
