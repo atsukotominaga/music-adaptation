@@ -131,11 +131,12 @@ source(here("analysis", "baseline.R"), chdir = TRUE)
 
 Neither the main effect of Articulation (*F*(`r ioi_all_aov$anova_table[1,1]`, `r ioi_all_aov$anova_table[1,2]`) = `r ioi_all_aov$anova_table[1,4]`, *p* `r if(ioi_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[1,5])`) nor the main effect of Dynamics (*F*(`r ioi_all_aov$anova_table[2,1]`, `r ioi_all_aov$anova_table[2,2]`) = `r ioi_all_aov$anova_table[2,4]`, *p* `r if(ioi_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ioi_all_aov$anova_table[3,1]`, `r ioi_all_aov$anova_table[3,2]`) = `r ioi_all_aov$anova_table[3,4]`, *p* `r if(ioi_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[3,5])`). This indicates that participants did not change the tempo depending on the type of recordings (*Fig \ref{fig:ioi-1}*).
 
-```{r ioi-plot, include = FALSE}
+```{r ioi-plot-1, include = FALSE}
 ioi_all_plot <- ggplot(ioi[Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
   geom_hline(yintercept = 300, linetype = "dashed") +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") + scale_y_continuous(breaks = seq(240, 320, 20), limits = c(240, 320)) +
+  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") +
+  scale_y_continuous(breaks = seq(240, 320, 20), limits = c(240, 320)) +
   scale_color_aaas() +
   theme_pubr(base_size = 20, base_family = "Helvetica")
 
@@ -153,7 +154,7 @@ As predicted, there was a significant main effect of Articulation (*F*(`r leg_al
 
 In line with our prediction, there was a significant main effect of Articulation (*F*(`r sta_all_aov$anova_table[1,1]`, `r sta_all_aov$anova_table[1,2]`) = `r sta_all_aov$anova_table[1,4]`, *p* `r if(sta_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', sta_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[1,5])`). There was no significant main effect of Dynamics (*F*(`r sta_all_aov$anova_table[2,1]`, `r sta_all_aov$anova_table[2,2]`) = `r sta_all_aov$anova_table[2,4]`, *p* `r if(sta_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', sta_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[2,5])`) and no significant interaction between Articulation and Dynamics (*F*(`r sta_all_aov$anova_table[3,1]`, `r sta_all_aov$anova_table[3,2]`) = `r sta_all_aov$anova_table[3,4]`, *p* `r if(sta_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', sta_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', sta_all_aov$anova_table[3,5])`). Participants produced shorter staccato when listening to the recordings where articulation was not implemented (*Fig \ref{fig:kot-1}*, right).
 
-```{r kot-plot, include = FALSE}
+```{r kot-plot-1, include = FALSE}
 leg_all_plot <- ggplot(kot[Subcomponent1 == "Legato" & Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -185,7 +186,7 @@ Neither the main effect of Articulation (*F*(`r for_all_aov$anova_table[1,1]`, `
 
 There was a significant main effect of Articulation (*F*(`r pia_all_aov$anova_table[1,1]`, `r pia_all_aov$anova_table[1,2]`) = `r pia_all_aov$anova_table[1,4]`, *p* `r if(pia_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[1,5])`). However, there was no significant main effect of Dynamics (*F*(`r pia_all_aov$anova_table[2,1]`, `r pia_all_aov$anova_table[2,2]`) = `r pia_all_aov$anova_table[2,4]`, *p* `r if(pia_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[2,5])`) and no significant interaction between Articulation and Dynamics (*F*(`r pia_all_aov$anova_table[3,1]`, `r pia_all_aov$anova_table[3,2]`) = `r pia_all_aov$anova_table[3,4]`, *p* `r if(pia_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', pia_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', pia_all_aov$anova_table[3,5])`). Participants produced softer piano when listening to the recordings where articulation was implemented (*Fig \ref{fig:vel-1}*, right).
 
-```{r vel-plot, include = FALSE}
+```{r vel-plot-1, include = FALSE}
 for_all_plot <- ggplot(vel[Subcomponent2 == "Forte" & Category != "baseline"], aes(x = Dynamics, y = Mean, color = Articulation)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
@@ -219,7 +220,7 @@ Neither the main effect of Articulation (*F*(`r ptof_all_aov$anova_table[1,1]`, 
 
 These results indicated that participants did not change their performances in terms of dynamics contrast depending on the type of recordings (*Fig \ref{fig:vel-diff-1}*).
 
-```{r vel-diff-plot, include = FALSE}
+```{r vel-diff-plot-1, include = FALSE}
 ftop_all_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category != "baseline"], aes(x = Dynamics, y = Mean, color = Articulation)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
