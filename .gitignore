@@ -11,6 +11,7 @@ experiment/data
 experiment/midi
 
 # analysis
+analysis/rsconnect
 analysis/preprosessor/raw_data/removed
 
 # material
