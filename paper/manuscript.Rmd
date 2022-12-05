@@ -71,17 +71,17 @@ if (!require("ggsci")) {install.packages("ggsci"): require("ggsci")}
 
 # Introduction
 
-Effective teaching involves experts and novices dynamically interacting with each other [@byrne_2011]. Typically, information flows between experts and novices is mostly not unidirectional (i.e., from experts to novices) but rather bidirectional and interactive [@charbonneau_2022]. Experts adapt their behaviour to novices and scaffold the acquisition process of complex skills, and novices are actively participating in the learning process [@okazaki_2019; @flynn_2022].
+Effective teaching involves experts and novices dynamically interacting with each other [@byrne_2011]. During a skill acquisition process, experts regularly monitor novices' actions and intervene by adapting their behaviour to novices' observed abilities until novices can perform the actions independently without the help of experts [@mermelshtine_2017]. Particularly, it is important for experts to find what novices have a problem from their failed attempt and to modify their behaviour [@ugur_2015; @zukow-goldring_2007].
 
-Exaggeration of movement is often used to signal a communicative intent to others during real-time interactions [@pezzulo_2019], including teaching contexts. When caregivers were teaching how to use a novel toy to their infants, they tended to exaggerate the movement paths [@brand_2002]. Such exaggeration was observed not only towards infant learners but also when adults were interacting with adult learners [@mcellin_2017; @uther_2007]. For example, participants demonstrating to a learner how to play a particular melody on a xylophone increased the amplitude of their movements, compared to playing the same melody on their own [@mcellin_2017].
+Exaggeration of movement is often used to signal a communicative intent to others during real-time interactions [@pezzulo_2019], including teaching contexts. When mothers were teaching how to use a novel toy to their infants, they tended to demonstrate slowly and produce wide and expansive movements compared with when they were demonstrating to adults [@brand_2002]. Such exaggeration was observed not only towards infant learners but also when knowledgeable adults were interacting with adult learners [@mcellin_2017]. For example, participants demonstrating to a learner how to play a particular melody on a xylophone increased the amplitude of their movements, compared to playing the same melody on their own.
 
-Recent evidence from parent-infant interactions suggests that such pedagogical action modulations are sensitive to the skill levels of learners. @fukuyama_2015 found that mothers who were demonstrating how to use nesting cups to their infants dynamically modulated their demonstration according to the infants' object manipulation skills. For example, the mothers exaggerated their movements when their infants failed to produce expected actions whereas the mothers did not produce such exaggeration when their infants did not have the motor skills needed to produce the required actions. To the best of our knowledge, it is unknown whether people teaching skills to adult learners also adjust their demonstrations as a function of the learners' demonstrated skills.
+Recent evidence from parent-infant interactions suggests that such pedagogical action modulations are sensitive to the skill level of learners [@fukuyama_2015] In this study, mothers were asked to demonstrate demonstrate a cup-nesting task to their infants. There were four cups with different colour and size. The mothers showed how to stack and fit the nesting cups so that infants could reproduce the actions by themselves. The findings showed that the mothers dynamically modulated their demonstration according to the infants' object manipulation skills. For example, the mothers exaggerated their movements when their infants failed to produce expected actions whereas the mothers did not produce such exaggeration when their infants did not have the motor skills needed to produce the required actions. To the best of our knowledge, it is unknown whether people teaching skills to adult learners also adjust their demonstrations as a function of the learners' demonstrated skills.
 
-To address this question, in the current study we investigated whether and how expert pianists adapt their pedagogical demonstrations for learners depending on the skill level of the novice learners. In our previous research (Tominaga et al., under review), we demonstrated that expert pianists modulated their performance when they were asked to teach musical expressive techniques such as articulation and dynamics. In particular, expert pianists exaggerated the contrast between different dynamics (i.e., they made a larger contrast between forte and piano) when they had the intention to demonstrate dynamics. When they had the intention to demonstrate articulation, they exaggerated articulation by producing shorter staccato. In that study, teachers were instructed to teach techniques to hypothetical learners and they did not hear novices' particular performances. This leaves open the question whether pianists would make specific adjustments depending on learners' skills in the way mothers have been shown to adapt demonstrations of actions to their infants' skills. If teachers modulate their demonstrations based on learners' skills, their exaggeration of particular aspects should depend on the learners' actual performance with regard to the techniques to be acquired.
+To address this question, in the current study we investigated whether and how expert pianists adapt their pedagogical demonstrations for learners depending on the skill level of the novice learners. In our previous research (Tominaga et al., accepted), we demonstrated that expert pianists modulated their performance when they were asked to teach musical expressive techniques such as articulation and dynamics. In particular, expert pianists exaggerated the contrast between different dynamics (i.e., they made a larger contrast between forte and piano) when they had the intention to demonstrate dynamics. When they had the intention to demonstrate articulation, they exaggerated articulation by producing shorter staccato. In that study, teachers were instructed to teach techniques to hypothetical learners and they did not hear novices' particular performances. This leaves open the question whether pianists would make specific adjustments depending on learners' skills in the way mothers have been shown to adapt demonstrations of actions to their infants' skills. If teachers modulate their demonstrations based on learners' skills, their exaggeration of particular aspects should depend on the learners' actual performance with regard to the techniques to be acquired.
 
-To have experimental control over learners' demonstrated proficiency in implementing particular techniques, we generated artificial recordings of novice piano performances instead of recruiting actual novice pianists The recordings were made based on the performance data from our previous study (Tominaga et al., under review). All the recordings were of the same piece but the recordings differed in the implementation of articulation and dynamics. According to the notated expressions in the sheet music, the proper performance of the piece required specific modulations with respect to both articulation and dynamics (*Fig \ref{fig:stim}*). We generated four types of recordings. In one quarter of the recordings, both techniques were implemented; in one quarter, neither dynamics nor articulation was implemented; in the two remaining quarters, the piece was played with either only articulation or only dynamics implemented. This allowed us to investigate whether expert pianists in the role of teachers would make specific adjustments in response to the learners' demonstrated skills.
+To have experimental control over learners' demonstrated proficiency in implementing particular techniques, we generated artificial recordings of novice piano performances instead of recruiting actual novice pianists The recordings were made based on the performance data from our previous study (Tominaga et al., accepted). All the recordings were of the same piece but the recordings differed in the implementation of articulation and dynamics. According to the notated expressions in the sheet music, the proper performance of the piece required specific modulations with respect to both articulation and dynamics (*Fig \ref{fig:stim}*). We generated four types of recordings. In one quarter of the recordings, both techniques were implemented; in one quarter, neither dynamics nor articulation was implemented; in the two remaining quarters, the piece was played with either only articulation or only dynamics implemented. This allowed us to investigate whether expert pianists in the role of teachers would make specific adjustments in response to the learners' demonstrated skills.
 
-We hypothesised that expert pianists would exaggerate their performance only when specific techniques (i.e., either articulation or dynamics, or both) were missing in the recordings. More precisely, expert pianists would exaggerate articulation (i.e., producing longer legato and shorter staccato) when articulation was not implemented in the recordings whereas expert pianists would exaggerate dynamics (i.e., producing  louder forte and softer piano, and larger contrast between forte and piano) when dynamics was not implemented in the recordings. If both articulation and dynamics were missing, we predicted that expert pianists would exaggerate both aspects.
+Evidence from parental scaffolding research suggests that caregivers scaffold infants' learning when the infants failed to produce an expected action [@wood_1975; @zukow-goldring_2007]. Therefore, we hypothesised that expert pianists would exaggerate their performance only when specific techniques (i.e., either articulation or dynamics, or both) were missing in the recordings. More precisely, expert pianists would exaggerate articulation (i.e., producing longer legato and shorter staccato) when articulation was not implemented in the recordings whereas expert pianists would exaggerate dynamics (i.e., producing  louder forte and softer piano, and larger contrast between forte and piano) when dynamics was not implemented in the recordings. If both articulation and dynamics were missing, we predicted that expert pianists would exaggerate both aspects.
 
 ## Methods
 
@@ -123,11 +123,11 @@ After participants completed the 16 trials, they were asked to perform the piece
 
 ## Data analysis
 
-The dependent variables were computed from MIDI data for data analysis. Interonset intervals (IOIs) are the intervals between onsets of adjacent notes and provide a measure of tempo. Key-overlap time (KOT) is the difference between the offset time (i.e., key release time) of the current tone and the onset time of the ensuing tone and is a measure for the smoothness of musical sequences. A positive value indicates smooth legato style due to overlap between the current and ensuing tone whereas a negative value indicates sharp staccato style due to separation between the current and ensuing note. Tone intensity is assessed  by key velocity (KV) and measures the loudness of a musical note. A higher value indicates forte style whereas a lower value indicates piano style. The value of KV in MIDI varies between 0 (minimum) and 127 (maximum). Also, KV difference was calculated by subtracting the KV value of the current note from that of the following note. We particularly focused on specific points where each subcomponent changed from one to the other (i.e., forte to piano or piano to forte) to measure dynamics contrast between forte and piano.
+The dependent variables were computed from MIDI data for data analysis. Key-overlap time (KOT) is the difference between the offset time (i.e., key release time) of the current tone and the onset time of the ensuing tone and is a measure for the smoothness of musical sequences. A positive value indicates smooth legato style due to overlap between the current and ensuing tone whereas a negative value indicates sharp staccato style due to separation between the current and ensuing note. Tone intensity is assessed  by key velocity (KV) and measures the loudness of a musical note. A higher value indicates forte style whereas a lower value indicates piano style. The value of KV in MIDI varies between 0 (minimum) and 127 (maximum). Also, KV difference was calculated by subtracting the KV value of the current note from that of the following note. We particularly focused on specific points where each subcomponent changed from one to the other (i.e., forte to piano or piano to forte) to measure dynamics contrast between forte and piano. Interonset intervals (IOIs) are the intervals between onsets of adjacent notes and provide a measure of tempo.
 
-Data processing and statistical analysis were performed in R version 4.0.5. For statistical analysis, we included 8th notes with expressive notations only. Pitch errors were identified by comparing the sequence of  musical notes produced by a participant with the sequence of musical notes according to the sheet music. Pitch errors included extra, missing or substituted tones and were manually removed by using the *editData* R package. For note onsets,  `r round(nrow(dt_error_onset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_onset)/(20*16)*100, 2)` %, missing notes: `r round(nrow(error_missing_onset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_onset)/(20*16)*100, 2)` %). For note offsets,  `r round(nrow(dt_error_offset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_offset)/(20*16)*100, 2)` %, missing notes: `r round(nrow(error_missing_offset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_offset)/(20*16)*100, 2)` %). We found that some participants did not precisely follow the sheet music (e.g., they held some notes longer than notated), therefore the order of offsets did not correspond to that of onsets. We considered these as errors and removed the erroneous notes even if the order of onsets was correct. As a result, less than 1 % of total responses were removed. After removing pitch errors, we removed outliers for IOIs, KOT, KV and KV Difference, defined as values more than 3 standard deviations from the mean of each dependent variable. For each dependent variable, this resulted in less than 2 % of overall responses being removed as outliers.
+Data processing and statistical analysis were performed in R version 4.0.5. For statistical analysis, we included 8th notes with expressive notations only. Pitch errors were identified by comparing the sequence of  musical notes produced by a participant with the sequence of musical notes according to the sheet music. Pitch errors included extra, missing or substituted tones and were manually removed by using the *editData* R package. For note onsets,  `r round(nrow(dt_error_onset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_onset)/(20*16)*100, 2)` %, missing notes: `r round(nrow(error_missing_onset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_onset)/(20*16)*100, 2)` %). For note offsets,  `r round(nrow(dt_error_offset)/(20*16)*100, 2)` % of the trials contained at least one pitch error (extra notes: `r round(nrow(error_extra_offset)/(20*16)*100, 2)` %, missing notes: `r round(nrow(error_missing_offset)/(20*16)*100, 2)` %, substituted notes: `r round(nrow(error_sub_offset)/(20*16)*100, 2)` %). We found that some participants did not precisely follow the sheet music (e.g., they held some notes longer than notated), therefore the order of offsets did not correspond to that of onsets. We considered these as errors and removed the erroneous notes even if the order of onsets was correct. As a result, less than 1 % of total responses were removed. After removing pitch errors, we removed outliers for KOT, KV, KV Difference and IOIs, defined as values more than 3 standard deviations from the mean of each dependent variable. For each dependent variable, this resulted in less than 2 % of overall responses being removed as outliers.
 
-First, we performed a 2 x 2 repeated-measures analysis of variance (ANOVA) with the factors Articulation (present vs. absent) and Dynamics (present vs absent) for each dependent variable (i.e.., IOIs, KOT, KV, KV Difference). The *aov_ez* function in the *afex* R package was used for a repeated-measures ANOVA. For post-hoc comparisons on the estimated marginal means, we used the  *emmeans* R package.
+First, we performed a 2 x 2 repeated-measures analysis of variance (ANOVA) with the factors Articulation (present vs. absent) and Dynamics (present vs absent) for each dependent variable (i.e.., KOT, KV, KV Difference, IOIs). The *aov_ez* function in the *afex* R package was used for a repeated-measures ANOVA. For post-hoc comparisons on the estimated marginal means, we used the  *emmeans* R package.
 
 In order to investigate how their performances during the experiment differed from their baseline performances (i.e., performances that participants produced for non-teaching purposes), we performed one-way repeated-measures ANOVAs. For KOT, KV and KV Difference, we performed ANOVAs separately for each subcomponent (i.e., Legato, Staccato, Forte, Piano).
 
@@ -138,24 +138,6 @@ All effects are reported as significant at *p* < .05. For KOT, KV and KV Differe
 ```{r results-1, include = FALSE}
 here::i_am("README.md")
 source(here("analysis", "baseline.R"), chdir = TRUE)
-```
-
-## IOIs
-
-Neither the main effect of Articulation (*F*(`r ioi_all_aov$anova_table[1,1]`, `r ioi_all_aov$anova_table[1,2]`) = `r ioi_all_aov$anova_table[1,4]`, *p* `r if(ioi_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[1,5])`) nor the main effect of Dynamics (*F*(`r ioi_all_aov$anova_table[2,1]`, `r ioi_all_aov$anova_table[2,2]`) = `r ioi_all_aov$anova_table[2,4]`, *p* `r if(ioi_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ioi_all_aov$anova_table[3,1]`, `r ioi_all_aov$anova_table[3,2]`) = `r ioi_all_aov$anova_table[3,4]`, *p* `r if(ioi_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[3,5])`). This indicates that participants did not change the tempo depending on the type of recordings (*Fig \ref{fig:ioi-1}*).
-
-```{r ioi-plot-1, include = FALSE}
-ioi_all_plot <- ggplot(ioi[Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
-  geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
-  geom_hline(yintercept = 300, linetype = "dashed") +
-  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") +
-  scale_y_continuous(breaks = seq(240, 320, 20), limits = c(240, 320)) +
-  scale_color_aaas() +
-  theme_pubr(base_size = 20, base_family = "Helvetica")
-
-# save plots
-ggsave(here("paper/image", "ioi_all_plot.png"), plot = ioi_all_plot, dpi = 300, height = 5)
-img_ioi_all_plot <- image_read(here("paper/image", "ioi_all_plot.png"), density = 300)
 ```
 
 ## KOT
@@ -256,6 +238,24 @@ ggsave(here("paper/image", "ptof_all_plot.png"), plot = ptof_all_plot, dpi = 300
 img_ptof_all_plot <- image_read(here("paper/image", "ptof_all_plot.png"), density = 300)
 ```
 
+## IOIs
+
+Neither the main effect of Articulation (*F*(`r ioi_all_aov$anova_table[1,1]`, `r ioi_all_aov$anova_table[1,2]`) = `r ioi_all_aov$anova_table[1,4]`, *p* `r if(ioi_all_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[1,5])`) nor the main effect of Dynamics (*F*(`r ioi_all_aov$anova_table[2,1]`, `r ioi_all_aov$anova_table[2,2]`) = `r ioi_all_aov$anova_table[2,4]`, *p* `r if(ioi_all_aov$anova_table[2,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.3f', ioi_all_aov$anova_table[2,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[2,5])`) nor the interaction between Articulation and Dynamics was significant (*F*(`r ioi_all_aov$anova_table[3,1]`, `r ioi_all_aov$anova_table[3,2]`) = `r ioi_all_aov$anova_table[3,4]`, *p* `r if(ioi_all_aov$anova_table[3,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_all_aov$anova_table[3,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_all_aov$anova_table[3,5])`). This indicates that participants did not change the tempo depending on the type of recordings (*Fig \ref{fig:ioi-1}*).
+
+```{r ioi-plot-1, include = FALSE}
+ioi_all_plot <- ggplot(ioi[Category != "baseline"], aes(x = Articulation, y = Mean, color = Dynamics)) +
+  geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
+  geom_hline(yintercept = 300, linetype = "dashed") +
+  geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) + labs(y = "IOI (ms)", title = "IOI") +
+  scale_y_continuous(breaks = seq(240, 320, 20), limits = c(240, 320)) +
+  scale_color_aaas() +
+  theme_pubr(base_size = 20, base_family = "Helvetica")
+
+# save plots
+ggsave(here("paper/image", "ioi_all_plot.png"), plot = ioi_all_plot, dpi = 300, height = 5)
+img_ioi_all_plot <- image_read(here("paper/image", "ioi_all_plot.png"), density = 300)
+```
+
 ```{r plot-ioi-1, out.width = "100%", fig.cap = "\\label{fig:ioi-1}IOIs (ms). A dashed line represents the tempo given by a metronome. Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box."}
 img_ioi_1 <- image_scale(img_ioi_all_plot, "2200")
 image_write(img_ioi_1, path = here("paper/image", "Fig2.tiff"), format = "tiff")
@@ -324,24 +324,6 @@ This research was supported by the European Research Council under the European 
 
 ## 2. Comparison with baseline performance
 To recall the instruction for the baseline performance, we asked participants to perform the piece expressively with their interpretation and to do their best as a performer. By comparing with the baseline performance, we can investigate how pedagogical intentions influence participants' performances.
-
-## IOIs
-
-We compared the baseline performance with the performances in response to recordings where either both articulation and dynamics were implemented or neither of them was implemented. The reason for choosing this comparison was that we wanted to test whether having the intention to teach would lead to slower performances, either regardless of the learner's skill or especially when skills appeared to be lacking. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
-
-There was no significant main effect of Category (*F*(`r ioi_ca_par_aov$anova_table[1,1]`, `r ioi_ca_par_aov$anova_table[1,2]`) = `r ioi_ca_par_aov$anova_table[1,4]`, *p* `r if(ioi_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had the intention to teach (*Fig \ref{fig:ioi-2}*).
-
-```{r ioi-bl-plot, include = FALSE}
-ioi_ca_plot <- ggplot(ioi[Category == "none" | Category == "both" | Category == "baseline"], aes(x = factor(Category, level = c("baseline", "none", "both")), y = Mean)) +
-  geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
-  geom_hline(yintercept = 300, linetype = "dashed") + scale_y_continuous(breaks = seq(200, 380, 20), limits = c(200, 380)) +
-  geom_jitter(width = 0.15, alpha = 0.5) + labs(x = "Category", y = "IOI (ms)", title = "IOI") +
-  theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
-
-# save plots
-ggsave(here("paper/image", "ioi_ca_plot.png"), plot = ioi_ca_plot, dpi = 300, height = 5)
-img_ioi_ca_plot <- image_read(here("paper/image", "ioi_ca_plot.png"), density = 300)
-```
 
 ## KOT
 
@@ -424,6 +406,23 @@ There was no significant main effect of Category (*F*(`r ptof_ca_par_aov$anova_t
 
 These results indicated that participants did not make dynamics contrast between forte and piano differently depending on whether they had the intention to teach (*Fig \ref{fig:vel-diff-2}*).
 
+## IOIs
+
+We compared the baseline performance with the performances in response to recordings where either both articulation and dynamics were implemented or neither of them was implemented. The reason for choosing this comparison was that we wanted to test whether having the intention to teach would lead to slower performances, either regardless of the learner's skill or especially when skills appeared to be lacking. We categorised performances into three groups (baseline, both, none) and treated them as a factor Category.
+
+There was no significant main effect of Category (*F*(`r ioi_ca_par_aov$anova_table[1,1]`, `r ioi_ca_par_aov$anova_table[1,2]`) = `r ioi_ca_par_aov$anova_table[1,4]`, *p* `r if(ioi_ca_par_aov$anova_table[1,6] < 0.001){"< 0.001"} else {paste("= ", sprintf('%.2f', ioi_ca_par_aov$anova_table[1,6]))}`, $\eta_G^2$ = `r sprintf('%.3f', ioi_ca_par_aov$anova_table[1,5])`; Greenhouse-Geisser corrected), suggesting that participants kept the same tempo regardless of whether they had the intention to teach (*Fig \ref{fig:ioi-2}*).
+
+```{r ioi-bl-plot, include = FALSE}
+ioi_ca_plot <- ggplot(ioi[Category == "none" | Category == "both" | Category == "baseline"], aes(x = factor(Category, level = c("baseline", "none", "both")), y = Mean)) +
+  geom_boxplot(outlier.shape = NA, position = position_dodge2(preserve = "single")) +
+  geom_hline(yintercept = 300, linetype = "dashed") + scale_y_continuous(breaks = seq(200, 380, 20), limits = c(200, 380)) +
+  geom_jitter(width = 0.15, alpha = 0.5) + labs(x = "Category", y = "IOI (ms)", title = "IOI") +
+  theme_pubr(base_size = 20, legend = "none", base_family = "Helvetica")
+
+# save plots
+ggsave(here("paper/image", "ioi_ca_plot.png"), plot = ioi_ca_plot, dpi = 300, height = 5)
+img_ioi_ca_plot <- image_read(here("paper/image", "ioi_ca_plot.png"), density = 300)
+```
 ```{r vel-diff-bl-plot, include = FALSE}
 ftop_ca_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category == "baseline" | Subcomponent2 == "FtoP" & Category == "both" | Subcomponent2 == "FtoP" & Category == "art_only"], aes(x = factor(Category, level = c("baseline", "art_only", "both")), y = Mean)) +
   geom_boxplot(outlier.shape = NA) +
