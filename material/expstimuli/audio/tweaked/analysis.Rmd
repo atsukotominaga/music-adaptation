@@ -134,10 +134,6 @@ ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter",
 ```
 
 # KOT
-- For art_only and both stimuli, there should be a bimodal distribution to represent legato and staccato.
-
-- For dyn_only and none stimuli, there should be a normal distribution.
-
 ```{r kot, include = FALSE}
 data_onset$KOT <- NA
 for (row in 1:nrow(data_onset)){
@@ -188,6 +184,11 @@ for (number in change_2){
 ```
 
 ## Histogram
+
+- For art_only and both stimuli, there should be a bimodal distribution to represent the implementation of legato and staccato.
+
+- For dyn_only and none stimuli, there should be a normal distribution.
+
 ```{r kot-distribution, echo = FALSE}
 # change labelling
 dt_kot[MidFile == "high_1"]$MidFile <- "both_1"
@@ -199,7 +200,7 @@ dt_kot[MidFile == "low_2"]$MidFile <- "none_2"
 dt_kot[MidFile == "low_3"]$MidFile <- "none_3"
 dt_kot[MidFile == "low_4"]$MidFile <- "none_4"
 
-gghistogram(dt_kot[SubArt != "NA"], x = "KOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
+gghistogram(dt_kot[SubArt != "NA" & SubArt != "LtoS" & SubArt != "StoL"], x = "KOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 ```
 
 ## Mean
@@ -213,12 +214,13 @@ ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "KOT", color = "SubArt
 ## Tweak
 - For dyn_only and none stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and both stimuli and add that difference to all KOT values for dyn_only and none stimuli, so that the KOT values should shift closer to the grand mean of art_only and both stimuli.
 
+## Histogram (Fixed KOT)
 ```{r kot-tweak, echo = FALSE}
 # grandMean of art_only & both stimuli
-kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("high", MidFile) & SubArt != "NA"]$KOT)
+kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("both", MidFile) & SubArt != "NA"]$KOT)
 
 # calculate the diff between each KOT mean and grandMean
-tweak_data <- dt_kot[grepl("dyn_only", MidFile) | grepl("low", MidFile) & SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile)]
+tweak_data <- dt_kot[grepl("dyn_only", MidFile) | grepl("none", MidFile) & SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile)]
 tweak_data$Diff <- round(abs(tweak_data$Mean-kot_grandMean), 0)
 tweak_data
 
@@ -229,9 +231,8 @@ for (midfile in unique(tweak_data$MidFile)){
 }
 ```
 
-d KOT)
 ```{r kot-distribution-fixed, echo = FALSE}
-gghistogram(dt_kot[SubArt != "NA"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
+gghistogram(dt_kot[SubArt != "NA" & SubArt != "LtoS" & SubArt != "StoL"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 ```
 
 ## Mean (Fixed KOT)
@@ -243,7 +244,6 @@ ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "FixedKOT", color = "S
 ```
 
 # KV
-
 ```{r vel, include = FALSE}
 dt_vel <- data_onset
 dt_vel$NoteOnsetNr <- rep(1:72, nrow(dt_vel)/72)
@@ -276,6 +276,11 @@ for (phrase in 1:length(ls_piano_2)){
 ```
 
 ## Histogram
+
+- For dyn_only and both stimuli, there should be a bimodal distribution to represent the implementation of forte and piano.
+
+- For art_only and none stimuli, there should be a normal distribution.
+
 ```{r vel-distribution, echo = FALSE}
 # change labelling
 dt_vel[MidFile == "high_1"]$MidFile <- "both_1"
@@ -344,6 +349,11 @@ for (number in change_2){
 ```
 
 ## Histogram
+
+- For dyn_only and both stimuli, there should be a bimodal distribution to represent the transition from forte to piano or from piano to forte.
+
+- For art_only and none stimuli, there should be a normal distribution.
+
 ```{r vel-diff-distribution, echo = FALSE}
 # change labelling
 dt_vel_diff[MidFile == "high_1"]$MidFile <- "both_1"

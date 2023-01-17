@@ -271,7 +271,7 @@ img_ioi_all_plot <- image_read(here("paper/image", "ioi_all_plot.png"), density 
 # combine
 img_kot_1 <- image_append(c(img_leg_all_plot, img_sta_all_plot))
 img_kot_1 <- image_scale(img_kot_1, "2200")
-image_write(img_kot_1, path = here("paper/image", "Fig3.tiff"), format = "tiff")
+image_write(img_kot_1, path = here("paper/image", "Fig2.tiff"), format = "tiff")
 img_kot_1
 ```
 
@@ -279,7 +279,7 @@ img_kot_1
 # combine
 img_vel_1 <- image_append(c(img_for_all_plot, img_pia_all_plot))
 img_vel_1 <- image_scale(img_vel_1, "2200")
-image_write(img_vel_1, path = here("paper/image", "Fig4.tiff"), format = "tiff")
+image_write(img_vel_1, path = here("paper/image", "Fig3.tiff"), format = "tiff")
 img_vel_1
 ```
 
@@ -287,13 +287,13 @@ img_vel_1
 # combine
 img_vel_diff_1 <- image_append(c(img_ftop_all_plot, img_ptof_all_plot))
 img_vel_diff_1 <- image_scale(img_vel_diff_1, "2200")
-image_write(img_vel_diff_1, path = here("paper/image", "Fig5.tiff"), format = "tiff")
+image_write(img_vel_diff_1, path = here("paper/image", "Fig4.tiff"), format = "tiff")
 img_vel_diff_1
 ```
 
 ```{r plot-ioi-1, out.width = "100%", fig.cap = "\\label{fig:ioi-1}IOIs (ms). A dashed line represents the tempo given by a metronome. Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box."}
 img_ioi_1 <- image_scale(img_ioi_all_plot, "2200")
-image_write(img_ioi_1, path = here("paper/image", "Fig2.tiff"), format = "tiff")
+image_write(img_ioi_1, path = here("paper/image", "Fig5.tiff"), format = "tiff")
 img_ioi_1
 ```
 
@@ -361,11 +361,11 @@ After we generated 16 recordings for each type, we asked 3 musician raters inclu
 
 For dyn-only and none recordings, the recordings sounded too much staccato. We calculated the difference between the mean of each recording for dyn-only and none recordings and the grand mean of art-only and both recordings in terms of KOT and add that difference to all KOT values for dyn_only and low, so that the KOT values should shift closer to the grand mean of art_only and high stimuli.
 
-```{r supplementary, out.width = "100%", fig.cap = "\\label{fig:supplementary}Schematic representation of stimuli generation processes", echo = FALSE}
+```{r supplementary, out.width = "100%", fig.cap = "\\label{fig:supplementary}Schematic representation of the stimuli generation process.", echo = FALSE}
 here::i_am("README.md")
-stim <- image_border(image_read(here("paper/image", "supplementary.png")), "#FFFFFF", "140x140")
-image_write(stim, path = here("paper/image", "Fig10.tiff"), format = "tiff")
-stim
+supplementary <- image_border(image_read(here("paper/image", "supplementary.png")), "#FFFFFF", "140x140")
+image_write(supplementary, path = here("paper/image", "Fig6.tiff"), format = "tiff")
+supplementary
 ```
 
 ```{r analysis-supplementary, include = FALSE}
@@ -374,7 +374,7 @@ source(here("material/expstimuli/audio/tweaked", "analysis.R"), chdir = TRUE)
 
 ioi_profiles <- gghistogram(dt_ioi[SubArt != "NA"], x = "IOI", facet.by = "MidFile", bins = 50, rug = TRUE)
 
-kot_profiles <- gghistogram(dt_kot[SubArt != "NA"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
+kot_profiles <- gghistogram(dt_kot[SubArt != "NA" & SubArt != "LtoS" & SubArt != "StoL"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 
 vel_profiles <- gghistogram(dt_vel[SubArt != "NA"], x = "Velocity", facet.by = "MidFile", color = "SubDyn", bins = 50, rug = TRUE)
 
@@ -394,19 +394,23 @@ ggsave(here("paper/image", "s_vel_diff_profiles.png"), plot = vel_diff_profiles,
 img_s_vel_diff_profiles <- image_read(here("paper/image", "s_vel_diff_profiles.png"), density = 300)
 ```
 
-```{r plot-s-ioi, out.width = "100%", fig.cap = "\\label{fig:s-ioi}A"}
+```{r plot-s-ioi, out.width = "100%", fig.cap = "\\label{fig:s-ioi}Histogram of interonset intervals (IOIs) for each recording. Since we fixed the tempo performance feature across 4 instances, IOI profiles were identical for each type."}
+image_write(img_s_ioi_profiles, path = here("paper/image", "Fig7.tiff"), format = "tiff")
 img_s_ioi_profiles
 ```
 
-```{r plot-s-kot, out.width = "100%", fig.cap = "\\label{fig:s-kot}A"}
+```{r plot-s-kot, out.width = "100%", fig.cap = "\\label{fig:s-kot}Histogram of Key-overlap time (KOT) for each recording. For art-only and both recordings, there is a bimodal distribution to represent the implementation of legato and staccato. For dyn-only and none recordings, there is no bimodal distribution (no difference between legato and staccato parts of performance). Red bars indicate KOT values where legato is notated. Blue bars indicate KOT values where staccato is notated."}
+image_write(img_s_kot_profiles, path = here("paper/image", "Fig8.tiff"), format = "tiff")
 img_s_kot_profiles
 ```
 
-```{r plot-s-vel, out.width = "100%", fig.cap = "\\label{fig:s-vel}A"}
+```{r plot-s-vel, out.width = "100%", fig.cap = "\\label{fig:s-vel}Histogram of key velocity (KV) for each recording. For dyn-only and both recordings, there is a bimodal distribution to represent the implementation of forte and piano. For art-only and none recordings, there is no bimodal distribution (no difference between forte and piano parts of performance). Red bars indicate KV values where forte is notated. Blue bars indicate KV values where piano is notated."}
+image_write(img_s_vel_profiles, path = here("paper/image", "Fig9.tiff"), format = "tiff")
 img_s_vel_profiles
 ```
 
-```{r plot-s-vel-diff, out.width = "100%", fig.cap = "\\label{fig:s-vel-diff}A"}
+```{r plot-s-vel-diff, out.width = "100%", fig.cap = "\\label{fig:s-vel-diff}Histogram of KV difference for each recording. For dyn-only and both recordings, there is a bimodal distribution to represent the transition from forte to piano or from piano to forte. For art-only and none recordings, there is no bimodal distribution (no contrast difference in transition parts between forte and piano). Red bars indicate KV difference of the transition from forte to piano. Blue bars indicate KV difference of the transition from piano to forte."}
+image_write(img_s_vel_diff_profiles, path = here("paper/image", "Fig10.tiff"), format = "tiff")
 img_s_vel_diff_profiles
 ```
 
@@ -537,7 +541,7 @@ img_ptof_ca_plot <- image_read(here("paper/image", "ptof_ca_plot.png"), density 
 # combine
 img_kot_2 <- image_append(c(img_leg_ca_plot, img_sta_ca_plot))
 img_kot_2 <- image_scale(img_kot_2, "2200")
-image_write(img_kot_2, path = here("paper/image", "Fig7.tiff"), format = "tiff")
+image_write(img_kot_2, path = here("paper/image", "Fig11.tiff"), format = "tiff")
 img_kot_2
 ```
 
@@ -545,7 +549,7 @@ img_kot_2
 # combine
 img_vel_2 <- image_append(c(img_for_ca_plot, img_pia_ca_plot))
 img_vel_2 <- image_scale(img_vel_2, "2200")
-image_write(img_vel_2, path = here("paper/image", "Fig8.tiff"), format = "tiff")
+image_write(img_vel_2, path = here("paper/image", "Fig12.tiff"), format = "tiff")
 img_vel_2
 ```
 
@@ -553,13 +557,13 @@ img_vel_2
 # combine
 img_vel_diff_2 <- image_append(c(img_ftop_ca_plot, img_ptof_ca_plot))
 img_vel_diff_2 <- image_scale(img_vel_diff_2, "2200")
-image_write(img_vel_diff_2, path = here("paper/image", "Fig9.tiff"), format = "tiff")
+image_write(img_vel_diff_2, path = here("paper/image", "Fig13.tiff"), format = "tiff")
 img_vel_diff_2
 ```
 
 ```{r plot-ioi-2, out.width = "100%", fig.cap = "\\label{fig:ioi-2}Comparison with the baseline performance in terms of IOIs (ms). A dashed line represents the tempo given by a metronome. Each box indicates the IQR with the median, and whiskers extend to a maximum of 1.5 × IQR beyond the box."}
 img_ioi_2 <- image_scale(img_ioi_ca_plot, "2200")
-image_write(img_ioi_2, path = here("paper/image", "Fig6.tiff"), format = "tiff")
+image_write(img_ioi_2, path = here("paper/image", "Fig14.tiff"), format = "tiff")
 img_ioi_2
 ```
 

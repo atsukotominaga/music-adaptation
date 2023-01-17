@@ -1,4 +1,4 @@
-## ----packages, include = FALSE------------------------------
+## ----packages, include = FALSE------------------------------------------------
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 # midi
@@ -7,7 +7,7 @@ if (!require("tuneR")) {install.packages("tuneR"); require("tuneR")}
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
 
 
-## ----midi, include = FALSE----------------------------------
+## ----midi, include = FALSE----------------------------------------------------
 # create a list of data file names
 lf <- list.files("../selected/mid/", pattern = "mid")
 
@@ -54,7 +54,7 @@ change_1 <- c(5, 17, 47)
 change_2 <- c(8, 20, 39)
 
 
-## ----ioi, include = FALSE-----------------------------------
+## ----ioi, include = FALSE-----------------------------------------------------
 data_onset <- data[event == "Note On"]
 data_offset <- data[event == "Note Off"]
 
@@ -100,7 +100,7 @@ for (number in change_2){
 }
 
 
-## ----ioi-distribution, echo = FALSE-------------------------
+## ----ioi-distribution, echo = FALSE-------------------------------------------
 # change labelling
 dt_ioi[MidFile == "high_1"]$MidFile <- "both_1"
 dt_ioi[MidFile == "high_2"]$MidFile <- "both_2"
@@ -114,14 +114,14 @@ dt_ioi[MidFile == "low_4"]$MidFile <- "none_4"
 gghistogram(dt_ioi[SubArt != "NA"], x = "IOI", facet.by = "MidFile", bins = 50, rug = TRUE)
 
 
-## ----ioi-mean, echo = FALSE---------------------------------
+## ----ioi-mean, echo = FALSE---------------------------------------------------
 # mean
 dt_ioi[SubArt != "NA", .(N = .N, Mean = mean(IOI), SD = sd(IOI)), "MidFile"]
 
 ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter", width = 0.8) + geom_hline(yintercept = 300, linetype = "dashed", color = "red")
 
 
-## ----kot, include = FALSE-----------------------------------
+## ----kot, include = FALSE-----------------------------------------------------
 data_onset$KOT <- NA
 for (row in 1:nrow(data_onset)){
    if (row < nrow(data_onset)){
@@ -170,7 +170,7 @@ for (number in change_2){
 }
 
 
-## ----kot-distribution, echo = FALSE-------------------------
+## ----kot-distribution, echo = FALSE-------------------------------------------
 # change labelling
 dt_kot[MidFile == "high_1"]$MidFile <- "both_1"
 dt_kot[MidFile == "high_2"]$MidFile <- "both_2"
@@ -181,22 +181,22 @@ dt_kot[MidFile == "low_2"]$MidFile <- "none_2"
 dt_kot[MidFile == "low_3"]$MidFile <- "none_3"
 dt_kot[MidFile == "low_4"]$MidFile <- "none_4"
 
-gghistogram(dt_kot[SubArt != "NA"], x = "KOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
+gghistogram(dt_kot[SubArt != "NA" & SubArt != "LtoS" & SubArt != "StoL"], x = "KOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 
 
-## ----kot-mean, echo = FALSE---------------------------------
+## ----kot-mean, echo = FALSE---------------------------------------------------
 # mean
 dt_kot[SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile, SubArt)]
 
 ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "KOT", color = "SubArt", add = "jitter", width = 0.8)
 
 
-## ----kot-tweak, echo = FALSE--------------------------------
+## ----kot-tweak, echo = FALSE--------------------------------------------------
 # grandMean of art_only & both stimuli
-kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("high", MidFile) & SubArt != "NA"]$KOT)
+kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("both", MidFile) & SubArt != "NA"]$KOT)
 
 # calculate the diff between each KOT mean and grandMean
-tweak_data <- dt_kot[grepl("dyn_only", MidFile) | grepl("low", MidFile) & SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile)]
+tweak_data <- dt_kot[grepl("dyn_only", MidFile) | grepl("none", MidFile) & SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile)]
 tweak_data$Diff <- round(abs(tweak_data$Mean-kot_grandMean), 0)
 tweak_data
 
@@ -207,18 +207,18 @@ for (midfile in unique(tweak_data$MidFile)){
 }
 
 
-## ----kot-distribution-fixed, echo = FALSE-------------------
-gghistogram(dt_kot[SubArt != "NA"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
+## ----kot-distribution-fixed, echo = FALSE-------------------------------------
+gghistogram(dt_kot[SubArt != "NA" & SubArt != "LtoS" & SubArt != "StoL"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
 
 
-## ----kot-mean-fixed, echo = FALSE---------------------------
+## ----kot-mean-fixed, echo = FALSE---------------------------------------------
 # mean
 dt_kot[SubArt != "NA", .(N = .N, Mean = mean(FixedKOT), SD = sd(FixedKOT)), by = .(MidFile, SubArt)]
 
 ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "FixedKOT", color = "SubArt", add = "jitter", width = 0.8)
 
 
-## ----vel, include = FALSE-----------------------------------
+## ----vel, include = FALSE-----------------------------------------------------
 dt_vel <- data_onset
 dt_vel$NoteOnsetNr <- rep(1:72, nrow(dt_vel)/72)
 # assign Subcomponents
@@ -249,7 +249,7 @@ for (phrase in 1:length(ls_piano_2)){
 }
 
 
-## ----vel-distribution, echo = FALSE-------------------------
+## ----vel-distribution, echo = FALSE-------------------------------------------
 # change labelling
 dt_vel[MidFile == "high_1"]$MidFile <- "both_1"
 dt_vel[MidFile == "high_2"]$MidFile <- "both_2"
@@ -263,14 +263,14 @@ dt_vel[MidFile == "low_4"]$MidFile <- "none_4"
 gghistogram(dt_vel[SubArt != "NA"], x = "Velocity", facet.by = "MidFile", color = "SubDyn", bins = 50, rug = TRUE)
 
 
-## ----vel-mean, echo = FALSE---------------------------------
+## ----vel-mean, echo = FALSE---------------------------------------------------
 # mean
 dt_vel[SubDyn != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(MidFile, SubDyn)]
 
 ggboxplot(dt_vel[SubArt != "NA"], x = "MidFileShort", y = "Velocity", color = "SubDyn", add = "jitter", width = 0.8)
 
 
-## ----vel-diff, include = FALSE------------------------------
+## ----vel-diff, include = FALSE------------------------------------------------
 data_onset$Diff <- diff(c(0, data_onset$Velocity))
 dt_vel_diff <- data_onset[NoteNr != 1]
 # assign Interval
@@ -314,7 +314,7 @@ for (number in change_2){
 }
 
 
-## ----vel-diff-distribution, echo = FALSE--------------------
+## ----vel-diff-distribution, echo = FALSE--------------------------------------
 # change labelling
 dt_vel_diff[MidFile == "high_1"]$MidFile <- "both_1"
 dt_vel_diff[MidFile == "high_2"]$MidFile <- "both_2"
@@ -328,9 +328,13 @@ dt_vel_diff[MidFile == "low_4"]$MidFile <- "none_4"
 gghistogram(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "Diff", facet.by = "MidFile", color = "SubDyn", bins = 50, rug = TRUE)
 
 
-## ----vel-diff-mean, echo = FALSE----------------------------
+## ----vel-diff-mean, echo = FALSE----------------------------------------------
 # mean
 dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(MidFile, SubDyn)]
 
 ggboxplot(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "MidFileShort", y = "Diff", color = "SubDyn", add = "jitter", width = 0.8)
+
+
+## ----export, include = FALSE--------------------------------------------------
+knitr::purl("analysis.Rmd")
 
