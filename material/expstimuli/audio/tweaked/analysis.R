@@ -1,18 +1,13 @@
----
-title: "Music Adaptation: Analysis for selected stimuli"
-output: html_notebook
----
-
-```{r packages, include = FALSE}
+## ----packages, include = FALSE------------------------------
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 # midi
 if (!require("tuneR")) {install.packages("tuneR"); require("tuneR")}
 # plot
 if (!require("ggpubr")) {install.packages("ggpubr"); require("ggpubr")}
-```
 
-```{r midi, include = FALSE}
+
+## ----midi, include = FALSE----------------------------------
 # create a list of data file names
 lf <- list.files("../selected/mid/", pattern = "mid")
 
@@ -57,10 +52,9 @@ ls_piano_2 <- list(c(6:8), c(18:20), c(29:32), c(36:39), c(48:51), c(53:56), c(5
 change_1 <- c(5, 17, 47)
 # define Component Change (StoL, PtoF)
 change_2 <- c(8, 20, 39)
-```
 
-# IOI
-```{r ioi, include = FALSE}
+
+## ----ioi, include = FALSE-----------------------------------
 data_onset <- data[event == "Note On"]
 data_offset <- data[event == "Note Off"]
 
@@ -104,12 +98,9 @@ for (number in change_2){
  dt_ioi[Interval == number]$SubArt <- "StoL"
  dt_ioi[Interval == number]$SubDyn <- "PtoF"
 }
-```
 
-- There are 4 base tempi.
 
-## Histogram
-```{r ioi-distribution, echo = FALSE}
+## ----ioi-distribution, echo = FALSE-------------------------
 # change labelling
 dt_ioi[MidFile == "high_1"]$MidFile <- "both_1"
 dt_ioi[MidFile == "high_2"]$MidFile <- "both_2"
@@ -121,24 +112,16 @@ dt_ioi[MidFile == "low_3"]$MidFile <- "none_3"
 dt_ioi[MidFile == "low_4"]$MidFile <- "none_4"
 
 gghistogram(dt_ioi[SubArt != "NA"], x = "IOI", facet.by = "MidFile", bins = 50, rug = TRUE)
-```
 
-## Mean
-- The red line indicates the ideal tempo (100bpm - IOI: 300 ms)
 
-```{r ioi-mean, echo = FALSE}
+## ----ioi-mean, echo = FALSE---------------------------------
 # mean
 dt_ioi[SubArt != "NA", .(N = .N, Mean = mean(IOI), SD = sd(IOI)), "MidFile"]
 
 ggboxplot(dt_ioi[SubArt != "NA"], x = "MidFileShort", y = "IOI", add = "jitter", width = 0.8) + geom_hline(yintercept = 300, linetype = "dashed", color = "red")
-```
 
-# KOT
-- For art_only and both stimuli, there should be a bimodal distribution to represent legato and staccato.
 
-- For dyn_only and none stimuli, there should be a normal distribution.
-
-```{r kot, include = FALSE}
+## ----kot, include = FALSE-----------------------------------
 data_onset$KOT <- NA
 for (row in 1:nrow(data_onset)){
    if (row < nrow(data_onset)){
@@ -185,10 +168,9 @@ for (number in change_2){
  dt_kot[Interval == number]$SubArt <- "StoL"
  dt_kot[Interval == number]$SubDyn <- "PtoF"
 }
-```
 
-## Histogram
-```{r kot-distribution, echo = FALSE}
+
+## ----kot-distribution, echo = FALSE-------------------------
 # change labelling
 dt_kot[MidFile == "high_1"]$MidFile <- "both_1"
 dt_kot[MidFile == "high_2"]$MidFile <- "both_2"
@@ -200,20 +182,16 @@ dt_kot[MidFile == "low_3"]$MidFile <- "none_3"
 dt_kot[MidFile == "low_4"]$MidFile <- "none_4"
 
 gghistogram(dt_kot[SubArt != "NA"], x = "KOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
-```
 
-## Mean
-```{r kot-mean, echo = FALSE}
+
+## ----kot-mean, echo = FALSE---------------------------------
 # mean
 dt_kot[SubArt != "NA", .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(MidFile, SubArt)]
 
 ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "KOT", color = "SubArt", add = "jitter", width = 0.8)
-```
 
-## Tweak
-- For dyn_only and none stimuli, it seems the KOT values are too close to the staccato range. We calculated the difference between the mean of each stimulus and the grand mean of art_only and both stimuli and add that difference to all KOT values for dyn_only and none stimuli, so that the KOT values should shift closer to the grand mean of art_only and both stimuli.
 
-```{r kot-tweak, echo = FALSE}
+## ----kot-tweak, echo = FALSE--------------------------------
 # grandMean of art_only & both stimuli
 kot_grandMean <- mean(dt_kot[grepl("art_only", MidFile) | grepl("high", MidFile) & SubArt != "NA"]$KOT)
 
@@ -227,24 +205,20 @@ dt_kot$FixedKOT <- dt_kot$KOT
 for (midfile in unique(tweak_data$MidFile)){
    dt_kot[MidFile == midfile]$FixedKOT <- dt_kot[MidFile == midfile]$KOT+tweak_data[MidFile == midfile]$Diff
 }
-```
 
-d KOT)
-```{r kot-distribution-fixed, echo = FALSE}
+
+## ----kot-distribution-fixed, echo = FALSE-------------------
 gghistogram(dt_kot[SubArt != "NA"], x = "FixedKOT", color = "SubArt", facet.by = "MidFile", bins = 50, rug = TRUE)
-```
 
-## Mean (Fixed KOT)
-```{r kot-mean-fixed, echo = FALSE}
+
+## ----kot-mean-fixed, echo = FALSE---------------------------
 # mean
 dt_kot[SubArt != "NA", .(N = .N, Mean = mean(FixedKOT), SD = sd(FixedKOT)), by = .(MidFile, SubArt)]
 
 ggboxplot(dt_kot[SubArt != "NA"], x = "MidFileShort", y = "FixedKOT", color = "SubArt", add = "jitter", width = 0.8)
-```
 
-# KV
 
-```{r vel, include = FALSE}
+## ----vel, include = FALSE-----------------------------------
 dt_vel <- data_onset
 dt_vel$NoteOnsetNr <- rep(1:72, nrow(dt_vel)/72)
 # assign Subcomponents
@@ -273,10 +247,9 @@ for (phrase in 1:length(ls_piano_2)){
      dt_vel[NoteOnsetNr == ls_piano_2[[phrase]][note]]$SubDyn <- "Piano"
    }
 }
-```
 
-## Histogram
-```{r vel-distribution, echo = FALSE}
+
+## ----vel-distribution, echo = FALSE-------------------------
 # change labelling
 dt_vel[MidFile == "high_1"]$MidFile <- "both_1"
 dt_vel[MidFile == "high_2"]$MidFile <- "both_2"
@@ -288,18 +261,16 @@ dt_vel[MidFile == "low_3"]$MidFile <- "none_3"
 dt_vel[MidFile == "low_4"]$MidFile <- "none_4"
 
 gghistogram(dt_vel[SubArt != "NA"], x = "Velocity", facet.by = "MidFile", color = "SubDyn", bins = 50, rug = TRUE)
-```
 
-## Mean
-```{r vel-mean, echo = FALSE}
+
+## ----vel-mean, echo = FALSE---------------------------------
 # mean
 dt_vel[SubDyn != "NA", .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(MidFile, SubDyn)]
 
 ggboxplot(dt_vel[SubArt != "NA"], x = "MidFileShort", y = "Velocity", color = "SubDyn", add = "jitter", width = 0.8)
-```
 
-# KV Diff
-```{r vel-diff, include = FALSE}
+
+## ----vel-diff, include = FALSE------------------------------
 data_onset$Diff <- diff(c(0, data_onset$Velocity))
 dt_vel_diff <- data_onset[NoteNr != 1]
 # assign Interval
@@ -341,10 +312,9 @@ for (number in change_2){
  dt_vel_diff[Interval == number]$SubArt <- "StoL"
  dt_vel_diff[Interval == number]$SubDyn <- "PtoF"
 }
-```
 
-## Histogram
-```{r vel-diff-distribution, echo = FALSE}
+
+## ----vel-diff-distribution, echo = FALSE--------------------
 # change labelling
 dt_vel_diff[MidFile == "high_1"]$MidFile <- "both_1"
 dt_vel_diff[MidFile == "high_2"]$MidFile <- "both_2"
@@ -356,55 +326,11 @@ dt_vel_diff[MidFile == "low_3"]$MidFile <- "none_3"
 dt_vel_diff[MidFile == "low_4"]$MidFile <- "none_4"
 
 gghistogram(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "Diff", facet.by = "MidFile", color = "SubDyn", bins = 50, rug = TRUE)
-```
 
-## Mean
-```{r vel-diff-mean, echo = FALSE}
+
+## ----vel-diff-mean, echo = FALSE----------------------------
 # mean
 dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF", .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(MidFile, SubDyn)]
 
 ggboxplot(dt_vel_diff[SubDyn == "FtoP" | SubDyn == "PtoF"], x = "MidFileShort", y = "Diff", color = "SubDyn", add = "jitter", width = 0.8)
-```
 
-```{r export, include = FALSE}
-knitr::purl("analysis.Rmd")
-```
-
-<!-- # Export stimuli with fixed KOT as mid files -->
-<!-- ```{r export, include = FALSE} -->
-<!-- # remove unnecessary columns -->
-<!-- data_onset$IOI <- NULL -->
-<!-- data_onset$KOT <- NULL -->
-<!-- data_onset$Diff <- NULL -->
-<!-- # fix time for onset and offset data -->
-<!-- data_onset$timeFixed <- data_onset$time -->
-<!-- data_offset$timeFixed <- data_offset$time -->
-<!-- for (midfile in unique(tweak_data$MidFile)){ -->
-<!--    # offset[i] = onset[i+1]+KOT[i] -->
-<!--    for (i in 1:nrow(data_onset[MidFile == midfile])-1){ -->
-<!--       data_offset[MidFile == midfile][i]$timeFixed <- data_onset[MidFile == midfile][i+1]$time+dt_kot[MidFile == midfile][i]$FixedKOT -->
-<!--    } -->
-<!-- } -->
-
-<!-- # export each instance as txt file -->
-<!-- for (stim in unique(data_onset$MidFile)){ -->
-<!--    onset <- data_onset[MidFile == stim] -->
-<!--    offset <- data_offset[MidFile == stim] -->
-<!--    instance <- rbind(onset, offset) -->
-<!--    # Note_On/Off >> 1 or 0 -->
-<!--    instance$KeyOnOff <- 0 -->
-<!--    instance[event == "Note On"]$KeyOnOff <- 1 -->
-<!--    # sort by timeFixed -->
-<!--    instance <- instance[order(timeFixed)] -->
-
-<!--    filename = paste(stim, ".txt", sep = "") -->
-<!--    fwrite(instance, filename) -->
-<!-- } -->
-<!-- ``` -->
-
-
-<!-- ```{bash, echo = TRUE} -->
-<!-- # python -->
-<!-- source /Users/atsukotominaga/Pyenv/bin/activate -->
-<!-- python mid_export.py -->
-<!-- ``` -->
