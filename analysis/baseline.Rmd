@@ -119,7 +119,7 @@ ioi
 ### Plot
 #### Boxplot
 
-```{r ioi-plot, fig.width = 6}
+```{r ioi-plot, fig.width = 10}
 ggboxplot(ioi_trial, "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "IOIs (ms)", title = "IOI")
 ```
 
@@ -145,7 +145,7 @@ ggplot(ioi, aes(x = Articulation, y = Mean, color = Dynamics)) +
 
 ## 3. Sequence plots
 
-```{r seq-ioi, fig.width = 7, fig.height = 2}
+```{r seq-ioi, fig.width = 9, fig.height = 4}
 ioi_seq <- dt_ioi[, .(N = .N, Mean = mean(IOI), SD = sd(IOI)), by = .(SubNr, Category, Interval)]
 
 ggline(ioi_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "IOIs (ms)", title = "IOI") + scale_x_continuous(breaks = seq(1,71,1))
@@ -227,7 +227,7 @@ kot
 ### Plot
 #### Boxplot
 
-```{r kot-plot,  echo = FALSE, fig.width = 6}
+```{r kot-plot,  echo = FALSE, fig.width = 10}
 ggboxplot(kot_trial[Subcomponent1 == "Legato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Legato)")
 
 ggboxplot(kot_trial[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", facet.by = "SubNr", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
@@ -262,9 +262,18 @@ ggplot(kot[Subcomponent1 == "Staccato"], aes(x = Articulation, y = Mean, color =
 #ggboxplot(kot[Subcomponent1 == "Staccato"], "Articulation", "Mean", color = "Dynamics", add = "jitter", xlab = "Articulation", ylab = "KOT (ms)", title = "KOT (Staccato)")
 ```
 
+<!-- #### Bar graph for main effect (for presentation purposes) -->
+
+```{r kot-bar-plot, include = FALSE}
+ggbarplot(kot[Subcomponent1 == "Legato" & Articulation != "Baseline"], x = "Articulation", y = "Mean", add = "mean_se", ylab = "KOT (ms)", ylim = c(40, 60), size = 2) + theme(text = element_text(size = 40))
+
+ggbarplot(kot[Subcomponent1 == "Staccato" & Articulation != "Baseline"], x = "Articulation", y = "Mean", add = "mean_se", ylab = "KOT (ms)", ylim = c(-220, -200), size = 2) + theme(text = element_text(size = 40))
+```
+
+
 ## 3. Sequence plots
 
-```{r seq-kot, fig.width = 7, fig.height = 2}
+```{r seq-kot, fig.width = 9, fig.height = 4}
 kot_seq <- dt_kot[, .(N = .N, Mean = mean(KOT), SD = sd(KOT)), by = .(SubNr, Category, Interval)]
 
 ggline(kot_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "KOT (ms)", title = "KOT") + scale_x_continuous(breaks = seq(1,71,1))
@@ -379,7 +388,7 @@ vel
 ### Plot
 #### Boxplot
 
-```{r vel-plot, echo = FALSE, fig.width = 6}
+```{r vel-plot, echo = FALSE, fig.width = 10}
 ggboxplot(vel_trial[Subcomponent2 == "Forte"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Forte)")
 
 ggboxplot(vel_trial[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "SubNr", ylab = "Velocity", title = "KV (Piano)")
@@ -414,9 +423,19 @@ ggplot(vel[Subcomponent2 == "Piano"], aes(x = Dynamics, y = Mean, color = Articu
 #ggboxplot(vel[Subcomponent2 == "Piano"], "Dynamics", "Mean", color = "Articulation", add = "jitter", xlab = "Dynamics", ylab = "Velocity", title = "KV (Piano)")
 ```
 
+<!-- #### Bar graph for main effect (for presentation purposes) -->
+
+```{r vel-bar-plot, include = FALSE}
+ggbarplot(vel[Subcomponent2 == "Forte" & Dynamics != "Baseline"], x = "Dynamics", y = "Mean", add = "mean_se", ylab = "KV (0-127)", ylim = c(75, 85), size = 2) + theme(text = element_text(size = 40)) + scale_y_continuous(breaks=seq(75, 85, 5))
+
+ggbarplot(vel[Subcomponent2 == "Piano" & Dynamics != "Baseline"], x = "Dynamics", y = "Mean", add = "mean_se", ylab = "KV (0-127)", ylim = c(55, 65), size = 2) + theme(text = element_text(size = 40)) + scale_y_continuous(breaks=seq(55, 65, 5))
+
+ggbarplot(vel[Subcomponent2 == "Piano" & Articulation != "Baseline"], x = "Articulation", y = "Mean", add = "mean_se", ylab = "KV (0-127)", ylim = c(55, 65), size = 2) + theme(text = element_text(size = 40)) + scale_y_continuous(breaks=seq(55, 65, 5))
+```
+
 ## 3. Sequence plots
 
-```{r seq-vel, fig.width = 7, fig.height = 2}
+```{r seq-vel, fig.width = 9, fig.height = 4}
 vel_seq <- dt_vel[, .(N = .N, Mean = mean(Velocity), SD = sd(Velocity)), by = .(SubNr, Category, RowNr)]
 
 ggline(vel_seq, x = "RowNr", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Note Nr", ylab = "Key Velocity (0-127)", title = "KV") + scale_x_continuous(breaks = seq(1,72,1))
@@ -529,7 +548,7 @@ vel_diff
 ### Plot
 #### Boxplot
 
-```{r vel-diff-plot, echo = FALSE, fig.width = 6}
+```{r vel-diff-plot, echo = FALSE, fig.width = 10}
 ggboxplot(vel_diff_trial[Subcomponent2 == "FtoP"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (FtoP)")
 
 ggboxplot(vel_diff_trial[Subcomponent2 == "PtoF"], "Dynamics", "Mean", color = "Articulation", add = "jitter", facet.by = "SubNr", xlab = "Dynamics", ylab = "Velocity Difference", title = "KV-Diff (PtoF)")
@@ -566,7 +585,7 @@ ggplot(vel_diff[Subcomponent2 == "PtoF"], aes(x = Dynamics, y = Mean, color = Ar
 
 ## 3. Sequence plots
 
-```{r seq-vel-diff, fig.width = 7, fig.height = 2}
+```{r seq-vel-diff, fig.width = 9, fig.height = 4}
 vel_diff_seq <- dt_vel_diff[, .(N = .N, Mean = mean(Diff), SD = sd(Diff)), by = .(SubNr, Category, Interval)]
 
 ggline(vel_diff_seq, x = "Interval", y = "Mean", add = "mean_se", position = position_dodge(.2), shape = "Category", color = "Category", xlab = "Interval", ylab = "Difference", title = "Velocity Difference") + scale_x_continuous(breaks = seq(1,71,1))
