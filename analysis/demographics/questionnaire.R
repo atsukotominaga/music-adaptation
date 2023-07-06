@@ -1,14 +1,14 @@
-## ----setup, include = FALSE---------
+## ----setup, include = FALSE---------------------------------------------------
 # packages
 # data manipulation
 if (!require("data.table")) {install.packages("data.table"); require("data.table")}
 
 
-## ----file, include = FALSE----------
+## ----file, include = FALSE----------------------------------------------------
 filename_q = "./questionnaire.csv"
 
 
-## ----extract, echo = FALSE----------
+## ----extract, echo = FALSE----------------------------------------------------
 # read csv files
 dt <- fread(filename_q, header = T, sep = ",", dec = ".", na.string = "NA")
 dt <- dt[-c(1,2),] # exclude test/pilot data
@@ -34,10 +34,10 @@ dt_included <- dt
 print(dt_included)
 
 
-## ----2, echo = FALSE----------------
+## ----2, echo = FALSE----------------------------------------------------------
 data.table("Answer" = dt_included$`Have you noticed anything special regarding the tasks in the experiment? If any, please describe below.`)
 
 
-## ----export, include = FALSE--------
+## ----export, include = FALSE--------------------------------------------------
 knitr::purl("questionnaire.Rmd")
 

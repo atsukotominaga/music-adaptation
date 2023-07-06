@@ -59,7 +59,7 @@ tablelist         : no
 footnotelist      : no
 
 classoption       : "man"
-output            : papaja::apa6_pdf
+output            : papaja::apa6_word
 ---
 
 ```{r set-up, include = FALSE}
@@ -237,7 +237,7 @@ ftop_all_plot <- ggplot(vel_diff[Subcomponent2 == "FtoP" & Category != "baseline
 ptof_all_plot <- ggplot(vel_diff[Subcomponent2 == "PtoF" & Category != "baseline"], aes(x = Dynamics, y = Mean, color = Articulation)) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(position = position_jitterdodge(jitter.width = 0.25), alpha = 0.5) +
-  labs(y = "KV Difference (-127-127)", title = "KV Difference - PtoP") + scale_y_continuous(breaks = seq(-10, 40, 10), limits = c(-10, 40)) +
+  labs(y = "KV Difference (-127-127)", title = "KV Difference - PtoF") + scale_y_continuous(breaks = seq(-10, 40, 10), limits = c(-10, 40)) +
   scale_color_aaas() +
   theme_pubr(base_size = 20, base_family = "Helvetica")
 
