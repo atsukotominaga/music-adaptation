@@ -6,6 +6,9 @@
 *html
 *docx
 
+# rawwdata
+rawdata
+
 # experiment
 experiment/data
 experiment/midi
@@ -20,6 +23,3 @@ material/prerating/feedback.md
 
 # paper
 manuscript_files
-
-# rawwdata
-rawdata
