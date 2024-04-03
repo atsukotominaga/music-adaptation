@@ -1,4 +1,4 @@
-# How do expert pianists adapt their didactic demonstration to novices’ skill levels?
+# Experts’ adaptation depending on novices’ skills
 <p align="center">
   <img height="300" src="music_adaptation.jpg">
 </p>
