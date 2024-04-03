@@ -5,7 +5,7 @@
 
 This repo contains scripts and materials for the music adaptation study with expert pianists.
 
-Open Science Framework: TBC
+Open Science Framework: [https://osf.io/becf6/](https://osf.io/becf6/)
 
 # experiment
 - Environment: Mac OS X 10.15.7, Max MSP 8.1.11
@@ -18,7 +18,24 @@ Open Science Framework: TBC
     + midi (path: ~/experiment/midi)
 
 # analysis
-TBC
+
+## 1. preprosessor
+data: `raw_data` (test performance), `predata`(baseline performance)
+- `filtering.R`: to clean data and remove performance errors >> output: filtered folder
+- `trimming.R`: to calculate dependent variables and remove outliers >> output: trimmed folder
+- `function.R`: to detect pitch errors in a performance / insert NAs
+- `ideal.txt`: the ideal sequence of the piece (used for filtering)
+  
+## 2. stats
+- `baseline.Rmd`: analysis and plots when comparing between baseline and test performance >> output: html file
+- `onlyfirst.Rmd`: analysis which only include the performance with the first instance of each student (category) >> output: html file
+
+## demographics
+data: `questionnaire.csv`
+- `questionnaire.Rmd` >> output: html file
+
+# data
+Filtered and trimmed data files for analysis (see details: [perception-v1.0: Workflow](https://github.com/atsukotominaga/music-teaching/tree/main/experiment-1/analysis/preprocessor))
 
 # material
 ## instruction
